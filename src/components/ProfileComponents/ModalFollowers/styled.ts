@@ -107,28 +107,34 @@ export const NamePFollower = styled.p`
 export const WrapperButton = styled.div`
   width: 5rem;
   height: 2rem;
-  
   border: none;
-  border-radius: 10px;
-  
-  background-color: #f3f3f3;
-  :hover {
-    background-color: #d9d9d9;
-  }
 `
 
-export const Button = styled.button`
-  width: 5rem;
-  height: 2rem;
+interface ButtonProps {
+  $follow: string;
+}
+
+export const ButtonFo = styled.button<ButtonProps>`
+  width: 100%;
+  height: 100%;
   border-radius: 10px;
   border: none;
   cursor: pointer;
   font-weight: 500;
   font-size: 13px;
   font-family: "Poppins";
+  background-color: ${props => props.$follow === 'Seguir' ? "#0095f6" : "#f3f3f3"};
+  color: ${props => props.$follow === "Seguir" && "white"};
+  &:hover {
+    background-color: ${props => props.$follow === 'Seguir' ? "#1877f2" : "#d9d9d9"};
+  }
 `
 
-export const ContainerSuggestionForYou = styled.div``
+export const ContainerSuggestionForYou = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+`
 
 export const P = styled.p`
   font-size: 14px;

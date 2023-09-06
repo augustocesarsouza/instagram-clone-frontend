@@ -201,6 +201,14 @@ const Profile = ({
     }
   };
 
+  const [firstFollowing, setFirstFollowing] = useState<FollowingListsProps | null>(null);
+
+  useEffect(() => {
+    if (followingUser) {
+      setFirstFollowing(followingUser[0]);
+    }
+  }, [followingUser]);
+
   return (
     <>
       {dataUserOnly ? (
@@ -223,6 +231,7 @@ const Profile = ({
                 <ModalFollowers
                   showModalFollower={showModalFollower}
                   followersUser={followersUser}
+                  firstFollowing={firstFollowing}
                   setShowModalFollower={setShowModalFollower}
                   userId={userId}
                   setFollowersUser={setFollowersUser}
