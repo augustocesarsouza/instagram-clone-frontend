@@ -115,7 +115,7 @@ const CardPost = ({ createImgOrVideo, connection }: AllPostsProps) => {
     <>
       {allPost &&
         allPost.map((post, index) => (
-          <Styled.ContainerMain key={post.id} index={index}>
+          <Styled.ContainerMain key={post.id} $index={index}>
             <PostCard post={post} userId={userId} seeComments={seeComments} />
             <Styled.ContainerInteraction>
               <Like post={post} userId={userId} setAllPost={setAllPost} />

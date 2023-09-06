@@ -1,7 +1,7 @@
 import styled, { css, keyframes } from "styled-components";
 
 interface WrapperSvgProps {
-  pause: string;
+  $pause: string;
 }
 
 
@@ -188,7 +188,7 @@ export const WrapperSvgPauseTrue = styled.div<WrapperSvgProps>`
   /* position: absolute;
   left: 146px;
   top: 170px; */
-  ${props => props.pause === "true" && AppearAndDisappearPauseTrue};
+  ${props => props.$pause === "true" && AppearAndDisappearPauseTrue};
 
   svg {
     color: white;
@@ -205,7 +205,7 @@ export const WrapperSvgPauseFalse = styled.div<WrapperSvgProps>`
   left: 146px;
   top: 170px;
    */
-  ${props => props.pause === "false" && AppearAndDisappear}
+  ${props => props.$pause === "false" && AppearAndDisappear}
 
   svg {
     color: white;

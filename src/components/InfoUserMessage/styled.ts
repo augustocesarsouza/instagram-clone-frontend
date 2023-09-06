@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 interface P {
-  paragraph: string;
+  $paragraph: string;
 }
 
 export const ContainerInfoUser = styled.div`
@@ -36,9 +36,9 @@ export const WrapperNameUser = styled.div`
 
 export const PUser = styled.p<P>`
   font-family: 'Poppins';
-  font-weight: ${props => props.paragraph === 'p1' ? "600" : "200"};
-  font-size: ${props => props.paragraph === 'p1' ? "16px" : "11px"};
-  font-size: ${props => props.paragraph === 'typing' && "11px"};
+  font-weight: ${props => props.$paragraph === 'p1' ? "600" : "200"};
+  font-size: ${props => props.$paragraph === 'p1' ? "16px" : "11px"};
+  font-size: ${props => props.$paragraph === 'typing' && "11px"};
   
 `
 

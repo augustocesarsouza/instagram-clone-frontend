@@ -192,11 +192,11 @@ const Comment = ({
 
                 <Styled.ContainerForAdjustIcon>
                   {pause ? (
-                    <Styled.WrapperSvgPauseTrue pause={String(pause)}>
+                    <Styled.WrapperSvgPauseTrue $pause={String(pause)}>
                       <FontAwesomeIcon icon={faPlay} />
                     </Styled.WrapperSvgPauseTrue>
                   ) : (
-                    <Styled.WrapperSvgPauseFalse pause={String(pause)}>
+                    <Styled.WrapperSvgPauseFalse $pause={String(pause)}>
                       <FontAwesomeIcon icon={faPause} />
                     </Styled.WrapperSvgPauseFalse>
                   )}

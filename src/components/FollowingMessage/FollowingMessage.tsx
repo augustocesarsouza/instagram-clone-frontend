@@ -35,17 +35,17 @@ const FollowingMessage = ({
   return (
     <Styled.ContainerFollowing>
       <Styled.ContainerUserMessage>
-        {dataUser && <Styled.P paragraph="1">{dataUser.name}</Styled.P>}
+        {dataUser && <Styled.P $paragraph="1">{dataUser.name}</Styled.P>}
         <FontAwesomeIcon icon={faPenToSquare} />
       </Styled.ContainerUserMessage>
       <Styled.ContainerMessageSolicitation>
-        <Styled.P paragraph="2">Mensagens</Styled.P>
-        <Styled.P paragraph="3">Solicitações</Styled.P>
+        <Styled.P $paragraph="2">Mensagens</Styled.P>
+        <Styled.P $paragraph="3">Solicitações</Styled.P>
       </Styled.ContainerMessageSolicitation>
       {dataUser &&
         myFollowing.map((follo) => (
           <Styled.ContainerFollowingUser
-            active={activeId === follo.id ? 'true' : 'false'}
+            $active={activeId === follo.id ? 'true' : 'false'}
             key={follo.id}
             onClick={() => handleClick(follo)}
           >
@@ -58,13 +58,13 @@ const FollowingMessage = ({
               )}
             </Styled.WrapperImagemUser>
             <Styled.WrapperNameUser>
-              <Styled.P paragraph="4">{follo.name}</Styled.P>
+              <Styled.P $paragraph="4">{follo.name}</Styled.P>
 
               {follo.isOnline ? (
                 <h2></h2>
               ) : (
                 <Styled.ContainerIsOffline>
-                  <Styled.P paragraph="5">
+                  <Styled.P $paragraph="5">
                     Online há {follo.lastDisconnected} {follo.measureOfTime}
                   </Styled.P>
                 </Styled.ContainerIsOffline>

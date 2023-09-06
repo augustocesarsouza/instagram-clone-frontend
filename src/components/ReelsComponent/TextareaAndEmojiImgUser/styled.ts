@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 
 interface ContainerTextareaProps {
-  hasvalue: string;
-  valueheight: string;
+  $hasvalue: string;
+  $valueheight: string;
 }
 
 export const ContainerParagraphAndSpanMain = styled.div` // 
@@ -45,7 +45,7 @@ export const ImgUserComment = styled.img` //
 export const ContainerTextarea = styled.div<ContainerTextareaProps>` //
   font-family: 'Poppins';
   /* width: 175px; //145px */
-  width: ${props => props.hasvalue === "true" ? "145px" : "175px"};
+  width: ${props => props.$hasvalue === "true" ? "145px" : "175px"};
   display: flex;
   overflow-y: scroll;
   overflow-x: hidden;
@@ -53,7 +53,7 @@ export const ContainerTextarea = styled.div<ContainerTextareaProps>` //
   display: flex;
   align-items: center;
   justify-content: center;
-  height: ${props => props.valueheight + "px"};
+  height: ${props => props.$valueheight + "px"};
 `
 
 export const Textarea = styled.textarea` 

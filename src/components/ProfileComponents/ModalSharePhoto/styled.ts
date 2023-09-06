@@ -9,7 +9,7 @@ export const ContainerModalShare = styled.div`
 `
 
 interface MainShareProps {
-  isoffdiv: string;
+  $isoffdiv: string;
 }
 
 export const MainShare = styled.div<MainShareProps>`
@@ -24,7 +24,7 @@ export const MainShare = styled.div<MainShareProps>`
   z-index: 9999;
   //display: flex;
 
-  display: ${props => props.isoffdiv === "true" ? "flex" : "none"};
+  display: ${props => props.$isoffdiv === "true" ? "flex" : "none"};
 `
 
 export const ContainerClosedModal = styled.div`

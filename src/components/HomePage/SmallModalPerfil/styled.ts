@@ -1,19 +1,19 @@
 import styled, { keyframes } from "styled-components";
 
 interface ParagraphCountProps{
-  paragraph: string;
+  $paragraph: string;
 }
 
 interface ContainerAllProps{
-  container: string;
+  $container: string;
 }
 
 interface WrapperButtonFollowProps {
-  button: string;
+  $button: string;
 }
 
 interface ButtonFollowProps{
-  button: string;
+  $button: string;
 }
 
 
@@ -83,8 +83,8 @@ export const ContainerAll = styled.div<ContainerAllProps>`
 `
 
 export const ParagraphCount = styled.p<ParagraphCountProps>`
-  font-weight:${props => props.paragraph === "number" && "bolder"};
-  font-size: ${props => props.paragraph === "string" && "14px"};
+  font-weight:${props => props.$paragraph === "number" && "bolder"};
+  font-size: ${props => props.$paragraph === "string" && "14px"};
 `
 
 export const WrapperMainThreeImg = styled.div`
@@ -125,8 +125,8 @@ export const WrapperButtonFollow = styled.div<WrapperButtonFollowProps>`
 
 export const ButtonFollow = styled.button<ButtonFollowProps>`
   border: none;
-  color: ${props => props.button == "follow" ? "#fffafd" : "black"};
-  background-color: ${props => props.button == "follow" ? "#22a8ff" : "#efefef"};
+  color: ${props => props.$button == "follow" ? "#fffafd" : "black"};
+  background-color: ${props => props.$button == "follow" ? "#22a8ff" : "#efefef"};
   padding: 7px;
   width: 18.8rem;
   border-radius: 6px;
@@ -135,6 +135,6 @@ export const ButtonFollow = styled.button<ButtonFollowProps>`
   cursor: pointer;
 
   &:hover {
-    background-color: ${props => props.button == "follow" ? "#2196F3" : "#dfdfdf"};
+    background-color: ${props => props.$button == "follow" ? "#2196F3" : "#dfdfdf"};
   }
 `

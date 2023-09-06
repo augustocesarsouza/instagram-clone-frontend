@@ -23,7 +23,6 @@ interface ContainerSharedPostProps {
 }
 
 export const ContainerContentAdvanced = styled.div<ContainerContentAdvancedProps>`
-  /* width: ${props => props.$extende === "true" ? "74.6%" : "51.3%"}; */
   width: ${props => props.$extende === "true" && "71.5%"};
   width: ${props => props.$extende === "false" && "50%"};
   width: ${props => props.$decrease === "true" && "51.3%"};

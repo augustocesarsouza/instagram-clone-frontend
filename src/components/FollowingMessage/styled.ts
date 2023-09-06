@@ -1,11 +1,11 @@
 import styled from "styled-components";
 
 interface P {
-  paragraph: string;
+  $paragraph: string;
 }
 
 interface ContainerFollowingUserProps {
-  active: string;
+  $active: string;
 }
 
 export const ContainerFollowing = styled.div`
@@ -43,18 +43,18 @@ export const ContainerUserMessage = styled.div`
 export const P = styled.p<P>`
   font-family: 'Poppins';
   font-weight: bolder;
-  font-size: ${props => props.paragraph === "1" ? "22px" : "15px"};
-  color: ${props => props.paragraph === "3" && "#919191"};
+  font-size: ${props => props.$paragraph === "1" ? "22px" : "15px"};
+  color: ${props => props.$paragraph === "3" && "#919191"};
 
-  font-size: ${props => props.paragraph === "4" && "15px" };
-  font-weight: ${props => props.paragraph === "4" && "600"};
+  font-size: ${props => props.$paragraph === "4" && "15px" };
+  font-weight: ${props => props.$paragraph === "4" && "600"};
 
 
-  font-size: ${props => props.paragraph === "5" && "11px" };
-  font-weight: ${props => props.paragraph === "5" && "100"};
+  font-size: ${props => props.$paragraph === "5" && "11px" };
+  font-weight: ${props => props.$paragraph === "5" && "100"};
 
   @media (max-width: 901px) {
-    display: ${props => props.paragraph === "1" && "none"};
+    display: ${props => props.$paragraph === "1" && "none"};
   }
 
 `
@@ -74,7 +74,7 @@ export const ContainerFollowingUser = styled.div<ContainerFollowingUserProps>`
   margin-top: 10px;
   cursor: pointer;
   padding: 10px 5px;
-  background-color:${props => props.active === "true" && "#efefef"};
+  background-color:${props => props.$active === "true" && "#efefef"};
 
   @media (max-width: 901px) {
     width: 107px;

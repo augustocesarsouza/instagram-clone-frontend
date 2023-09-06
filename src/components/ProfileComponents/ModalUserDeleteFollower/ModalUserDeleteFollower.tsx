@@ -68,12 +68,12 @@ const ModalUserDeleteFollower = ({
             </Styled.ContainerInfoUserDelete>
             <Styled.ContainerMainButton>
               <Styled.WrapperButtonRemove>
-                <Styled.Button button="remove" onClick={handleRemoveFollowing}>
+                <Styled.Button $button="remove" onClick={handleRemoveFollowing}>
                   Remover
                 </Styled.Button>
               </Styled.WrapperButtonRemove>
               <Styled.WrapperButtonCancel>
-                <Styled.Button button="cancel" onClick={handleCloseModalRemoveFollowing}>
+                <Styled.Button $button="cancel" onClick={handleCloseModalRemoveFollowing}>
                   Cancelar
                 </Styled.Button>
               </Styled.WrapperButtonCancel>

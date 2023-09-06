@@ -1,7 +1,7 @@
 import styled, { keyframes } from "styled-components";
 
 interface WrapperSvgProps {
-  svg: string;
+  $svg: string;
 }
 
 export const ContainerMain = styled.div`
@@ -72,11 +72,11 @@ export const ContainerReelsMain= styled.div`
    display: flex;
    justify-content: center;
    align-items: center;
-   z-index: ${props => props.svg === "sound" && "20"};
-   margin-right: ${props => props.svg === "sound" && "6px"};
-   margin-top: ${props => props.svg === "sound" && "2px"};
-   width: ${props => props.svg === "sound" && "30px"};
-   height: ${props => props.svg === "sound" && "30px"};
+   z-index: ${props => props.$svg === "sound" && "20"};
+   margin-right: ${props => props.$svg === "sound" && "6px"};
+   margin-top: ${props => props.$svg === "sound" && "2px"};
+   width: ${props => props.$svg === "sound" && "30px"};
+   height: ${props => props.$svg === "sound" && "30px"};
    position: absolute;
    /* cursor: pointer; */
 

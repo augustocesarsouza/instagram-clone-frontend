@@ -120,7 +120,7 @@ export const ContainerChooseOptionsComment = styled.div`
 `
 
 interface ButtonChooseProps {
-  button: string;
+  $button: string;
 }
 
 export const ButtonChoose = styled.button<ButtonChooseProps>`
@@ -131,9 +131,9 @@ export const ButtonChoose = styled.button<ButtonChooseProps>`
   width: 100%;
   /* padding: 9px; */
   padding: 12px 0px;
-  color: ${props => props.button === "denunciar" &&  "#ed4956"};
-  color: ${props => props.button === "excluir" &&  "#ed4956"};
+  color: ${props => props.$button === "denunciar" &&  "#ed4956"};
+  color: ${props => props.$button === "excluir" &&  "#ed4956"};
   font-weight: bolder;
-  border-bottom: ${props => props.button === "denunciar" &&  "1px solid #00000052"};
-  border-bottom: ${props => props.button === "excluir" &&  "1px solid #00000052"};
+  border-bottom: ${props => props.$button === "denunciar" &&  "1px solid #00000052"};
+  border-bottom: ${props => props.$button === "excluir" &&  "1px solid #00000052"};
 `

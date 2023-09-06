@@ -91,11 +91,7 @@ export const LineBlack = styled.div.attrs<LineBlackProps>(props => ({
         ? `${props.$progress}%`
         : undefined,
         
-      // width: props.imgorvideo === 0 && props.completedindexes?.includes((props.idphoto)) 
-      //   ? `100%`
-      //   : props.idphoto === (props.story[props.currentphotoindex]?.id ?? null) 
-      //   ? `${props.progress}%`
-      //   : undefined,
+      
     height: '3px',
     background:'#ffffff',
     position: 'absolute',
@@ -104,6 +100,11 @@ export const LineBlack = styled.div.attrs<LineBlackProps>(props => ({
     transition: 'width 0.2s linear',
   },
 }))``;
+// width: props.$imgorvideo === 0 && props.$completedindexes?.includes((props.$idphoto)) 
+//   ? `100%`
+//   : props.$idphoto === (props.$story[props.$currentphotoindex]?.id ?? null) 
+//   ? `${props.$progress}%`
+//   : undefined,
 
 export const WrapperMainStatusInfoUser = styled.div`
   display: flex;

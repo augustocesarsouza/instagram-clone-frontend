@@ -140,8 +140,8 @@ const MessageExchange = ({
                       {mes.timestamp.length < 6 ? mes.timestamp : mes.timestamp.slice(11, 16)}
                     </Styled.PTime>
                   </Styled.WrapperTimeMessage>
-                  <Styled.WrapperPMessage mymessage={mes.senderId === userId ? 'true' : 'false'}>
-                    <Styled.P mymessage={mes.senderId === userId ? 'true' : 'false'}>
+                  <Styled.WrapperPMessage $mymessage={mes.senderId === userId ? 'true' : 'false'}>
+                    <Styled.P $mymessage={mes.senderId === userId ? 'true' : 'false'}>
                       {mes.content}
                     </Styled.P>
                   </Styled.WrapperPMessage>

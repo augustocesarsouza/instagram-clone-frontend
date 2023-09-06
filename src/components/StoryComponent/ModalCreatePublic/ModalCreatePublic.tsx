@@ -49,13 +49,13 @@ const ModalCreatePublic = ({ handleShowSelectImg, setSelectedImage }: ModalCreat
       onDrop={handleDragDrop}
     >
       <Styled.ContainerCreatePost>
-        <Styled.P paragr="p1">Criar nova publicação</Styled.P>
+        <Styled.P $paragr="p1">Criar nova publicação</Styled.P>
       </Styled.ContainerCreatePost>
       <Styled.ContainerSelectImg>
-        <Styled.WrapperSelect changeiconcolor={String(changeColorIcon)}>
+        <Styled.WrapperSelect $changeiconcolor={String(changeColorIcon)}>
           <FontAwesomeIcon icon={faPhotoFilm} />
           <Styled.WrapperDragPhotos>
-            <Styled.P paragr="p2">Arraste as fotos e os vídeos aqui</Styled.P>
+            <Styled.P $paragr="p2">Arraste as fotos e os vídeos aqui</Styled.P>
           </Styled.WrapperDragPhotos>
           <Styled.WrapperButton>
             <Styled.Button onClick={handleShowSelectImg}>Selecionar do computador</Styled.Button>

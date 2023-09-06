@@ -167,7 +167,7 @@ const ModalSharePhoto = ({
 
   return (
     <>
-      <Styled.MainShare isoffdiv={String(createNewStory || createPost)}>
+      <Styled.MainShare $isoffdiv={String(createNewStory || createPost)}>
         <Styled.ContainerClosedModal>
           <FontAwesomeIcon icon={faXmark} onClick={handleCloseModal} />
         </Styled.ContainerClosedModal>

@@ -1,14 +1,5 @@
 import styled from "styled-components";
 
-interface FormProps {
-  $heightadapter: number;
-  $textareavalue: number;
-}
-
-interface Form__TextareaProps {
-  $heightadapter: number;
-}
-
 export const ContainerInfoComment = styled.div`
   width: 60%;
   display: flex;

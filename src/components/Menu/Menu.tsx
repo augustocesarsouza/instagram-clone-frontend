@@ -104,35 +104,35 @@ const Menu = ({
           <Styled.ContainerNav>
             <Styled.ContainerAwesomeButton
               onClick={() => handleHomePage('home-page')}
-              active={activeButton === 'home-page' ? 'true' : 'false'}
+              $active={activeButton === 'home-page' ? 'true' : 'false'}
             >
               <Styled.AnimatedSvg icon={faHouse} />
               <Styled.ButtonNav>Página inicial</Styled.ButtonNav>
             </Styled.ContainerAwesomeButton>
             <Styled.ContainerAwesomeButton
               onClick={() => handleReels('reels')}
-              active={activeButton === 'reels' ? 'true' : 'false'}
+              $active={activeButton === 'reels' ? 'true' : 'false'}
             >
               <SvgLogoReels />
               <Styled.ButtonNav>Reels</Styled.ButtonNav>
             </Styled.ContainerAwesomeButton>
             <Styled.ContainerAwesomeButton
               onClick={() => handleMessage('message')}
-              active={activeButton === 'message' ? 'true' : 'false'}
+              $active={activeButton === 'message' ? 'true' : 'false'}
             >
               <Styled.AnimatedSvg icon={faMessage} />
               <Styled.ButtonNav>Mensagens</Styled.ButtonNav>
             </Styled.ContainerAwesomeButton>
             <Styled.ContainerAwesomeButton
               onClick={() => handleCreate('create')}
-              active={activeButton === 'create' ? 'true' : 'false'}
+              $active={activeButton === 'create' ? 'true' : 'false'}
             >
               <Styled.AnimatedSvg icon={faPlus} />
               <Styled.ButtonNav>Criar</Styled.ButtonNav>
             </Styled.ContainerAwesomeButton>
             <Styled.ContainerAwesomeButton
               onClick={() => handleProfile('profile')}
-              active={activeButton === 'profile' ? 'true' : 'false'}
+              $active={activeButton === 'profile' ? 'true' : 'false'}
             >
               {dataUserOnly && (
                 <Styled.WrapperImg>

@@ -1,11 +1,11 @@
 import styled from "styled-components";
 
 interface WrapperPMessageProps {
-  mymessage: string;
+  $mymessage: string;
 }
 
 interface pProps {
-  mymessage: string;
+  $mymessage: string;
 }
 
 export const ContainerMessage = styled.div`
@@ -57,8 +57,6 @@ export const ContainerMainMessage = styled.div`
 
 export const WrapperMessage = styled.div`
   display: flex;
-  /* justify-content: ${props => props.mymessage === "true" ? 'flex-end' : 'flex-start'}; */
-  /* flex-direction: column; */
   margin: 2px 3px;
   padding: 2px;
 `
@@ -82,13 +80,13 @@ export const PTime = styled.p`
 
 export const WrapperPMessage = styled.div<WrapperPMessageProps>`
   display: flex;
-  justify-content: ${props => props.mymessage === "true" ? 'flex-end' : 'flex-start'};
+  justify-content: ${props => props.$mymessage === "true" ? 'flex-end' : 'flex-start'};
 
 `
 
 export const P = styled.p<pProps>`
-  color: ${props => props.mymessage === "true" ? 'white' : 'black'};
-  background-color: ${props => props.mymessage === "true" ? '#2196f3' : '#f5f5f5'};
+  color: ${props => props.$mymessage === "true" ? 'white' : 'black'};
+  background-color: ${props => props.$mymessage === "true" ? '#2196f3' : '#f5f5f5'};
   border-radius: 20px;
   padding: 7px;
   font-size: 13px;

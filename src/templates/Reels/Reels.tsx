@@ -94,7 +94,7 @@ const Reels = ({ userId, imgUserLogged }: ReelsProps) => {
                   mouseOn={mouseOn}
                 />
                 <Styled.ContainerForSvg>
-                  <Styled.WrapperSvg svg="sound">
+                  <Styled.WrapperSvg $svg="sound">
                     {sound ? (
                       <FontAwesomeIcon icon={faVolumeHigh} onClick={handleSoundOn} />
                     ) : (

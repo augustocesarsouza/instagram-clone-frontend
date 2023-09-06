@@ -1,7 +1,7 @@
 import styled, { css, keyframes } from "styled-components";
 
 interface P {
-  paragr: string;
+  $paragr: string;
 }
 
 interface BouncingBorderProps {
@@ -9,25 +9,24 @@ interface BouncingBorderProps {
 }
 
 interface ContainerContentAdvancedProps {
-  extende: string;
-  decrease: string;
-  createstory: string;
+  $extende: string;
+  $decrease: string;
+  $createstory: string;
 }
 
 interface ContainerCreatePostProps {
-  decrease: string;
+  $decrease: string;
 }
 
 interface ContainerSharedPostProps {
-  createstory: string;
+  $createstory: string;
 }
 
 export const ContainerContentAdvanced = styled.div<ContainerContentAdvancedProps>`
-  /* width: ${props => props.extende === "true" ? "74.6%" : "51.3%"}; */
-  width: ${props => props.extende === "true" && "71.6%"};
-  width: ${props => props.extende === "false" && "46.6%"};
-  width: ${props => props.decrease === "true" && "51.3%"};
-  width: ${props => props.createstory === "true" && "46.7%"};
+  width: ${props => props.$extende === "true" && "71.6%"};
+  width: ${props => props.$extende === "false" && "46.6%"};
+  width: ${props => props.$decrease === "true" && "51.3%"};
+  width: ${props => props.$createstory === "true" && "46.7%"};
 
   height: 3rem;
   background-color: white;
@@ -35,17 +34,17 @@ export const ContainerContentAdvanced = styled.div<ContainerContentAdvancedProps
   position: absolute;
   z-index: 10;
   top: 13px;
-  left: ${props => props.extende === "true" ? "192px" : "276px"};
-  left: ${props => props.createstory === "true" && "238px"};
+  left: ${props => props.$extende === "true" ? "192px" : "276px"};
+  left: ${props => props.$createstory === "true" && "238px"};
   transition: width 1s ease;
-  transition: ${props => props.decrease === "true" ? "width 0s ease" : "width 1s ease"};
+  transition: ${props => props.$decrease === "true" ? "width 0s ease" : "width 1s ease"};
 `
 
 export const ContainerCreatePost = styled.div<ContainerCreatePostProps>`
   display: flex;
   align-items: center;
-  justify-content: ${props => props.decrease === "true" ? "center" : "space-between"};
-  padding: ${props => props.decrease === "true" ? "14px" : "12px"};
+  justify-content: ${props => props.$decrease === "true" ? "center" : "space-between"};
+  padding: ${props => props.$decrease === "true" ? "14px" : "12px"};
   border-bottom: 1px solid #cfcfcf;
 
   svg {
@@ -55,8 +54,8 @@ export const ContainerCreatePost = styled.div<ContainerCreatePostProps>`
 
 export const P = styled.p<P>`
   font-family: 'Nunito Sans', sans-serif;
-  font-weight:${props => props.paragr === "p1" ? "600": "0"};
-  font-size:${props => props.paragr === "p2" ? "20px": "15px"};
+  font-weight:${props => props.$paragr === "p1" ? "600": "0"};
+  font-size:${props => props.$paragr === "p2" ? "20px": "15px"};
 `
 
 export const buttonGo = styled.button`
@@ -134,7 +133,7 @@ export const BallCenter = styled.div`
 
 export const ContainerSharedPost = styled.div<ContainerSharedPostProps>`
   position: absolute;
-  left: ${props => props.createstory === "true" ? "33%" : "24%"};
+  left: ${props => props.$createstory === "true" ? "33%" : "24%"};
   top: 61%;
 `
 

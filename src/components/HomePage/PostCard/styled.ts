@@ -1,11 +1,11 @@
 import styled, { css, keyframes } from "styled-components";
 
 interface WrapperSvgProps {
-  pause: string;
+  $pause: string;
 }
 
 interface ContainerVideo{
-  isimg: string;
+  $isimg: string;
 }
 
 export const ContainerUserInfo = styled.div`
@@ -63,10 +63,9 @@ export const ContainerMainVideo = styled.div`
 export const ContainerVideo = styled.div<ContainerVideo>`
   width: 468px;
   /* height: 476px; */
-  background: ${props => props.isimg === "false" && "black"};
-  /* height: ${props => props.isimg === "true" ? "575px" : "450px"}; */
+  background: ${props => props.$isimg === "false" && "black"};
   height: 575px;
-  margin-bottom: ${props => props.isimg === "false" && "10px"};
+  margin-bottom: ${props => props.$isimg === "false" && "10px"};
 `
 
 export const Video = styled.video`
@@ -109,7 +108,7 @@ export const WrapperSvgPauseTrue = styled.div<WrapperSvgProps>`
   left: 210px;
   top: 230px;
   font-size: 75px;
-  ${props => props.pause === "true" && AppearAndDisappearPauseTrue}
+  ${props => props.$pause === "true" && AppearAndDisappearPauseTrue}
 
   svg {
     color: white;
@@ -125,7 +124,7 @@ export const WrapperSvgPauseFalse = styled.div<WrapperSvgProps>`
   left: 210px;
   top: 230px;
   font-size: 75px;
-  ${props => props.pause === "false" && AppearAndDisappear}
+  ${props => props.$pause === "false" && AppearAndDisappear}
 
   svg {
     color: white;

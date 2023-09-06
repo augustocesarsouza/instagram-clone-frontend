@@ -114,19 +114,19 @@ const PostModalPhoto = ({
 
   return (
     <Styled.ContainerContentAdvanced
-      extende={String(showShare)}
-      decrease={String(decreaseDiv)}
-      createstory={String(!createPost)}
+      $extende={String(showShare)}
+      $decrease={String(decreaseDiv)}
+      $createstory={String(!createPost)}
     >
-      <Styled.ContainerCreatePost decrease={String(decreaseDiv)}>
+      <Styled.ContainerCreatePost $decrease={String(decreaseDiv)}>
         {showIconSuccess ? (
           !createPost ? (
-            <Styled.P paragr="p1">Story Publicado</Styled.P>
+            <Styled.P $paragr="p1">Story Publicado</Styled.P>
           ) : (
-            <Styled.P paragr="p1">Publicação compartilhada</Styled.P>
+            <Styled.P $paragr="p1">Publicação compartilhada</Styled.P>
           )
         ) : decreaseDiv ? (
-          <Styled.P paragr="p1">Compartilhando</Styled.P>
+          <Styled.P $paragr="p1">Compartilhando</Styled.P>
         ) : (
           <>
             <svg
@@ -143,9 +143,9 @@ const PostModalPhoto = ({
               />
             </svg>
             {!createPost ? (
-              <Styled.P paragr="p1"></Styled.P>
+              <Styled.P $paragr="p1"></Styled.P>
             ) : (
-              <Styled.P paragr="p1">Corta</Styled.P>
+              <Styled.P $paragr="p1">Corta</Styled.P>
             )}
           </>
         )}
@@ -173,7 +173,7 @@ const PostModalPhoto = ({
             {showIconSuccess && <FontAwesomeIcon icon={faCheck} style={{ color: '#E91E63' }} />}
           </Styled.BallCenter>
           {showIconSuccess && (
-            <Styled.ContainerSharedPost createstory={String(!createPost)}>
+            <Styled.ContainerSharedPost $createstory={String(!createPost)}>
               {!createPost ? (
                 <Styled.PShared>Seu Story foi Criado.</Styled.PShared>
               ) : (

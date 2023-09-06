@@ -21,12 +21,6 @@ export const WrapperMain = styled.div`
   }
 `
 
-interface FormProps {
-  hasvalue: string;
-  valueheight: string;
-}
-
-
 export const Form = styled.div`
   width: 19rem;
   display: flex;
@@ -38,11 +32,8 @@ export const Form = styled.div`
   height: auto;
 `
 
-interface Form__TextareaProps {
-  heighttext: number;
-}
 
-export const Form__Textarea = styled.textarea<Form__TextareaProps>`
+export const Form__Textarea = styled.textarea`
   width: 100%;
   height: auto;
   max-height: 70px;

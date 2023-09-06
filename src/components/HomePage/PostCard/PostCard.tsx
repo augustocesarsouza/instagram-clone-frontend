@@ -181,7 +181,7 @@ const PostCard = ({ post, userId, seeComments }: PostCardProps) => {
         )}
       </Styled.ContainerUserInfo>
       <Styled.ContainerMainVideo>
-        <Styled.ContainerVideo ref={parentsVideo} isimg={String(post.url.includes('image'))}>
+        <Styled.ContainerVideo ref={parentsVideo} $isimg={String(post.url.includes('image'))}>
           {post.isImagem == 1 && <Styled.ImgPost src={post.url} alt={post.title} />}
 
           {post.isImagem == 0 && (
@@ -190,11 +190,11 @@ const PostCard = ({ post, userId, seeComments }: PostCardProps) => {
             </Styled.Video>
           )}
           {pause ? (
-            <Styled.WrapperSvgPauseTrue pause={String(pause)}>
+            <Styled.WrapperSvgPauseTrue $pause={String(pause)}>
               <FontAwesomeIcon icon={faPlay} />
             </Styled.WrapperSvgPauseTrue>
           ) : (
-            <Styled.WrapperSvgPauseFalse pause={String(pause)}>
+            <Styled.WrapperSvgPauseFalse $pause={String(pause)}>
               <FontAwesomeIcon icon={faPause} />
             </Styled.WrapperSvgPauseFalse>
           )}

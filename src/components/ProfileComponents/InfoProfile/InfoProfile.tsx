@@ -103,7 +103,6 @@ const InfoProfile = ({
         const res = await fetch(`${Url}/storyallbyuserCreatePost/${userCreatePostId}`);
         if (res.status === 200) {
           const json = await res.json();
-          // console.log(json.data);
 
           setStory(json.data);
         }
@@ -111,8 +110,6 @@ const InfoProfile = ({
     };
     fetchAllStoryUser();
   }, [dataUserOnly]);
-
-  // console.log(story);
 
   useEffect(() => {
     const fetchLastStory = async () => {

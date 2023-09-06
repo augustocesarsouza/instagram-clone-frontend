@@ -121,8 +121,8 @@ const TextareaAndEmojiImgUser = ({
         </Styled.WrapperImgComment>
 
         <Styled.ContainerTextarea
-          hasvalue={String(hasValue)}
-          valueheight={valueForContainerTextAreaHeight}
+          $hasvalue={String(hasValue)}
+          $valueheight={valueForContainerTextAreaHeight}
         >
           <Styled.Textarea
             ref={textareaRef}

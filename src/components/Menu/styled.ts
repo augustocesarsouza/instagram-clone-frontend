@@ -2,7 +2,7 @@ import styled, {keyframes} from "styled-components";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 interface ButtonNavProps {
-  active: string;
+  $active: string;
 }
 
 
@@ -179,8 +179,8 @@ export const ContainerAwesomeButton = styled.div<ButtonNavProps>`
   /* width: 13rem; */
   border-radius: 7px;
   cursor: pointer;
-  font-size: ${props => props.active === 'true' ? '17px' : '16px'};
-  font-weight: ${props => props.active === 'true' ? 'bold': 'normal'};
+  font-size: ${props => props.$active === 'true' ? '17px' : '16px'};
+  font-weight: ${props => props.$active === 'true' ? 'bold': 'normal'};
   
   &:hover{
     background-color: #efefef;

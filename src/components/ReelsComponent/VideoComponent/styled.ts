@@ -1,12 +1,12 @@
 import styled, { keyframes } from "styled-components";
 
 interface WrapperSvgProps {
-  svg: string;
-  pause: string;
+  $svg: string;
+  $pause: string;
 }
 
 interface ParagraphProps{
-  para: string;
+  $para: string;
 }
 
 export const WrapperMainSvgVideo = styled.div`
@@ -80,17 +80,17 @@ export const WrapperSvg = styled.div<WrapperSvgProps>`
   justify-content: center;
   align-items: center;
   position: absolute;
-  width: ${props => props.svg === "pause" && "80px"};
-  height: ${props => props.svg === "pause" && "80px"};
-  border-radius: ${props => props.svg === "pause" && "50%"};
-  animation: ${props => props.svg === "pause" && props.pause === "true" && enterAnimation} 1s ease forwards;
-  background: ${props => props.svg === "pause" && "#00000082"};
-  left: ${props => props.svg === "pause" && "202px"};
-  top: ${props => props.svg === "pause" && "350px"};
+  width: ${props => props.$svg === "pause" && "80px"};
+  height: ${props => props.$svg === "pause" && "80px"};
+  border-radius: ${props => props.$svg === "pause" && "50%"};
+  animation: ${props => props.$svg === "pause" && props.$pause === "true" && enterAnimation} 1s ease forwards;
+  background: ${props => props.$svg === "pause" && "#00000082"};
+  left: ${props => props.$svg === "pause" && "202px"};
+  top: ${props => props.$svg === "pause" && "350px"};
 
   svg {
     color: white;
-    font-size: ${props => props.svg === "pause" && "40px"};
+    font-size: ${props => props.$svg === "pause" && "40px"};
   }
 `
 
@@ -134,7 +134,7 @@ export const Img = styled.img`
 
 export const Paragraph = styled.p<ParagraphProps>`
   color: white;
-  margin-left: ${props => props.para === "name" && "10px"};
+  margin-left: ${props => props.$para === "name" && "10px"};
   font-family: 'Roboto';
 `
 

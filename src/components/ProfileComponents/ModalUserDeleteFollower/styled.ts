@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 interface Button {
-  button: string;
+  $button: string;
 }
 
 export const ContainerModalConfirmDelete = styled.div`
@@ -81,8 +81,8 @@ export const Button = styled.button<Button>`
   border: none;
   background-color: white;
   cursor: pointer;
-  color: ${props => props.button === "remove" && "red"};
-  font-weight: ${props => props.button === "remove" && 600};
+  color: ${props => props.$button === "remove" && "red"};
+  font-weight: ${props => props.$button === "remove" && 600};
 `
 
 export const WrapperButtonCancel = styled.div`

@@ -78,8 +78,8 @@ const CreateAccount = () => {
           <Styled.P>Cadastre-se para ver fotos e vídeos dos seus amigos.</Styled.P>
         </Styled.ContainerImg>
         <Styled.DivSpan>
-          <Styled.Span data-testid="meu-span" />
-          <Styled.Span data-testid="meu-span" />
+          <Styled.Span />
+          <Styled.Span />
         </Styled.DivSpan>
         <Styled.ContainerInfoRegister>
           <Styled.Input placeholder="Nome" onChange={(e) => setName(e.target.value)} />
@@ -97,17 +97,14 @@ const CreateAccount = () => {
           />
         </Styled.ContainerInfoRegister>
         <Styled.DivButtonRegister>
-          <Styled.Button onClick={handleRegister} disabled={disableButton || deactivate}>
+          <Styled.Button onClick={handleRegister} $disabled={String(disableButton || deactivate)}>
             Cadastre-se
           </Styled.Button>
         </Styled.DivButtonRegister>
       </Styled.ContainerImgRegister>
       <Styled.ContainerBackLogin>
         <Styled.PLogin>
-          Tem uma conta?{' '}
-          <Styled.SpanLogin data-testid="connect" onClick={handleLoginBack}>
-            Conecte-se
-          </Styled.SpanLogin>
+          Tem uma conta? <Styled.SpanLogin onClick={handleLoginBack}>Conecte-se</Styled.SpanLogin>
         </Styled.PLogin>
       </Styled.ContainerBackLogin>
       <p>{errorMessage ? errorMessage : ''}</p>

@@ -1,5 +1,9 @@
 import styled from "styled-components";
 
+interface ButtonProps {
+  $disabled: string;
+}
+
 export const ContainerMain = styled.div`
   display: flex;
   flex-direction: column;
@@ -80,7 +84,7 @@ export const DivButtonRegister = styled.div`
   margin-top: 30px;
 `
 
-export const Button = styled.button`
+export const Button = styled.button<ButtonProps>`
   width: 11.6rem;
   font-family: 'Gill Sans MT', 'Trebuchet MS', sans-serif;
   font-weight: bolder;
@@ -91,8 +95,8 @@ export const Button = styled.button`
   color: white;
   border-radius: 6px;
 
-  cursor: ${props => props.disabled ? '' : 'pointer'};
-  background-color: ${props => props.disabled ? '#03a9f475' : ''};
+  cursor: ${props => props.$disabled === "true" ? '' : 'pointer'};
+  background-color: ${props => props.$disabled === "true" ? '#03a9f475' : ''};
 `
 
 export const ContainerBackLogin = styled.div`

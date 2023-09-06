@@ -187,7 +187,7 @@ const VideoComponent = ({
   }, [videoRef, indexVideo, pause, sound]);
 
   return (
-    <Styled.WrapperMainSvgVideo id={String(index)} onClick={handlePauseVideo}>
+    <Styled.WrapperMainSvgVideo onClick={handlePauseVideo}>
       <Styled.WrapperVideo>
         <Styled.Video ref={index === indexVideo ? videoRef : null} muted={isMuted}>
           <Styled.Source src={ree.url} type="video/mp4" />
@@ -197,7 +197,7 @@ const VideoComponent = ({
           <>
             <Styled.ContainerClickButton>
               {pause && (
-                <Styled.WrapperSvg svg="pause" pause={String(pause)}>
+                <Styled.WrapperSvg $svg="pause" $pause={String(pause)}>
                   <FontAwesomeIcon icon={faPlay} />
                 </Styled.WrapperSvg>
               )}
@@ -210,10 +210,10 @@ const VideoComponent = ({
             <Styled.ContainerImgUser>
               <Styled.Img src={ree.user.imagePerfil} />
             </Styled.ContainerImgUser>
-            <Styled.Paragraph para="name">{ree.user.name}</Styled.Paragraph>
+            <Styled.Paragraph $para="name">{ree.user.name}</Styled.Paragraph>
           </Styled.ContainerImgAndName>
           <Styled.ContainerTitle>
-            <Styled.Paragraph para="title">{ree.title}</Styled.Paragraph>
+            <Styled.Paragraph $para="title">{ree.title}</Styled.Paragraph>
           </Styled.ContainerTitle>
         </Styled.ContainerMainInfoUser>
       </Styled.WrapperVideo>

@@ -38,14 +38,8 @@ export const TextareaComment = ({
     }
   };
 
-  const [valueHeightTextarea, setValueHeightTextarea] = useState<number>(33);
-
   const handleTextareaChange: ChangeEventHandler<HTMLTextAreaElement> = (event) => {
     setTextareaValue(event.target.value);
-
-    if (event.target.value.length <= 0) {
-      setValueHeightTextarea(35);
-    }
   };
 
   const handleSendCommentOrSubComment = async () => {
@@ -134,7 +128,6 @@ export const TextareaComment = ({
       <Styled.Form>
         <Styled.Form__Textarea
           ref={textareaRef}
-          heighttext={valueHeightTextarea}
           value={textareaValue}
           onFocus={handleTextareaOnFocus}
           onChange={handleTextareaChange}

@@ -141,24 +141,24 @@ const SmallModalPerfil = ({
         </Styled.ContainerName>
       </Styled.ContainerInfoPerfilUser>
       <Styled.ContainerCount>
-        <Styled.ContainerAll container="public">
-          <Styled.ParagraphCount paragraph="number">1</Styled.ParagraphCount>
-          <Styled.ParagraphCount paragraph="string">publicação</Styled.ParagraphCount>
+        <Styled.ContainerAll $container="public">
+          <Styled.ParagraphCount $paragraph="number">1</Styled.ParagraphCount>
+          <Styled.ParagraphCount $paragraph="string">publicação</Styled.ParagraphCount>
         </Styled.ContainerAll>
-        <Styled.ContainerAll container="followers">
-          <Styled.ParagraphCount paragraph="number" data-testid="followers-count">
+        <Styled.ContainerAll $container="followers">
+          <Styled.ParagraphCount $paragraph="number" data-testid="followers-count">
             {FollowersList?.length}
           </Styled.ParagraphCount>
-          <Styled.ParagraphCount paragraph="string">seguidores</Styled.ParagraphCount>
+          <Styled.ParagraphCount $paragraph="string">seguidores</Styled.ParagraphCount>
         </Styled.ContainerAll>
-        <Styled.ContainerAll container="following">
-          <Styled.ParagraphCount paragraph="number" data-testid="following-count">
+        <Styled.ContainerAll $container="following">
+          <Styled.ParagraphCount $paragraph="number" data-testid="following-count">
             {followingList?.length}
           </Styled.ParagraphCount>
-          <Styled.ParagraphCount paragraph="string">seguindo</Styled.ParagraphCount>
+          <Styled.ParagraphCount $paragraph="string">seguindo</Styled.ParagraphCount>
         </Styled.ContainerAll>
       </Styled.ContainerCount>
-      <Styled.WrapperMainThreeImg data-testid="threeimg">
+      <Styled.WrapperMainThreeImg>
         {threePost &&
           threePost.map((img) => (
             <Styled.WrapperImgThree key={img.id}>
@@ -172,15 +172,15 @@ const SmallModalPerfil = ({
           ))}
       </Styled.WrapperMainThreeImg>
       {alreadyFollowUser ? (
-        <Styled.WrapperButtonFollow button="unfollow">
-          <Styled.ButtonFollow button="unfollow" onClick={handleUnFollow}>
+        <Styled.WrapperButtonFollow $button="unfollow">
+          <Styled.ButtonFollow $button="unfollow" onClick={handleUnFollow}>
             Seguindo
           </Styled.ButtonFollow>
         </Styled.WrapperButtonFollow>
       ) : (
-        <Styled.WrapperButtonFollow button="follow">
+        <Styled.WrapperButtonFollow $button="follow">
           <FontAwesomeIcon icon={faUserPlus} flip="horizontal" />
-          <Styled.ButtonFollow button="follow" onClick={handleFollow}>
+          <Styled.ButtonFollow $button="follow" onClick={handleFollow}>
             Seguir
           </Styled.ButtonFollow>
         </Styled.WrapperButtonFollow>

@@ -1,11 +1,11 @@
 import styled from "styled-components";
 
 interface ContainerMain {
-  index: number
+  $index: number
 }
 
 export const ContainerMain = styled.div<ContainerMain>`
-  margin-top: ${props => props.index === 0 ? '5rem' : '0px'};
+  margin-top: ${props => props.$index === 0 ? '5rem' : '0px'};
 `;
 
 

@@ -232,11 +232,11 @@ const StatusComment = ({
           <>
             <Styled.ModalOverlay>
               <Styled.ContainerChooseOptionsComment>
-                <Styled.ButtonChoose button="denunciar">Denunciar</Styled.ButtonChoose>
-                <Styled.ButtonChoose button="excluir" onClick={() => handleDelete(cmt.id)}>
+                <Styled.ButtonChoose $button="denunciar">Denunciar</Styled.ButtonChoose>
+                <Styled.ButtonChoose $button="excluir" onClick={() => handleDelete(cmt.id)}>
                   Excluir
                 </Styled.ButtonChoose>
-                <Styled.ButtonChoose button="cancelar" onClick={handleCancel}>
+                <Styled.ButtonChoose $button="cancelar" onClick={handleCancel}>
                   Cancelar
                 </Styled.ButtonChoose>
               </Styled.ContainerChooseOptionsComment>

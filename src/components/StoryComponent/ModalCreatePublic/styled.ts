@@ -1,11 +1,11 @@
 import styled from "styled-components";
 
 interface P {
-  paragr: string;
+  $paragr: string;
 }
 
 interface WrapperSelectProps {
-  changeiconcolor: string;
+  $changeiconcolor: string;
 }
 
 export const ContainerMain = styled.div`
@@ -29,8 +29,8 @@ export const ContainerCreatePost = styled.div`
 
 export const P = styled.p<P>`
   font-family: 'Nunito Sans', sans-serif;
-  font-weight:${props => props.paragr === "p1" ? "600": "0"};
-  font-size:${props => props.paragr === "p2" ? "20px": "15px"};
+  font-weight:${props => props.$paragr === "p1" ? "600": "0"};
+  font-size:${props => props.$paragr === "p2" ? "20px": "15px"};
 `
 
 export const ContainerSelectImg = styled.div`
@@ -51,7 +51,7 @@ export const WrapperSelect = styled.div<WrapperSelectProps>`
     width: 60px;
     height: 60px;
 
-    color:${props => props.changeiconcolor === 'true' && '#3ba4f7'};
+    color:${props => props.$changeiconcolor === 'true' && '#3ba4f7'};
   }
 `
 

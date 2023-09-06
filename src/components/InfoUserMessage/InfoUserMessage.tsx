@@ -92,14 +92,14 @@ const InfoUserMessage = ({ userMessage, connection, setDataMessages }: InfoUserM
               )}
             </Styled.WrapperImageUser>
             <Styled.WrapperNameUser>
-              <Styled.PUser paragraph="p1">{userMessage?.name}</Styled.PUser>
-              {friendTyping && <Styled.PUser paragraph="typing">Digitando...</Styled.PUser>}
+              <Styled.PUser $paragraph="p1">{userMessage?.name}</Styled.PUser>
+              {friendTyping && <Styled.PUser $paragraph="typing">Digitando...</Styled.PUser>}
 
               {userMessage.isOnline ? (
-                <Styled.PUser paragraph="p2"></Styled.PUser>
+                <Styled.PUser $paragraph="p2"></Styled.PUser>
               ) : (
                 <Styled.ContainerIsOffline>
-                  <Styled.PUser paragraph="p2">
+                  <Styled.PUser $paragraph="p2">
                     Online há {userMessage.lastDisconnected} {userMessage.measureOfTime}
                   </Styled.PUser>
                 </Styled.ContainerIsOffline>
