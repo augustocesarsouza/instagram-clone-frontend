@@ -14,16 +14,22 @@ export const ContainerStoryMain = styled.div`
   align-items: center;
   justify-content: center;
   width: 25%;
+
+  @media (max-width: 650px) {
+    width: 26%;
+  }
 `
 
 export const ContainerForNewStoryAndBorderWhite = styled.div`
-  position: absolute;
-  left: 0;
-  top: 0;
 
-  width: 12rem;
+  width: 10rem;
   height: 10rem;
   max-height: 10rem;
+
+  @media (max-width: 650px) {
+    width: 9rem;
+    height: 9rem;
+  }
 `
 
 export const ContainerTest = styled.div`
@@ -37,23 +43,34 @@ export const ContainerTest = styled.div`
 
 export const ContainerBorder = styled.div<ContainerBorderProps>`
   background-color: white;
-  width: 147px;
-  height: 147px;
+  width: 91%;
+  height: 91%;
   border-radius: 50%;
   border: ${props => props.$newstory === "true" ? "none" : "1px solid #00000040"};
-  /* border: 1px solid #00000040; */
   z-index: 5;
   position: absolute;
+
+  @media (max-width: 750px) {
+    width: 81%;
+  height: 81%;
+  }
 `
 
 export const WrapperImg = styled.div`
-  width: 137px;
-  height: 137px;
+  /* width: 137px;
+  height: 137px; */
+  width: 85%;
+  height: 85%;
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 10;
   position: absolute;
+
+  @media (max-width: 750px) {
+    width: 75%;
+    height: 75%;
+  }
 `
 
 export const Img = styled.img`
@@ -61,7 +78,7 @@ export const Img = styled.img`
   height: 100%;
   border-radius: 50%;
   cursor: pointer;
-  
+  object-fit: cover;
 `
 
 export const Section = styled.section`
@@ -72,6 +89,18 @@ export const Section = styled.section`
   flex-direction: column;
   height: 10rem;
   width: 30rem;
+
+  @media (max-width: 838px) {
+    width: 27rem;
+  }
+
+  @media (max-width: 750px) {
+    width: 30rem;
+  }
+
+  @media (max-width: 650px) {
+    width: 27rem;
+  }
 `
 
 // const BouncingBorderAnimationFalse = css` - fica girando infinito
@@ -125,11 +154,18 @@ const BouncingBorderAnimationTrue = css`
 
 export const BouncingBorder = styled.div<BouncingBorderProps>`
   position: absolute;
-  width: 153px;
-  height: 153px;
+  /* width: 153px;
+  height: 153px; */
+  width: 95%;
+  height: 95%;
   background: linear-gradient( #f60073, #c600b8, #9f10d3, #fd600c, #fca800, #fcc100);
   border-radius: 50%;
   z-index: 1;
   /* border-image: conic-gradient(from 0deg, red, yellow, green, blue, violet, red) 1; */
   ${props => props.$newstory === "true" ? BouncingBorderAnimationFalse : BouncingBorderAnimationTrue }
+
+  @media (max-width: 750px) {
+    width: 85%;
+  height: 85%;
+  }
 `

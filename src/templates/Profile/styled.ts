@@ -21,8 +21,9 @@ export const ContainerSubMain = styled.div`
   height: 13rem;
   padding: 10px 20px 0;
 
-  /* @media (max-width: 1280px) {
-    width: 87%;
-  } */
+  @media (max-width: 750px) {
+    justify-content: space-between;
+    padding: 20px 0;
+  }
 `
 
