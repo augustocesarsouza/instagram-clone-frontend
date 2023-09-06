@@ -37,6 +37,20 @@ const ModalFollowers = ({
     setShowConfirmDelete(true);
   };
 
+  const [filteredFollowerArray, setFilteredFollowerArray] = useState<FollowersUserProps[] | null>(
+    null
+  );
+
+  const handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (followersUser) {
+      const filterArray = followersUser.filter((foo) => foo.name.startsWith(e.target.value));
+      setFilteredFollowerArray(filterArray);
+      if (filterArray.length === followersUser.length) {
+        setFilteredFollowerArray(filterArray.length > 0 ? filterArray : null);
+      }
+    }
+  };
+
   return (
     <>
       {showModalFollower && (
@@ -50,25 +64,75 @@ const ModalFollowers = ({
                 <FontAwesomeIcon icon={faXmark} onClick={handleCloseModal} />
               </Styled.WrapperExit>
             </Styled.ContainerFollowers>
+            <Styled.ContainerInputSearch>
+              <Styled.Input placeholder="Pesquisar" onChange={handleChangeInput} />
+            </Styled.ContainerInputSearch>
             <Styled.ContainerInfoFollower>
-              {followersUser &&
-                followersUser.map((fo) => (
-                  <Styled.ContainerFollower key={fo.id}>
-                    <Styled.WrapperOnlyImgAndName>
-                      <Styled.WrapperImgFollower>
-                        <Styled.ImgFollower src={fo.imagePerfil} />
-                      </Styled.WrapperImgFollower>
-                      <Styled.WrapperInfoFollower>
-                        <Styled.NamePFollower>{fo.name}</Styled.NamePFollower>
-                      </Styled.WrapperInfoFollower>
-                    </Styled.WrapperOnlyImgAndName>
-                    <Styled.WrapperButton>
-                      <Styled.Button onClick={() => showModalConfirmDelete(fo)}>
-                        Remover
-                      </Styled.Button>
-                    </Styled.WrapperButton>
-                  </Styled.ContainerFollower>
-                ))}
+              {filteredFollowerArray !== null ? (
+                <>
+                  {filteredFollowerArray &&
+                    filteredFollowerArray.map((fo) => (
+                      <>
+                        <Styled.ContainerFollower key={fo.id}>
+                          <Styled.WrapperOnlyImgAndName>
+                            <Styled.WrapperImgFollower>
+                              <Styled.ImgFollower src={fo.imagePerfil} />
+                            </Styled.WrapperImgFollower>
+                            <Styled.WrapperInfoFollower>
+                              <Styled.NamePFollower>{fo.name}</Styled.NamePFollower>
+                            </Styled.WrapperInfoFollower>
+                          </Styled.WrapperOnlyImgAndName>
+                          <Styled.WrapperButton>
+                            <Styled.Button onClick={() => showModalConfirmDelete(fo)}>
+                              Remover
+                            </Styled.Button>
+                          </Styled.WrapperButton>
+                        </Styled.ContainerFollower>
+                      </>
+                    ))}
+                </>
+              ) : (
+                <>
+                  {followersUser &&
+                    followersUser.map((fo) => (
+                      <>
+                        <Styled.ContainerFollower key={fo.id}>
+                          <Styled.WrapperOnlyImgAndName>
+                            <Styled.WrapperImgFollower>
+                              <Styled.ImgFollower src={fo.imagePerfil} />
+                            </Styled.WrapperImgFollower>
+                            <Styled.WrapperInfoFollower>
+                              <Styled.NamePFollower>{fo.name}</Styled.NamePFollower>
+                            </Styled.WrapperInfoFollower>
+                          </Styled.WrapperOnlyImgAndName>
+                          <Styled.WrapperButton>
+                            <Styled.Button onClick={() => showModalConfirmDelete(fo)}>
+                              Remover
+                            </Styled.Button>
+                          </Styled.WrapperButton>
+                        </Styled.ContainerFollower>
+                        <Styled.ContainerFollower key={fo.id}>
+                          <Styled.WrapperOnlyImgAndName>
+                            <Styled.WrapperImgFollower>
+                              <Styled.ImgFollower src={fo.imagePerfil} />
+                            </Styled.WrapperImgFollower>
+                            <Styled.WrapperInfoFollower>
+                              <Styled.NamePFollower>{fo.name}</Styled.NamePFollower>
+                            </Styled.WrapperInfoFollower>
+                          </Styled.WrapperOnlyImgAndName>
+                          <Styled.WrapperButton>
+                            <Styled.Button onClick={() => showModalConfirmDelete(fo)}>
+                              Remover
+                            </Styled.Button>
+                          </Styled.WrapperButton>
+                        </Styled.ContainerFollower>
+                      </>
+                    ))}
+                </>
+              )}
+              <Styled.ContainerSuggestionForYou>
+                <Styled.P>Sugestões para você</Styled.P>
+              </Styled.ContainerSuggestionForYou>
             </Styled.ContainerInfoFollower>
             <ModalUserDeleteFollower
               showConfirmDelete={showConfirmDelete}
