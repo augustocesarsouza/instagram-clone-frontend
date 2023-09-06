@@ -21,8 +21,28 @@ export const ContainerInfoUser = styled.div<ContainerInfoUserProps>`
   justify-content: space-between;
   align-items: center;
   
-  /* width: ${props => props.$fetchuserlogged == 'true' ? "100%" : "26rem"}; */
   width: 27rem;
+
+  @media (max-width: 575px) {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+  }
+`
+
+export const ContainerInfoUserWidthLess575 = styled.div`
+  width: 100%;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+
+  @media (max-width: 575px) {
+    justify-content: center;
+  }
 `
 
 export const P = styled.p`

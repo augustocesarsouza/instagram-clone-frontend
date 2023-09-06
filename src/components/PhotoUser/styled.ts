@@ -4,6 +4,7 @@ export const WrapperMain = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-bottom: 60px;
 `
 
 export const WrapperMainPublic = styled.div`
@@ -22,13 +23,11 @@ export const ContainerMain = styled.div`
   @media (max-width: 1145px){ 
     width: calc(.79 * 100vw);
     grid-template-columns: repeat(auto-fill, minmax(219px, 1fr));
-
   }
 
    @media (max-width: 856px){ 
     width: calc(.79 * 100vw);
     grid-template-columns: repeat(auto-fill, minmax(163px, 1fr));
-
   }
   
   @media (max-width: 750px){ 
@@ -39,6 +38,16 @@ export const ContainerMain = styled.div`
   @media (max-width: 566px){ 
     width: calc(.999* 100vw);
     grid-template-columns: repeat(auto-fill, minmax(135px, 1fr));
+  }
+
+  @media (max-width: 425px){ 
+    width: calc(.999* 100vw);
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  }
+
+  @media (max-width: 320px){ 
+    width: calc(.999* 100vw);
+    grid-template-columns: repeat(auto-fill, minmax(74px, 1fr));
   }
 `
 

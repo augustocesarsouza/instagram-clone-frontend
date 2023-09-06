@@ -180,39 +180,101 @@ const UserProfileActions = ({
     setShowModalDefriend((defri) => !defri);
   };
 
+  useEffect(() => {
+    if (window.innerWidth) {
+      setWidthLessThan575(true);
+    } else {
+      setWidthLessThan575(false);
+    }
+    window.addEventListener('resize', handleResizeWindow);
+
+    return () => {
+      window.removeEventListener('resize', handleResizeWindow);
+    };
+  }, []);
+
+  const [widthLessThan575, setWidthLessThan575] = useState(false);
+
+  const handleResizeWindow = () => {
+    if (window.innerWidth) {
+      setWidthLessThan575(true);
+    } else {
+      setWidthLessThan575(false);
+    }
+  };
+
   return (
     <Styled.ContainerInfoUser $fetchuserlogged={String(fetchOnLoggedInUser)}>
-      <Styled.P>{dataUserOnly && dataUserOnly.name}</Styled.P>
-      {(dataUserOnly && userId == dataUserOnly.id) || alreadyFollowUser ? (
-        <></>
+      {widthLessThan575 ? (
+        <Styled.ContainerInfoUserWidthLess575>
+          <Styled.P>{dataUserOnly && dataUserOnly.name}</Styled.P>
+          {(dataUserOnly && userId == dataUserOnly.id) || alreadyFollowUser ? (
+            <></>
+          ) : (
+            <Styled.WrapperButtonFollow $button="follow">
+              <Styled.ButtonFollow $button="follow" onClick={handleFollow}>
+                Seguir
+              </Styled.ButtonFollow>
+            </Styled.WrapperButtonFollow>
+          )}
+          {alreadyFollowUser && (
+            <Styled.WrapperButtonFollow $button="unfollow">
+              <Styled.ButtonFollow $button="unfollow" onClick={handleUnFollow}>
+                Seguindo
+              </Styled.ButtonFollow>
+            </Styled.WrapperButtonFollow>
+          )}
+          <Styled.ContainerButton>
+            <Styled.Button>Editar Perfil</Styled.Button>
+          </Styled.ContainerButton>
+          <Styled.ContainerSvgSettings>
+            <Styled.SvgSettings
+              xmlns="http://www.w3.org/2000/svg"
+              width="23"
+              height="23"
+              fill="currentColor"
+              viewBox="0 0 16 16"
+            >
+              <path d="M8.932.727c-.243-.97-1.62-.97-1.864 0l-.071.286a.96.96 0 0 1-1.622.434l-.205-.211c-.695-.719-1.888-.03-1.613.931l.08.284a.96.96 0 0 1-1.186 1.187l-.284-.081c-.96-.275-1.65.918-.931 1.613l.211.205a.96.96 0 0 1-.434 1.622l-.286.071c-.97.243-.97 1.62 0 1.864l.286.071a.96.96 0 0 1 .434 1.622l-.211.205c-.719.695-.03 1.888.931 1.613l.284-.08a.96.96 0 0 1 1.187 1.187l-.081.283c-.275.96.918 1.65 1.613.931l.205-.211a.96.96 0 0 1 1.622.434l.071.286c.243.97 1.62.97 1.864 0l.071-.286a.96.96 0 0 1 1.622-.434l.205.211c.695.719 1.888.03 1.613-.931l-.08-.284a.96.96 0 0 1 1.187-1.187l.283.081c.96.275 1.65-.918.931-1.613l-.211-.205a.96.96 0 0 1 .434-1.622l.286-.071c.97-.243.97-1.62 0-1.864l-.286-.071a.96.96 0 0 1-.434-1.622l.211-.205c.719-.695.03-1.888-.931-1.613l-.284.08a.96.96 0 0 1-1.187-1.186l.081-.284c.275-.96-.918-1.65-1.613-.931l-.205.211a.96.96 0 0 1-1.622-.434L8.932.727zM8 12.997a4.998 4.998 0 1 1 0-9.995 4.998 4.998 0 0 1 0 9.996z" />
+            </Styled.SvgSettings>
+          </Styled.ContainerSvgSettings>
+        </Styled.ContainerInfoUserWidthLess575>
       ) : (
-        <Styled.WrapperButtonFollow $button="follow">
-          <Styled.ButtonFollow $button="follow" onClick={handleFollow}>
-            Seguir
-          </Styled.ButtonFollow>
-        </Styled.WrapperButtonFollow>
+        <>
+          <Styled.P>{dataUserOnly && dataUserOnly.name}</Styled.P>
+          {(dataUserOnly && userId == dataUserOnly.id) || alreadyFollowUser ? (
+            <></>
+          ) : (
+            <Styled.WrapperButtonFollow $button="follow">
+              <Styled.ButtonFollow $button="follow" onClick={handleFollow}>
+                Seguir
+              </Styled.ButtonFollow>
+            </Styled.WrapperButtonFollow>
+          )}
+          {alreadyFollowUser && (
+            <Styled.WrapperButtonFollow $button="unfollow">
+              <Styled.ButtonFollow $button="unfollow" onClick={handleUnFollow}>
+                Seguindo
+              </Styled.ButtonFollow>
+            </Styled.WrapperButtonFollow>
+          )}
+          <Styled.ContainerButton>
+            <Styled.Button>Editar Perfil</Styled.Button>
+          </Styled.ContainerButton>
+          <Styled.ContainerSvgSettings>
+            <Styled.SvgSettings
+              xmlns="http://www.w3.org/2000/svg"
+              width="23"
+              height="23"
+              fill="currentColor"
+              viewBox="0 0 16 16"
+            >
+              <path d="M8.932.727c-.243-.97-1.62-.97-1.864 0l-.071.286a.96.96 0 0 1-1.622.434l-.205-.211c-.695-.719-1.888-.03-1.613.931l.08.284a.96.96 0 0 1-1.186 1.187l-.284-.081c-.96-.275-1.65.918-.931 1.613l.211.205a.96.96 0 0 1-.434 1.622l-.286.071c-.97.243-.97 1.62 0 1.864l.286.071a.96.96 0 0 1 .434 1.622l-.211.205c-.719.695-.03 1.888.931 1.613l.284-.08a.96.96 0 0 1 1.187 1.187l-.081.283c-.275.96.918 1.65 1.613.931l.205-.211a.96.96 0 0 1 1.622.434l.071.286c.243.97 1.62.97 1.864 0l.071-.286a.96.96 0 0 1 1.622-.434l.205.211c.695.719 1.888.03 1.613-.931l-.08-.284a.96.96 0 0 1 1.187-1.187l.283.081c.96.275 1.65-.918.931-1.613l-.211-.205a.96.96 0 0 1 .434-1.622l.286-.071c.97-.243.97-1.62 0-1.864l-.286-.071a.96.96 0 0 1-.434-1.622l.211-.205c.719-.695.03-1.888-.931-1.613l-.284.08a.96.96 0 0 1-1.187-1.186l.081-.284c.275-.96-.918-1.65-1.613-.931l-.205.211a.96.96 0 0 1-1.622-.434L8.932.727zM8 12.997a4.998 4.998 0 1 1 0-9.995 4.998 4.998 0 0 1 0 9.996z" />
+            </Styled.SvgSettings>
+          </Styled.ContainerSvgSettings>
+        </>
       )}
-      {alreadyFollowUser && (
-        <Styled.WrapperButtonFollow $button="unfollow">
-          <Styled.ButtonFollow $button="unfollow" onClick={handleUnFollow}>
-            Seguindo
-          </Styled.ButtonFollow>
-        </Styled.WrapperButtonFollow>
-      )}
-      <Styled.ContainerButton>
-        <Styled.Button>Editar Perfil</Styled.Button>
-      </Styled.ContainerButton>
-      <Styled.ContainerSvgSettings>
-        <Styled.SvgSettings
-          xmlns="http://www.w3.org/2000/svg"
-          width="23"
-          height="23"
-          fill="currentColor"
-          viewBox="0 0 16 16"
-        >
-          <path d="M8.932.727c-.243-.97-1.62-.97-1.864 0l-.071.286a.96.96 0 0 1-1.622.434l-.205-.211c-.695-.719-1.888-.03-1.613.931l.08.284a.96.96 0 0 1-1.186 1.187l-.284-.081c-.96-.275-1.65.918-.931 1.613l.211.205a.96.96 0 0 1-.434 1.622l-.286.071c-.97.243-.97 1.62 0 1.864l.286.071a.96.96 0 0 1 .434 1.622l-.211.205c-.719.695-.03 1.888.931 1.613l.284-.08a.96.96 0 0 1 1.187 1.187l-.081.283c-.275.96.918 1.65 1.613.931l.205-.211a.96.96 0 0 1 1.622.434l.071.286c.243.97 1.62.97 1.864 0l.071-.286a.96.96 0 0 1 1.622-.434l.205.211c.695.719 1.888.03 1.613-.931l-.08-.284a.96.96 0 0 1 1.187-1.187l.283.081c.96.275 1.65-.918.931-1.613l-.211-.205a.96.96 0 0 1 .434-1.622l.286-.071c.97-.243.97-1.62 0-1.864l-.286-.071a.96.96 0 0 1-.434-1.622l.211-.205c.719-.695.03-1.888-.931-1.613l-.284.08a.96.96 0 0 1-1.187-1.186l.081-.284c.275-.96-.918-1.65-1.613-.931l-.205.211a.96.96 0 0 1-1.622-.434L8.932.727zM8 12.997a4.998 4.998 0 1 1 0-9.995 4.998 4.998 0 0 1 0 9.996z" />
-        </Styled.SvgSettings>
-      </Styled.ContainerSvgSettings>
+
       {statusFriendship === null &&
         !profileTrue &&
         profileAllPost &&
@@ -240,13 +302,6 @@ const UserProfileActions = ({
           <Styled.ButtonAdd>Amigos</Styled.ButtonAdd>
         </Styled.ContainerAdd>
       )}
-      {/* {statusFriendship &&
-        statusFriendship.status === 'Accepted' &&
-        statusFriendship.fieldUpdate === 'update' && (
-          <Styled.ContainerAdd container="add-friend">
-            <Styled.ButtonAdd onClick={handleDefriend}>Amigos</Styled.ButtonAdd>
-          </Styled.ContainerAdd>
-        )} */}
       <div>
         <ModalDefriend
           dataUserOnly={dataUserOnly}

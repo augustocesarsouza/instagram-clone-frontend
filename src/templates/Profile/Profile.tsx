@@ -8,14 +8,14 @@ import ModalFollowing from '../../components/ProfileComponents/ModalFollowing/Mo
 import ContainerPublications from '../../components/ContainerPublications/ContainerPublications';
 import Publications from '../../components/ProfileComponents/Publications/Publications';
 import { AllPost } from '../../components/HomePage/CardPost/CardPost';
+import UserProfileStatsSmallerSize from '../../components/ProfileComponents/UserProfileStatsSmallerSize/UserProfileStatsSmallerSize';
 
 interface ProfileProps {
-  userId: number;
+  userId: number | null;
   createImgOrVideo: AllPost | null;
   setCreatePost: React.Dispatch<React.SetStateAction<boolean>>;
-  ifTrueCreatePostFalseCreateStory: boolean;
-  setIfTrueCreatePostFalseCreateStory: React.Dispatch<React.SetStateAction<boolean>>;
   connection: signalR.HubConnection | null;
+  setSeeFollowersOrFollowing: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export interface DataUser {
@@ -85,7 +85,13 @@ export interface ContextProfileProps {
 
 export const ContextProfile = createContext<ContextProfileProps | null>(null);
 
-const Profile = ({ userId, createImgOrVideo, setCreatePost, connection }: ProfileProps) => {
+const Profile = ({
+  userId,
+  createImgOrVideo,
+  setCreatePost,
+  connection,
+  setSeeFollowersOrFollowing,
+}: ProfileProps) => {
   const location = useLocation();
 
   const { postCreatorId } = location.state ? location.state : 0;
@@ -111,6 +117,7 @@ const Profile = ({ userId, createImgOrVideo, setCreatePost, connection }: Profil
       fetchUserDataOnly(postCreatorId);
     } else {
       // Clicando no Meu Perfil Perfil
+      if (userId === null) return;
       fetchUserDataOnly(userId);
       setFetchOnLoggedInUser(true);
     }
@@ -131,6 +138,7 @@ const Profile = ({ userId, createImgOrVideo, setCreatePost, connection }: Profil
     if (postCreatorId > 0) {
       fetchFollowersUser(postCreatorId);
     } else {
+      if (userId === null) return;
       fetchFollowersUser(userId);
       setFetchOnLoggedInUser(true);
     }
@@ -148,6 +156,7 @@ const Profile = ({ userId, createImgOrVideo, setCreatePost, connection }: Profil
     if (postCreatorId > 0) {
       fetchFollowersUser(postCreatorId);
     } else {
+      if (userId === null) return;
       fetchFollowersUser(userId);
       setFetchOnLoggedInUser(true);
     }
@@ -158,10 +167,12 @@ const Profile = ({ userId, createImgOrVideo, setCreatePost, connection }: Profil
 
   const handleFollower = () => {
     setShowModalFollower(true);
+    setSeeFollowersOrFollowing(true);
   };
 
   const handleFollowing = () => {
     setShowModalFollowing(true);
+    setSeeFollowersOrFollowing(true);
   };
 
   const [countPublic, setCountPublic] = useState<number | null>(null);
@@ -171,6 +182,24 @@ const Profile = ({ userId, createImgOrVideo, setCreatePost, connection }: Profil
   }, []);
 
   const ContainerMainRefWidth = useRef<HTMLDivElement | null>(null);
+
+  useLayoutEffect(() => {
+    window.addEventListener('resize', handleResizeWindow);
+
+    return () => {
+      window.removeEventListener('resize', handleResizeWindow);
+    };
+  }, []);
+
+  const [widthLessThan575, setWidthLessThan575] = useState(false);
+
+  const handleResizeWindow = () => {
+    if (window.innerWidth <= 575) {
+      setWidthLessThan575(true);
+    } else {
+      setWidthLessThan575(false);
+    }
+  };
 
   return (
     <>
@@ -182,15 +211,14 @@ const Profile = ({ userId, createImgOrVideo, setCreatePost, connection }: Profil
                 <InfoProfile
                   dataUserOnly={dataUserOnly}
                   followersUser={followersUser}
+                  followingList={followingList}
+                  countPublic={countPublic}
+                  userId={userId}
+                  fetchOnLoggedInUser={fetchOnLoggedInUser}
                   handleFollower={handleFollower}
                   handleFollowing={handleFollowing}
                   setCreatePost={setCreatePost}
-                  followingList={followingList}
-                  userId={userId}
-                  fetchOnLoggedInUser={fetchOnLoggedInUser}
                   setCheckIfUserAlreadyFollows={setCheckIfUserAlreadyFollows}
-                  countPublic={countPublic}
-                  checkIfUserAlreadyFollows
                 />
                 <ModalFollowers
                   showModalFollower={showModalFollower}
@@ -198,6 +226,7 @@ const Profile = ({ userId, createImgOrVideo, setCreatePost, connection }: Profil
                   setShowModalFollower={setShowModalFollower}
                   userId={userId}
                   setFollowersUser={setFollowersUser}
+                  setSeeFollowersOrFollowing={setSeeFollowersOrFollowing}
                 />
                 <ModalFollowing
                   showModalFollowing={showModalFollowing}
@@ -207,10 +236,21 @@ const Profile = ({ userId, createImgOrVideo, setCreatePost, connection }: Profil
                   userId={userId}
                   setFollowingList={setFollowingList}
                   followingList={followingList}
+                  setSeeFollowersOrFollowing={setSeeFollowersOrFollowing}
                 />
               </Styled.ContainerSubMain>
             </Styled.ContainerAdjust>
-            <ContainerPublications ContainerMainRefWidth={ContainerMainRefWidth} />
+            {!widthLessThan575 ? (
+              <ContainerPublications ContainerMainRefWidth={ContainerMainRefWidth} />
+            ) : (
+              <UserProfileStatsSmallerSize
+                followersUser={followersUser}
+                followingList={followingList}
+                countPublic={countPublic}
+                handleFollower={handleFollower}
+                handleFollowing={handleFollowing}
+              />
+            )}
             <Publications
               userId={userId}
               dataUserOnly={dataUserOnly}

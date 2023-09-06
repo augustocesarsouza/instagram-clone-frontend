@@ -27,8 +27,13 @@ export const ContainerForNewStoryAndBorderWhite = styled.div`
   max-height: 10rem;
 
   @media (max-width: 650px) {
-    width: 9rem;
-    height: 9rem;
+    width: 8rem;
+    height: 8rem;
+  }
+
+  @media (max-width: 575px) {
+    width: 7rem;
+    height: 7rem;
   }
 `
 
@@ -100,6 +105,10 @@ export const Section = styled.section`
 
   @media (max-width: 650px) {
     width: 27rem;
+  }
+
+  @media (max-width: 575px) {
+    width: 15rem;
   }
 `
 

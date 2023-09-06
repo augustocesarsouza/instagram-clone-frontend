@@ -13,17 +13,16 @@ import Url from '../../../Utils/Url';
 import SeeStory from '../SeeStory/SeeStory';
 
 interface InfoProfileProps {
-  handleFollower: () => void;
-  handleFollowing: () => void;
-  setCreatePost: React.Dispatch<React.SetStateAction<boolean>>;
   dataUserOnly: DataUserOnlyProps | null;
   followersUser: FollowersUserProps[] | null;
   followingList: FollowingListsProps[] | null;
-  userId: number;
+  userId: number | null;
   fetchOnLoggedInUser: boolean;
-  setCheckIfUserAlreadyFollows: React.Dispatch<React.SetStateAction<{}>>;
   countPublic: number | null;
-  checkIfUserAlreadyFollows: {};
+  handleFollower: () => void;
+  handleFollowing: () => void;
+  setCreatePost: React.Dispatch<React.SetStateAction<boolean>>;
+  setCheckIfUserAlreadyFollows: React.Dispatch<React.SetStateAction<{}>>;
 }
 
 export interface StoryProps {
@@ -186,6 +185,29 @@ const InfoProfile = ({
 
   const [createNewStory, setCreateNewStory] = useState(false);
 
+  useLayoutEffect(() => {
+    if (window.innerWidth <= 575) {
+      setWidthLessThan575(true);
+    } else {
+      setWidthLessThan575(false);
+    }
+    window.addEventListener('resize', handleResizeWindow);
+
+    return () => {
+      window.removeEventListener('resize', handleResizeWindow);
+    };
+  }, []);
+
+  const [widthLessThan575, setWidthLessThan575] = useState(false);
+
+  const handleResizeWindow = () => {
+    if (window.innerWidth <= 575) {
+      setWidthLessThan575(true);
+    } else {
+      setWidthLessThan575(false);
+    }
+  };
+
   return (
     <>
       <Styled.ContainerStoryMain>
@@ -211,13 +233,15 @@ const InfoProfile = ({
           alreadyFollowUser={alreadyFollowUser}
           setCheckIfUserAlreadyFollows={setCheckIfUserAlreadyFollows}
         />
-        <UserProfileStats
-          countPublic={countPublic}
-          handleFollower={handleFollower}
-          handleFollowing={handleFollowing}
-          followersUser={followersUser}
-          followingList={followingList}
-        />
+        {!widthLessThan575 && (
+          <UserProfileStats
+            countPublic={countPublic}
+            handleFollower={handleFollower}
+            handleFollowing={handleFollowing}
+            followersUser={followersUser}
+            followingList={followingList}
+          />
+        )}
       </Styled.Section>
 
       {createNewStory && (

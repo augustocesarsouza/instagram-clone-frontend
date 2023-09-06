@@ -6,7 +6,7 @@ interface ModalUserDeleteFollowerProps {
   showConfirmDelete: boolean;
   setShowConfirmDelete: React.Dispatch<React.SetStateAction<boolean>>;
   dataUserDeleteFollower: FollowingListsProps | null;
-  userId: number;
+  userId: number | null;
   setFollowersUser: React.Dispatch<React.SetStateAction<FollowersUserProps[] | null>>;
 }
 
@@ -22,6 +22,7 @@ const ModalUserDeleteFollower = ({
   };
 
   const handleRemoveFollowing = async () => {
+    if (userId === null) return;
     const jsonRemoveFollowing = {
       FollowerId: dataUserDeleteFollower?.id,
       FollowingId: userId,

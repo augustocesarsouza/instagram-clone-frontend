@@ -10,7 +10,6 @@ import Profile from '../Profile/Profile';
 import Message from '../Message/Message';
 import Url from '../../Utils/Url';
 import * as signalR from '@microsoft/signalr';
-import moment from 'moment';
 import 'moment-timezone';
 import Create from '../Create/Create';
 import { AllPost } from '../../components/HomePage/CardPost/CardPost';
@@ -353,8 +352,20 @@ const AppContent = () => {
 
   document.body.style.overflowY = 'none';
 
+  const [pathnameCurrent, setPathnameCurrent] = useState('');
+  const [seeFollowersOrFollowing, setSeeFollowersOrFollowing] = useState(false);
+
+  useLayoutEffect(() => {
+    if (location.pathname === '/profile') {
+      setPathnameCurrent('profile');
+    }
+  }, [location]);
+
   return (
-    <Styled.ContainerMain>
+    <Styled.ContainerMain
+      $pathnamecurrent={pathnameCurrent}
+      $seefollowersorfollowing={String(seeFollowersOrFollowing)}
+    >
       {shouldRenderMenu && (
         <Menu
           userId={userId}
@@ -380,6 +391,7 @@ const AppContent = () => {
               createImgOrVideo={createImgOrVideo}
               setCreatePost={setCreatePost}
               connection={connection}
+              setSeeFollowersOrFollowing={setSeeFollowersOrFollowing}
             />
           }
         />

@@ -10,10 +10,11 @@ interface ModalFollowingProps {
   showModalFollowing: boolean;
   setShowModalFollowing: React.Dispatch<React.SetStateAction<boolean>>;
   followingUser: FollowingListsProps[] | null;
-  userId: number;
+  userId: number | null;
   setFollowingList: React.Dispatch<React.SetStateAction<FollowingListsProps[] | null>>;
   followingList: FollowingListsProps[] | null;
   setFollowingUser: React.Dispatch<React.SetStateAction<FollowingListsProps[] | null>>;
+  setSeeFollowersOrFollowing: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const ModalFollowing = ({
@@ -24,6 +25,7 @@ const ModalFollowing = ({
   userId,
   setFollowingList,
   followingList,
+  setSeeFollowersOrFollowing,
 }: ModalFollowingProps) => {
   const [dataUserDeleteFollowing, setDataUserDeleteFollowing] =
     useState<FollowingListsProps | null>(null);
@@ -43,6 +45,8 @@ const ModalFollowing = ({
   };
 
   const handleCloseModalFollowing = async () => {
+    setSeeFollowersOrFollowing(false);
+
     const followingDeleteJson = {
       FollowerId: userId,
       FollowingId: dataUserDeleteFollowing?.id,

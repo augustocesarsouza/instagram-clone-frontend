@@ -1,5 +1,5 @@
 import * as Styled from './styled';
-import { useEffect, useState, useLayoutEffect } from 'react';
+import { useEffect, useState, useLayoutEffect, memo } from 'react';
 
 interface ContainerPublicationsProps {
   ContainerMainRefWidth: React.MutableRefObject<HTMLDivElement | null>;
@@ -8,7 +8,7 @@ interface ContainerPublicationsProps {
 const ContainerPublications = ({ ContainerMainRefWidth }: ContainerPublicationsProps) => {
   const [widthForDiv, setWidthForDiv] = useState(0);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     window.addEventListener('resize', handleResizeWindow);
 
     return () => {
@@ -30,9 +30,7 @@ const ContainerPublications = ({ ContainerMainRefWidth }: ContainerPublicationsP
 
   return (
     <>
-      <Styled.WrapperPublicationsMain
-      //widthForDiv={widthForDiv}
-      >
+      <Styled.WrapperPublicationsMain>
         <Styled.ContainerMainPublications $widthfordiv={widthForDiv}>
           <Styled.WrapperPublications>
             <Styled.ButtonPublications>PUBLICAÇÕES</Styled.ButtonPublications>

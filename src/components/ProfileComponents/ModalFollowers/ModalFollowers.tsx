@@ -8,9 +8,10 @@ import { FollowersUserProps, FollowingListsProps } from '../../../templates/Prof
 interface ModalFollowersProps {
   showModalFollower: boolean;
   setShowModalFollower: React.Dispatch<React.SetStateAction<boolean>>;
-  userId: number;
+  userId: number | null;
   followersUser: FollowersUserProps[] | null;
   setFollowersUser: React.Dispatch<React.SetStateAction<FollowersUserProps[] | null>>;
+  setSeeFollowersOrFollowing: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const ModalFollowers = ({
@@ -19,6 +20,7 @@ const ModalFollowers = ({
   setShowModalFollower,
   userId,
   setFollowersUser,
+  setSeeFollowersOrFollowing,
 }: ModalFollowersProps) => {
   const [showConfirmDelete, setShowConfirmDelete] = useState(false);
   const [dataUserDeleteFollower, setDataUserDeleteFollower] = useState<FollowingListsProps | null>(
@@ -27,6 +29,7 @@ const ModalFollowers = ({
 
   const handleCloseModal = () => {
     setShowModalFollower(false);
+    setSeeFollowersOrFollowing(false);
   };
 
   const showModalConfirmDelete = (value: FollowingListsProps) => {
