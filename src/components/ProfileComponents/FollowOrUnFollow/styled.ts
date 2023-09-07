@@ -1,5 +1,15 @@
 import styled from 'styled-components';
 
+export const WrapperExit = styled.div`
+  position: absolute;
+  top: 6px;
+  right: 12px;
+
+  svg {
+    cursor: pointer;
+  }
+`
+
 export const WrapperButton = styled.div`
   width: 5rem;
   height: 2rem;

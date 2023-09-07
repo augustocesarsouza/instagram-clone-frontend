@@ -88,7 +88,6 @@ const MessageExchange = ({
     const containerElement = messageContainerRef.current;
     if (containerElement) {
       const nearEndThreshold = 1;
-      console.log(containerElement.scrollTop);
 
       let isNearEnd =
         containerElement.scrollHeight - Math.abs(containerElement.scrollTop) <=

@@ -78,8 +78,6 @@ const StoryActions = ({
   //     isRequestInProgress = true;
 
   //     try {
-  //       console.log('vsdv');
-
   //       const res = await fetch(`${Url}/storycreate`, {
   //         method: 'POST',
   //         headers: {

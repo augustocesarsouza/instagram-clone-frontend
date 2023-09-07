@@ -1,9 +1,12 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Url from '../../../Utils/Url';
 import { FollowersUserProps, FollowingListsProps } from '../../../templates/Profile/Profile';
 import { UsersSuggestionProps } from '../ModalFollowers/ModalFollowers';
 import ModalUserDeleteFollower from '../ModalUserDeleteFollower/ModalUserDeleteFollower';
 import * as Styled from './styled';
 import { useState, useEffect } from 'react';
+import { faXmark } from '@fortawesome/free-solid-svg-icons';
+import SuggestionComponent from '../SuggestionComponent/SuggestionComponent';
 
 interface RemoveFollowersProps {
   postCreatorId: number;
@@ -11,6 +14,8 @@ interface RemoveFollowersProps {
   firstFollowing: FollowingListsProps | null;
   userId: number | null;
   setFollowersUser: React.Dispatch<React.SetStateAction<FollowersUserProps[] | null>>;
+  setShowModalFollower: React.Dispatch<React.SetStateAction<boolean>>;
+  setSeeFollowersOrFollowing: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const RemoveFollowers = ({
@@ -19,6 +24,8 @@ const RemoveFollowers = ({
   firstFollowing,
   userId,
   setFollowersUser,
+  setShowModalFollower,
+  setSeeFollowersOrFollowing,
 }: RemoveFollowersProps) => {
   const [showConfirmDelete, setShowConfirmDelete] = useState(false);
   const [dataUserDeleteFollower, setDataUserDeleteFollower] = useState<FollowingListsProps | null>(
@@ -29,6 +36,11 @@ const RemoveFollowers = ({
     null
   );
 
+  const handleCloseModal = () => {
+    setShowModalFollower(false);
+    setSeeFollowersOrFollowing(false);
+  };
+
   const showModalConfirmDelete = (value: FollowingListsProps) => {
     setDataUserDeleteFollower(value);
     setShowConfirmDelete(true);
@@ -38,8 +50,6 @@ const RemoveFollowers = ({
     if (followersUser) {
       const filterArray = followersUser.filter((foo) => foo.name.startsWith(e.target.value));
       setFilteredFollowerArray(filterArray);
-      console.log(filterArray.length);
-      console.log(followersUser.length);
 
       if (filterArray.length === followersUser.length) {
         setFilteredFollowerArray(filterArray.length > 0 ? filterArray : null);
@@ -47,26 +57,11 @@ const RemoveFollowers = ({
     }
   };
 
-  const [usersSuggestion, setUsersSuggestion] = useState<UsersSuggestionProps[] | null>(null);
-
-  useEffect(() => {
-    if (postCreatorId !== undefined) return;
-
-    const fetchUsersSuggestion = async () => {
-      if (firstFollowing === null || userId === null || firstFollowing === undefined) return;
-      //Aqui você tem sugestão do followers do seus amigo tem que fazer com pessoas aleatorias tbm porque se voc~e nao tiver nenhum seguidor lascou ele nao te segure nada!
-
-      const res = await fetch(
-        `${Url}/get/suggestion/followers/${firstFollowing.id}/${userId}/${true}`
-      );
-      const json = await res.json();
-      setUsersSuggestion(json.data);
-    };
-    fetchUsersSuggestion();
-  }, [firstFollowing, userId, postCreatorId]);
-
   return (
     <>
+      {/* <Styled.WrapperExit>
+        <FontAwesomeIcon icon={faXmark} onClick={handleCloseModal} />
+      </Styled.WrapperExit> */}
       <Styled.ContainerInputSearch>
         <Styled.Input placeholder="Pesquisar" onChange={handleChangeInput} />
       </Styled.ContainerInputSearch>
@@ -115,29 +110,11 @@ const RemoveFollowers = ({
             ))}
         </>
       )}
-      {postCreatorId == undefined && (
-        <Styled.ContainerSuggestionForYou>
-          <Styled.P>Sugestões para você</Styled.P>
-          {usersSuggestion &&
-            usersSuggestion.map((u) => (
-              <Styled.ContainerFollower key={u.id}>
-                <Styled.WrapperOnlyImgAndName>
-                  <Styled.WrapperImgFollower>
-                    <Styled.ImgFollower src={u.imagePerfil} />
-                  </Styled.WrapperImgFollower>
-                  <Styled.WrapperInfoFollower>
-                    <Styled.NamePFollower>{u.name}</Styled.NamePFollower>
-                  </Styled.WrapperInfoFollower>
-                </Styled.WrapperOnlyImgAndName>
-                <Styled.WrapperButton>
-                  <Styled.ButtonFo $follow={'Seguir'} onClick={() => showModalConfirmDelete(u)}>
-                    Seguir
-                  </Styled.ButtonFo>
-                </Styled.WrapperButton>
-              </Styled.ContainerFollower>
-            ))}
-        </Styled.ContainerSuggestionForYou>
-      )}
+      <SuggestionComponent
+        postCreatorId={postCreatorId}
+        firstFollowing={firstFollowing}
+        userId={userId}
+      />
 
       <ModalUserDeleteFollower
         showConfirmDelete={showConfirmDelete}

@@ -77,7 +77,6 @@ const Comment = ({
   }, [postComments]);
 
   const closeModal = () => {
-    console.log(window.innerWidth);
     const scroll = document.getElementById('container-scroll');
 
     if (window.innerWidth <= 750) {

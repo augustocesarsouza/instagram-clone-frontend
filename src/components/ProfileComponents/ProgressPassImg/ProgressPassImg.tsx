@@ -318,8 +318,6 @@ ProgressPassImgProps) => {
     setPause(true);
   };
 
-  console.log(story[currentPhotoIndex].propertyText);
-
   return (
     <>
       {story && (

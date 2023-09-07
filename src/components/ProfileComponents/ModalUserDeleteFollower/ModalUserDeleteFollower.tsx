@@ -22,28 +22,31 @@ const ModalUserDeleteFollower = ({
   };
 
   const handleRemoveFollowing = async () => {
-    if (userId === null) return;
+    if (userId === null || dataUserDeleteFollower === null) return;
     const jsonRemoveFollowing = {
       FollowerId: dataUserDeleteFollower?.id,
       FollowingId: userId,
     };
+    setFollowersUser((prev) =>
+      prev !== null ? [...prev.filter((f) => f.id !== dataUserDeleteFollower.id)] : prev
+    );
+    setShowConfirmDelete(false);
 
-    const res = await fetch(`${Url}/follow`, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(jsonRemoveFollowing),
-    });
-    if (res.status === 200) {
-      const json = await res.json();
-      console.log(json.data);
-      var follower = json.data;
-      setFollowersUser((prev) =>
-        prev !== null ? [...prev.filter((fo) => fo.id != follower.followerId)] : prev
-      );
-      setShowConfirmDelete(false);
-    }
+    // const res = await fetch(`${Url}/follow`, {
+    //   method: 'DELETE',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //   },
+    //   body: JSON.stringify(jsonRemoveFollowing),
+    // });
+    // if (res.status === 200) {
+    //   const json = await res.json();
+    //   var follower = json.data;
+    //   setFollowersUser((prev) =>
+    //     prev !== null ? [...prev.filter((fo) => fo.id != follower.followerId)] : prev
+    //   );
+    //   setShowConfirmDelete(false);
+    // }
   };
 
   return (

@@ -1,5 +1,16 @@
 import styled from 'styled-components';
 
+
+export const WrapperExit = styled.div`
+  position: absolute;
+  top: 6px;
+  right: 12px;
+
+  svg {
+    cursor: pointer;
+  }
+`
+
 export const ContainerInputSearch = styled.div`
   display: flex;
   align-items: center;

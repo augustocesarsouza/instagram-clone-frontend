@@ -1,18 +1,26 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import * as Styled from './styled';
-import { faXmark } from '@fortawesome/free-solid-svg-icons';
-import { FollowersUserProps, FollowingListsProps } from '../../../templates/Profile/Profile';
+import {
+  DataUserOnlyProps,
+  FollowersUserProps,
+  FollowingListsProps,
+} from '../../../templates/Profile/Profile';
 import ControlUserFollowOrUnFollow from '../ControlUserFollowOrUnFollow/ControlUserFollowOrUnFollow';
 import RemoveFollowers from '../RemoveFollowers/RemoveFollowers';
+import { createContext, useEffect, useState } from 'react';
 
 interface ModalFollowersProps {
   showModalFollower: boolean;
-  setShowModalFollower: React.Dispatch<React.SetStateAction<boolean>>;
   userId: number | null;
   postCreatorId: number;
+  dataUserOnly: DataUserOnlyProps;
   followersUser: FollowersUserProps[] | null;
   firstFollowing: FollowingListsProps | null;
+  // followingUser: FollowingListsProps[] | null;
+  // followingList: FollowingListsProps[] | null;
+  // setFollowingUser: React.Dispatch<React.SetStateAction<FollowingListsProps[] | null>>;
+  // setFollowingList: React.Dispatch<React.SetStateAction<FollowingListsProps[] | null>>;
   setFollowersUser: React.Dispatch<React.SetStateAction<FollowersUserProps[] | null>>;
+  setShowModalFollower: React.Dispatch<React.SetStateAction<boolean>>;
   setSeeFollowersOrFollowing: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
@@ -27,17 +35,17 @@ const ModalFollowers = ({
   showModalFollower,
   followersUser,
   firstFollowing,
-  setShowModalFollower,
   userId,
   postCreatorId,
+  dataUserOnly,
+  // followingUser,
+  // followingList,
+  // setFollowingUser,
+  // setFollowingList,
   setFollowersUser,
+  setShowModalFollower,
   setSeeFollowersOrFollowing,
 }: ModalFollowersProps) => {
-  const handleCloseModal = () => {
-    setShowModalFollower(false);
-    setSeeFollowersOrFollowing(false);
-  };
-
   return (
     <>
       {showModalFollower && (
@@ -47,9 +55,6 @@ const ModalFollowers = ({
               <Styled.WrapperP>
                 <Styled.PFollowers>Seguidores</Styled.PFollowers>
               </Styled.WrapperP>
-              <Styled.WrapperExit>
-                <FontAwesomeIcon icon={faXmark} onClick={handleCloseModal} />
-              </Styled.WrapperExit>
             </Styled.ContainerFollowers>
             <Styled.ContainerInfoFollower>
               {postCreatorId === undefined ? (
@@ -59,9 +64,15 @@ const ModalFollowers = ({
                   firstFollowing={firstFollowing}
                   userId={userId}
                   setFollowersUser={setFollowersUser}
+                  setShowModalFollower={setShowModalFollower}
+                  setSeeFollowersOrFollowing={setSeeFollowersOrFollowing}
                 />
               ) : (
-                <ControlUserFollowOrUnFollow userId={userId} postCreatorId={postCreatorId} />
+                <ControlUserFollowOrUnFollow
+                  userId={userId}
+                  postCreatorId={postCreatorId}
+                  dataUserOnly={dataUserOnly}
+                />
               )}
             </Styled.ContainerInfoFollower>
           </Styled.ModalContent>

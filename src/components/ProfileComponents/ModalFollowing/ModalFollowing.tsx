@@ -8,25 +8,25 @@ import { FollowingListsProps } from '../../../templates/Profile/Profile';
 
 interface ModalFollowingProps {
   showModalFollowing: boolean;
-  setShowModalFollowing: React.Dispatch<React.SetStateAction<boolean>>;
-  followingUser: FollowingListsProps[] | null;
   userId: number | null;
   postCreatorId: number;
-  setFollowingList: React.Dispatch<React.SetStateAction<FollowingListsProps[] | null>>;
+  followingUser: FollowingListsProps[] | null;
   followingList: FollowingListsProps[] | null;
   setFollowingUser: React.Dispatch<React.SetStateAction<FollowingListsProps[] | null>>;
+  setFollowingList: React.Dispatch<React.SetStateAction<FollowingListsProps[] | null>>;
+  setShowModalFollowing: React.Dispatch<React.SetStateAction<boolean>>;
   setSeeFollowersOrFollowing: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const ModalFollowing = ({
   showModalFollowing,
-  setShowModalFollowing,
-  followingUser,
-  setFollowingUser,
   userId,
   postCreatorId,
-  setFollowingList,
+  followingUser,
   followingList,
+  setFollowingUser,
+  setFollowingList,
+  setShowModalFollowing,
   setSeeFollowersOrFollowing,
 }: ModalFollowingProps) => {
   const [dataUserDeleteFollowing, setDataUserDeleteFollowing] =

@@ -40,7 +40,6 @@ const ModalDefriend = ({
       );
       if (res.status === 200) {
         const json = await res.json();
-        console.log(json.data);
         const friendshipDelete = json.data;
         setStatusFriendship((prev) =>
           prev !== null

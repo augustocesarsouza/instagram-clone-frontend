@@ -1,13 +1,16 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Url from '../../../Utils/Url';
 import FollowOrUnFollow from '../FollowOrUnFollow/FollowOrUnFollow';
 import { UsersSuggestionProps } from '../ModalFollowers/ModalFollowers';
 import UsersFollowersData from '../UsersFollowersData/UsersFollowersData';
 import * as Styled from './styled';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useLayoutEffect } from 'react';
+import { DataUserOnlyProps } from '../../../templates/Profile/Profile';
 
 interface ControlUserFollowOrUnFollowProps {
   userId: number | null;
   postCreatorId: number;
+  dataUserOnly: DataUserOnlyProps;
 }
 
 const ControlUserFollowOrUnFollow = ({
@@ -31,7 +34,7 @@ const ControlUserFollowOrUnFollow = ({
     }
   };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (postCreatorId === undefined || userId === null) return;
     const fetchFollowersFromFollowing = async () => {
       const res = await fetch(

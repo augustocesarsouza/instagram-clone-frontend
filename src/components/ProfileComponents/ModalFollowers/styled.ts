@@ -19,6 +19,7 @@ export const ModalContent = styled.div`
   width: 24rem;
   height: 24rem;
   border-radius: 10px;
+  position: relative;
 `
 
 export const ContainerFollowers = styled.div`

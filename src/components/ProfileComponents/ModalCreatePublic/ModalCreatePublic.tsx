@@ -25,8 +25,6 @@ const ModalCreatePublic = ({
 
   const handleDragEnter = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
-    // console.log('drag enter');
-    // console.log(event.dataTransfer);
   };
 
   const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {

@@ -57,7 +57,6 @@ const UserComment = ({
 
     connection.on('ReceiveComment', (comment) => {
       setCommentsNew((prev) => (prev !== null ? [comment, ...prev] : prev));
-      console.log(comment);
     });
   }, [connection]);
 

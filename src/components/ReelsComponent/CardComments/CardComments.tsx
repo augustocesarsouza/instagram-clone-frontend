@@ -87,7 +87,6 @@ const CardComments = ({
     if (res.status === 200) {
       //setNewCommentsReels atualizar aqui os comments que foi deletado
       const json = await res.json();
-      console.log(json.data);
       setNewCommentsReels((prev) =>
         prev !== null ? prev.filter((cmt) => cmt.id !== json.data.id) : prev
       );

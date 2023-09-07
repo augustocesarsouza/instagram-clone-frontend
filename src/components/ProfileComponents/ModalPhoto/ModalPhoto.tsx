@@ -236,7 +236,6 @@ const ModalPhoto = ({
             }
 
             const dataURL = canvas.toDataURL();
-            // console.log(dataURL);
 
             setNewa(dataURL);
           }

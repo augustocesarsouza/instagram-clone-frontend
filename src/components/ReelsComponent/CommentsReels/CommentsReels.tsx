@@ -157,8 +157,6 @@ const CommentsReels = ({ reels, imgUserLogged, userId, mouseOn }: CommentsReelsC
           const json = await res.json();
 
           setCommentsReels((prev) => (prev !== null ? [json.data, ...prev] : prev));
-
-          // console.log(json.data);
         }
       } catch (error) {
         console.error('Erro: ' + error);

@@ -81,6 +81,12 @@ interface User {
 
 export interface ContextProfileProps {
   connection: signalR.HubConnection | null;
+  followingUser: FollowingListsProps[] | null;
+  followingList: FollowingListsProps[] | null;
+  setFollowingUser: React.Dispatch<React.SetStateAction<FollowingListsProps[] | null>>;
+  setFollowingList: React.Dispatch<React.SetStateAction<FollowingListsProps[] | null>>;
+  setShowModalFollower: React.Dispatch<React.SetStateAction<boolean>>;
+  setSeeFollowersOrFollowing: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const ContextProfile = createContext<ContextProfileProps | null>(null);
@@ -201,6 +207,14 @@ const Profile = ({
     }
   };
 
+  window.addEventListener(
+    'beforeunload',
+    (e) => {
+      e.preventDefault();
+    },
+    true
+  );
+
   const [firstFollowing, setFirstFollowing] = useState<FollowingListsProps | null>(null);
 
   useEffect(() => {
@@ -212,7 +226,17 @@ const Profile = ({
   return (
     <>
       {dataUserOnly ? (
-        <ContextProfile.Provider value={{ connection }}>
+        <ContextProfile.Provider
+          value={{
+            connection,
+            followingUser,
+            followingList,
+            setFollowingUser,
+            setFollowingList,
+            setShowModalFollower,
+            setSeeFollowersOrFollowing,
+          }}
+        >
           <Styled.ContainerMain>
             <Styled.ContainerAdjust>
               <Styled.ContainerSubMain>
@@ -232,21 +256,26 @@ const Profile = ({
                   showModalFollower={showModalFollower}
                   followersUser={followersUser}
                   firstFollowing={firstFollowing}
-                  setShowModalFollower={setShowModalFollower}
                   userId={userId}
                   postCreatorId={postCreatorId}
+                  dataUserOnly={dataUserOnly}
+                  // followingUser={followingUser}
+                  // followingList={followingList}
+                  // setFollowingUser={setFollowingUser}
+                  // setFollowingList={setFollowingList}
                   setFollowersUser={setFollowersUser}
+                  setShowModalFollower={setShowModalFollower}
                   setSeeFollowersOrFollowing={setSeeFollowersOrFollowing}
                 />
                 <ModalFollowing
                   showModalFollowing={showModalFollowing}
-                  setShowModalFollowing={setShowModalFollowing}
-                  followingUser={followingUser}
-                  setFollowingUser={setFollowingUser}
                   userId={userId}
                   postCreatorId={postCreatorId}
-                  setFollowingList={setFollowingList}
+                  followingUser={followingUser}
                   followingList={followingList}
+                  setFollowingUser={setFollowingUser}
+                  setFollowingList={setFollowingList}
+                  setShowModalFollowing={setShowModalFollowing}
                   setSeeFollowersOrFollowing={setSeeFollowersOrFollowing}
                 />
               </Styled.ContainerSubMain>

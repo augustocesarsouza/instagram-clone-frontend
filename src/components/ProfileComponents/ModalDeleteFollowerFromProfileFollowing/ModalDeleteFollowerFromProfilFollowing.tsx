@@ -1,6 +1,6 @@
 import Url from '../../../Utils/Url';
 import { FollowingListsProps } from '../../../templates/Profile/Profile';
-import { followingByUserLoggedProps } from '../ModalFollowers/ModalFollowers';
+import { followingByUserLoggedProps } from '../FollowOrUnFollow/FollowOrUnFollow';
 import * as Styled from './styled';
 
 interface ModalDeleteFollowerFromProfileFollowingProps {
@@ -9,7 +9,9 @@ interface ModalDeleteFollowerFromProfileFollowingProps {
   dataUserDeleteFollowing: FollowingListsProps | null;
   setShowConfirmDeleteFollowing: React.Dispatch<React.SetStateAction<boolean>>;
   setDataUserDeleteFollowing: React.Dispatch<React.SetStateAction<FollowingListsProps | null>>;
-  setFollowingByUserLogged: React.Dispatch<React.SetStateAction<followingByUserLoggedProps[] | []>>;
+  setMockFollowingByUserLogged: React.Dispatch<
+    React.SetStateAction<followingByUserLoggedProps[] | []>
+  >;
 }
 
 const ModalDeleteFollowerFromProfileFollowing = ({
@@ -18,29 +20,16 @@ const ModalDeleteFollowerFromProfileFollowing = ({
   dataUserDeleteFollowing,
   setShowConfirmDeleteFollowing,
   setDataUserDeleteFollowing,
-  setFollowingByUserLogged,
+  setMockFollowingByUserLogged,
 }: ModalDeleteFollowerFromProfileFollowingProps) => {
   const handleRemoveFollowing = async () => {
     if (dataUserDeleteFollowing === null) return;
     const userUnFollow = dataUserDeleteFollowing.id;
-    const deleteFollow = {
-      FollowerId: userId,
-      FollowingId: userUnFollow,
-    };
 
-    const res = await fetch(`${Url}/follow`, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(deleteFollow),
-    });
+    setMockFollowingByUserLogged((prev) =>
+      prev !== null ? [...prev.filter((f) => f.followingId !== userUnFollow)] : prev
+    );
 
-    if (res.status === 200) {
-      setFollowingByUserLogged((prev) =>
-        prev !== null ? [...prev.filter((f) => f.followingId !== userUnFollow)] : prev
-      );
-    }
     setShowConfirmDeleteFollowing(false);
   };
 
