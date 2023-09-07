@@ -234,6 +234,7 @@ const Profile = ({
                   firstFollowing={firstFollowing}
                   setShowModalFollower={setShowModalFollower}
                   userId={userId}
+                  postCreatorId={postCreatorId}
                   setFollowersUser={setFollowersUser}
                   setSeeFollowersOrFollowing={setSeeFollowersOrFollowing}
                 />
@@ -243,6 +244,7 @@ const Profile = ({
                   followingUser={followingUser}
                   setFollowingUser={setFollowingUser}
                   userId={userId}
+                  postCreatorId={postCreatorId}
                   setFollowingList={setFollowingList}
                   followingList={followingList}
                   setSeeFollowersOrFollowing={setSeeFollowersOrFollowing}

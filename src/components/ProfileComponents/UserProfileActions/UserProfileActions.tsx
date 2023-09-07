@@ -61,6 +61,7 @@ const UserProfileActions = ({
   const { postCreatorId, profileTrue, profileAllPost, friendshipRequest } = location.state
     ? location.state
     : 0;
+
   const handleFollow = async () => {
     if (dataUserOnly) {
       const followCreate = {
@@ -96,11 +97,12 @@ const UserProfileActions = ({
       });
       if (res.status === 200) {
         const json = await res.json();
+
         setCheckIfUserAlreadyFollows(json.data);
       }
     }
   };
-  const [notFoundFriendship, setNotFoundFriendship] = useState<notFoundFriendshipProps>();
+
   useEffect(() => {
     const fetchCheckStatusFriendship = async () => {
       if (postCreatorId === 0) return;
@@ -113,7 +115,6 @@ const UserProfileActions = ({
 
       if (res.status === 400) {
         const json = await res.json();
-        setNotFoundFriendship(json);
       }
     };
     fetchCheckStatusFriendship();

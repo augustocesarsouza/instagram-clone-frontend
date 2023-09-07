@@ -11,6 +11,7 @@ interface ModalFollowingProps {
   setShowModalFollowing: React.Dispatch<React.SetStateAction<boolean>>;
   followingUser: FollowingListsProps[] | null;
   userId: number | null;
+  postCreatorId: number;
   setFollowingList: React.Dispatch<React.SetStateAction<FollowingListsProps[] | null>>;
   followingList: FollowingListsProps[] | null;
   setFollowingUser: React.Dispatch<React.SetStateAction<FollowingListsProps[] | null>>;
@@ -23,6 +24,7 @@ const ModalFollowing = ({
   followingUser,
   setFollowingUser,
   userId,
+  postCreatorId,
   setFollowingList,
   followingList,
   setSeeFollowersOrFollowing,
@@ -38,6 +40,7 @@ const ModalFollowing = ({
 
   const handleFollowUser = (id: number) => {
     const userToFollow = followingUser?.find((item) => item.id === id);
+
     if (userToFollow && followingList) {
       setFollowingList((prev) => (prev !== null ? [...prev, userToFollow] : prev));
       setDataUserDeleteFollowing(null);
@@ -45,6 +48,8 @@ const ModalFollowing = ({
   };
 
   const handleCloseModalFollowing = async () => {
+    setShowModalFollowing(false);
+    if (dataUserDeleteFollowing === null) return;
     setSeeFollowersOrFollowing(false);
 
     const followingDeleteJson = {
@@ -64,7 +69,6 @@ const ModalFollowing = ({
         prev !== null ? [...prev.filter((fo) => fo.id != followingDeleteJson.FollowingId)] : prev
       );
     }
-    setShowModalFollowing(false);
   };
 
   return (
@@ -92,20 +96,25 @@ const ModalFollowing = ({
                         <Styled.NamePFollowing>{fo.name}</Styled.NamePFollowing>
                       </Styled.WrapperInfoFollowing>
                     </Styled.WrapperOnlyImgAndName>
-                    <Styled.WrapperButton>
-                      {followingList && followingList.some((item) => item.id === fo.id) ? (
-                        <Styled.Button onClick={() => showModalUserDeleteFollowing(fo)} $follow="">
-                          Seguindo
-                        </Styled.Button>
-                      ) : (
-                        <Styled.Button
-                          onClick={() => handleFollowUser(fo.id)}
-                          $follow="button-follow"
-                        >
-                          Seguir
-                        </Styled.Button>
-                      )}
-                    </Styled.WrapperButton>
+                    {postCreatorId === undefined && (
+                      <Styled.WrapperButton>
+                        {followingList && followingList.some((item) => item.id === fo.id) ? (
+                          <Styled.Button
+                            onClick={() => showModalUserDeleteFollowing(fo)}
+                            $follow=""
+                          >
+                            Seguindo
+                          </Styled.Button>
+                        ) : (
+                          <Styled.Button
+                            onClick={() => handleFollowUser(fo.id)}
+                            $follow="button-follow"
+                          >
+                            Seguir
+                          </Styled.Button>
+                        )}
+                      </Styled.WrapperButton>
+                    )}
                   </Styled.ContainerFollowing>
                 ))}
             </Styled.ContainerInfoFollowing>

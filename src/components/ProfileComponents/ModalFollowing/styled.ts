@@ -1,9 +1,5 @@
 import styled from 'styled-components';
 
-interface Button {
-  $follow: string;
-}
-
 export const ContainerModal = styled.div`
   position: absolute;
   bottom: 0;
@@ -86,6 +82,10 @@ export const WrapperButton = styled.div`
   width: 5rem;
   height: 2rem;
 `
+
+interface Button {
+  $follow: string;
+}
 
 export const Button = styled.button<Button>`
   width: 5rem;

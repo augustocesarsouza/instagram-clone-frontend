@@ -93,7 +93,7 @@ const InfoProfile = ({
       const alreadyFollow = followersUser.some((el) => el.id == userId);
       setAlreadyFollowUser(alreadyFollow);
     }
-  }, [followersUser, checkIfUserAlreadyFollows]);
+  }, [followersUser]);
 
   useEffect(() => {
     const fetchAllStoryUser = async () => {
