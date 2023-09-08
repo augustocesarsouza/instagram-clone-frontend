@@ -207,14 +207,6 @@ const Profile = ({
     }
   };
 
-  window.addEventListener(
-    'beforeunload',
-    (e) => {
-      e.preventDefault();
-    },
-    true
-  );
-
   const [firstFollowing, setFirstFollowing] = useState<FollowingListsProps | null>(null);
 
   useEffect(() => {

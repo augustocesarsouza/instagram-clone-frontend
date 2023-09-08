@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import * as Styled from './styled';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import ModalUserDeleteFollowing from '../ModalUserDeleteFollowing/ModalUserDeleteFollowing';
 import Url from '../../../Utils/Url';
 import { FollowingListsProps } from '../../../templates/Profile/Profile';
@@ -16,6 +16,12 @@ interface ModalFollowingProps {
   setFollowingList: React.Dispatch<React.SetStateAction<FollowingListsProps[] | null>>;
   setShowModalFollowing: React.Dispatch<React.SetStateAction<boolean>>;
   setSeeFollowersOrFollowing: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+interface followingByUserLoggedProps {
+  followerId: number;
+  followingId: number;
+  id: number;
 }
 
 const ModalFollowing = ({
@@ -33,12 +39,55 @@ const ModalFollowing = ({
     useState<FollowingListsProps | null>(null);
   const [showConfirmDelete, setShowConfirmDelete] = useState(false);
 
+  const lastButtonClick = useRef('');
+
+  const [dataUserFollowerAndFollowingId, setDataUserFollowerAndFollowingId] =
+    useState<followingByUserLoggedProps | null>(null);
+
   const showModalUserDeleteFollowing = (value: FollowingListsProps) => {
+    if (userId === null) return;
+    const followCreate = {
+      followerId: userId,
+      followingId: value.id,
+      id: 0,
+    };
+    setDataUserFollowerAndFollowingId(followCreate);
+
+    lastButtonClick.current = 'Seguindo';
     setDataUserDeleteFollowing(value);
     setShowConfirmDelete(true);
   };
 
+  window.addEventListener(
+    'beforeunload',
+    (e) => {
+      e.preventDefault();
+
+      if (lastButtonClick.current === 'Seguir') return;
+
+      if (dataUserFollowerAndFollowingId && lastButtonClick.current === 'Seguindo') {
+        const deleteFollow = {
+          FollowerId: dataUserFollowerAndFollowingId.followerId,
+          FollowingId: dataUserFollowerAndFollowingId.followingId,
+        };
+
+        const handleDeleteFollow = async () => {
+          const res = await fetch(`${Url}/follow`, {
+            method: 'DELETE',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(deleteFollow),
+          });
+        };
+        handleDeleteFollow();
+      }
+    },
+    true
+  );
+
   const handleFollowUser = (id: number) => {
+    lastButtonClick.current = 'Seguir';
     const userToFollow = followingUser?.find((item) => item.id === id);
 
     if (userToFollow && followingList) {
@@ -49,6 +98,7 @@ const ModalFollowing = ({
 
   const handleCloseModalFollowing = async () => {
     setShowModalFollowing(false);
+    if (lastButtonClick.current === 'Seguir') return;
     if (dataUserDeleteFollowing === null) return;
     setSeeFollowersOrFollowing(false);
 
