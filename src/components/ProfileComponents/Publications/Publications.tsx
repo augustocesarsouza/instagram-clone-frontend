@@ -8,6 +8,7 @@ import { AllPost } from '../../HomePage/CardPost/CardPost';
 
 interface PublicationsProps {
   userId: number | null;
+  postCreatorId: number | undefined;
   dataUserOnly: DataUserOnlyProps | null;
   setCountPublic: React.Dispatch<React.SetStateAction<number | null>>;
   createImgOrVideo: AllPost | null;
@@ -31,6 +32,7 @@ export interface User {
 
 const Publications = ({
   userId,
+  postCreatorId,
   dataUserOnly,
   setCountPublic,
   createImgOrVideo,
@@ -49,15 +51,21 @@ const Publications = ({
   };
 
   useLayoutEffect(() => {
-    const fetchPostUser = async () => {
-      const res = await fetch(`${Url}/postAuthorId/${userId}`);
+    const fetchPostUser = async (id: number) => {
+      const res = await fetch(`${Url}/postAuthorId/${id}`);
       if (res.status === 200) {
         const json = await res.json();
         setDataPostUser(json.data);
       }
     };
-    fetchPostUser();
-  }, [callFetchPost, userId]);
+
+    if (postCreatorId !== undefined) {
+      fetchPostUser(postCreatorId);
+    } else {
+      if (userId === null) return;
+      fetchPostUser(userId);
+    }
+  }, [callFetchPost, userId, postCreatorId]);
 
   useEffect(() => {
     if (createImgOrVideo !== null) {
@@ -80,7 +88,7 @@ const Publications = ({
           ContainerMainRefWidth={ContainerMainRefWidth}
         />
       ) : (
-        <Styled.ContainerSharePhotos>
+        <Styled.ContainerSharePhotos ref={ContainerMainRefWidth}>
           <Styled.WrapperShare>
             <Styled.WrapperCamera>
               <svg

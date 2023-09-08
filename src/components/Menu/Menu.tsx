@@ -10,6 +10,7 @@ import { ThemeProvider } from 'styled-components';
 
 interface MenuProps {
   userId: number | null;
+  base64ImgChange: string;
   emailConnection: string | null;
   setImgUserLogged: React.Dispatch<React.SetStateAction<string>>;
   callOpenModalCreatePublication: (value: boolean) => void;
@@ -25,6 +26,7 @@ export interface DataUserOnlyProps {
 
 const Menu = ({
   userId,
+  base64ImgChange,
   emailConnection,
   setImgUserLogged,
   callOpenModalCreatePublication,
@@ -47,6 +49,12 @@ const Menu = ({
     };
     fetchUserDataOnly();
   }, [userId]);
+
+  useEffect(() => {
+    if (base64ImgChange.length > 0) {
+      setDataUserOnly((prev) => (prev !== null ? { ...prev, imagePerfil: base64ImgChange } : prev));
+    }
+  }, [base64ImgChange]);
 
   const location = useLocation();
   useLayoutEffect(() => {

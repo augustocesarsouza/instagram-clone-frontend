@@ -8,7 +8,7 @@ import { DataUserOnlyProps } from '../../../templates/Profile/Profile';
 
 interface StoryActionsProps {
   story: StoryProps[];
-  userId: number;
+  userId: number | null;
   seeStories: boolean;
   dataUserOnly: DataUserOnlyProps | null;
   lastStorySeen: LastStorySeenProps | undefined;

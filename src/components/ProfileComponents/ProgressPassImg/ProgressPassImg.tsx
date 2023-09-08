@@ -13,7 +13,7 @@ import { DataUserOnlyProps } from '../../../templates/Profile/Profile';
 import Url from '../../../Utils/Url';
 
 interface ProgressPassImgProps {
-  userId: number;
+  userId: number | null;
   story: StoryProps[];
   pause: boolean;
   jaVerificou: boolean;

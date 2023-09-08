@@ -9,6 +9,7 @@ export const ContainerSharePhotos = styled.div`
   align-items: center;
   justify-content: center;
   height: 35vh;
+  width: 53rem;
 `
 
 export const WrapperShare = styled.div`

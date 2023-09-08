@@ -6,7 +6,7 @@ import { requestFriendshipProps } from '../UserProfileActions/UserProfileActions
 import { DataUserOnlyProps } from '../../../templates/Profile/Profile';
 
 interface ModalFriendshipRequestProps {
-  userId: number;
+  userId: number | null;
   dataUserOnly: DataUserOnlyProps | null;
 
   requestFriendship: requestFriendshipProps[] | null;

@@ -6,7 +6,7 @@ import { DataUserOnlyProps } from '../../../templates/Profile/Profile';
 
 interface SeeStoryProps {
   story: StoryProps[];
-  userId: number;
+  userId: number | null;
   choiceStory: boolean;
 
   dataUserOnly: DataUserOnlyProps | null;
@@ -37,6 +37,7 @@ const SeeStory = ({
         <ChoiceStory
           story={story}
           choiceStory={choiceStory}
+          dataUserOnly={dataUserOnly}
           setChoiceStory={setChoiceStory}
           setCreatePost={setCreatePost}
           setSeeStories={setSeeStories}

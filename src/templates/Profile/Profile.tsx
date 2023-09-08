@@ -12,9 +12,11 @@ import UserProfileStatsSmallerSize from '../../components/ProfileComponents/User
 
 interface ProfileProps {
   userId: number | null;
+  setUserId: React.Dispatch<React.SetStateAction<number | null>>;
+  connection: signalR.HubConnection | null;
   createImgOrVideo: AllPost | null;
   setCreatePost: React.Dispatch<React.SetStateAction<boolean>>;
-  connection: signalR.HubConnection | null;
+  setBase64ImgChange: React.Dispatch<React.SetStateAction<string>>;
   setSeeFollowersOrFollowing: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
@@ -87,15 +89,19 @@ export interface ContextProfileProps {
   setFollowingList: React.Dispatch<React.SetStateAction<FollowingListsProps[] | null>>;
   setShowModalFollower: React.Dispatch<React.SetStateAction<boolean>>;
   setSeeFollowersOrFollowing: React.Dispatch<React.SetStateAction<boolean>>;
+  setDataUserOnly: React.Dispatch<React.SetStateAction<DataUserOnlyProps | null>>;
+  setBase64ImgChange: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export const ContextProfile = createContext<ContextProfileProps | null>(null);
 
 const Profile = ({
   userId,
+  setUserId,
+  connection,
   createImgOrVideo,
   setCreatePost,
-  connection,
+  setBase64ImgChange,
   setSeeFollowersOrFollowing,
 }: ProfileProps) => {
   const location = useLocation();
@@ -227,6 +233,8 @@ const Profile = ({
             setFollowingList,
             setShowModalFollower,
             setSeeFollowersOrFollowing,
+            setDataUserOnly,
+            setBase64ImgChange,
           }}
         >
           <Styled.ContainerMain>
@@ -251,10 +259,6 @@ const Profile = ({
                   userId={userId}
                   postCreatorId={postCreatorId}
                   dataUserOnly={dataUserOnly}
-                  // followingUser={followingUser}
-                  // followingList={followingList}
-                  // setFollowingUser={setFollowingUser}
-                  // setFollowingList={setFollowingList}
                   setFollowersUser={setFollowersUser}
                   setShowModalFollower={setShowModalFollower}
                   setSeeFollowersOrFollowing={setSeeFollowersOrFollowing}
@@ -285,6 +289,7 @@ const Profile = ({
             )}
             <Publications
               userId={userId}
+              postCreatorId={postCreatorId}
               dataUserOnly={dataUserOnly}
               setCountPublic={setCountPublic}
               createImgOrVideo={createImgOrVideo}

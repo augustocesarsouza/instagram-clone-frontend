@@ -361,6 +361,8 @@ const AppContent = () => {
     }
   }, [location]);
 
+  const [base64ImgChange, setBase64ImgChange] = useState('');
+
   return (
     <Styled.ContainerMain
       $pathnamecurrent={pathnameCurrent}
@@ -369,10 +371,11 @@ const AppContent = () => {
       {shouldRenderMenu && (
         <Menu
           userId={userId}
+          base64ImgChange={base64ImgChange}
           emailConnection={emailConnection}
+          setCreatePost={setCreatePost}
           setImgUserLogged={setImgUserLogged}
           callOpenModalCreatePublication={callOpenModalCreatePublication}
-          setCreatePost={setCreatePost}
         />
       )}
 
@@ -388,9 +391,11 @@ const AppContent = () => {
           element={
             <Profile
               userId={userId}
+              setUserId={setUserId}
+              connection={connection}
               createImgOrVideo={createImgOrVideo}
               setCreatePost={setCreatePost}
-              connection={connection}
+              setBase64ImgChange={setBase64ImgChange}
               setSeeFollowersOrFollowing={setSeeFollowersOrFollowing}
             />
           }

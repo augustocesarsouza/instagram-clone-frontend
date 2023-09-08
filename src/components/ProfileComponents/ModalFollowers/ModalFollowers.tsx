@@ -15,10 +15,6 @@ interface ModalFollowersProps {
   dataUserOnly: DataUserOnlyProps;
   followersUser: FollowersUserProps[] | null;
   firstFollowing: FollowingListsProps | null;
-  // followingUser: FollowingListsProps[] | null;
-  // followingList: FollowingListsProps[] | null;
-  // setFollowingUser: React.Dispatch<React.SetStateAction<FollowingListsProps[] | null>>;
-  // setFollowingList: React.Dispatch<React.SetStateAction<FollowingListsProps[] | null>>;
   setFollowersUser: React.Dispatch<React.SetStateAction<FollowersUserProps[] | null>>;
   setShowModalFollower: React.Dispatch<React.SetStateAction<boolean>>;
   setSeeFollowersOrFollowing: React.Dispatch<React.SetStateAction<boolean>>;
@@ -38,10 +34,6 @@ const ModalFollowers = ({
   userId,
   postCreatorId,
   dataUserOnly,
-  // followingUser,
-  // followingList,
-  // setFollowingUser,
-  // setFollowingList,
   setFollowersUser,
   setShowModalFollower,
   setSeeFollowersOrFollowing,

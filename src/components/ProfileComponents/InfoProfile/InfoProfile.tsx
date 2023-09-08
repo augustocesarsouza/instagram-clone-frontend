@@ -73,7 +73,6 @@ const InfoProfile = ({
   fetchOnLoggedInUser,
   setCheckIfUserAlreadyFollows,
   countPublic,
-  checkIfUserAlreadyFollows,
 }: InfoProfileProps) => {
   const [story, setStory] = useState<StoryProps[]>([]);
   const [newStory, setNewStory] = useState(false);

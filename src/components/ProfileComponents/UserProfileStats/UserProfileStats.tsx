@@ -20,11 +20,9 @@ const UserProfileStats = ({
     <>
       <Styled.Ul>
         <Styled.li>
-          {countPublic && (
-            <Styled.span>
-              <Styled.PNumber>{countPublic}</Styled.PNumber> publicação
-            </Styled.span>
-          )}
+          <Styled.span>
+            <Styled.PNumber>{countPublic == null ? 0 : countPublic}</Styled.PNumber> publicação
+          </Styled.span>
         </Styled.li>
         <Styled.li>
           <Styled.link onClick={handleFollower}>

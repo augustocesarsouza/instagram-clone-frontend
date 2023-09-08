@@ -35,13 +35,18 @@ export const ContainerChoice = styled.div`
   border-radius: 4%;
 `
 
-export const ButtonChoice = styled.button`
+interface ButtonChoiceProps {
+  $buttonposition: string;
+}
+
+export const ButtonChoice = styled.button<ButtonChoiceProps>`
   width: 100%;
   height: 100%;
   padding: 11px;
   border: none;
   cursor: pointer;
   background-color: #8080801f;
+  border-top: ${props => props.$buttonposition !== "1" && "1px solid #0000002b"};
 
   &:hover {
     background-color: #80808038;

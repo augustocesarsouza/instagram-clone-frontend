@@ -12,7 +12,7 @@ import ModalDefriend from '../ModalDefriend/ModalDefriend';
 interface UserProfileActionsProps {
   dataUserOnly: DataUserOnlyProps | null;
   fetchOnLoggedInUser: boolean;
-  userId: number;
+  userId: number | null;
   alreadyFollowUser: boolean;
   setCheckIfUserAlreadyFollows: React.Dispatch<React.SetStateAction<{}>>;
 }
@@ -84,6 +84,7 @@ const UserProfileActions = ({
 
   const handleUnFollow = async () => {
     if (dataUserOnly) {
+      if (userId === null) return;
       const followDelete = {
         FollowerId: userId,
         FollowingId: dataUserOnly.id,
@@ -106,6 +107,7 @@ const UserProfileActions = ({
   useEffect(() => {
     const fetchCheckStatusFriendship = async () => {
       if (postCreatorId === 0) return;
+      if (userId === null) return;
       const res = await fetch(`${Url}/friendrequest/${userId}/${postCreatorId}`);
       if (res.status === 200) {
         const json = await res.json();
@@ -122,6 +124,7 @@ const UserProfileActions = ({
 
   useEffect(() => {
     const fetchCheckFriendship = async () => {
+      if (userId === null) return;
       const res = await fetch(`${Url}/checkrequestfriendship/${userId}`);
       if (res.status === 200) {
         const json = await res.json();
@@ -134,6 +137,7 @@ const UserProfileActions = ({
 
   const handleAddFriend = async () => {
     if (dataUserOnly) {
+      if (userId === null) return;
       const createFriendship = {
         SenderId: userId,
         RecipientId: dataUserOnly.id,
