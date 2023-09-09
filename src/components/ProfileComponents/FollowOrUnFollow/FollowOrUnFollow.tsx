@@ -6,12 +6,12 @@ import {
   DataUserOnlyProps,
   FollowingListsProps,
 } from '../../../templates/Profile/Profile';
-import ModalDeleteFollowerFromProfileFollowing from '../ModalDeleteFollowerFromProfileFollowing/ModalDeleteFollowerFromProfilFollowing';
 import { UsersSuggestionProps } from '../ModalFollowers/ModalFollowers';
 import * as Styled from './styled';
 import { useEffect, useState, useContext, useLayoutEffect } from 'react';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { useLocation } from 'react-router-dom';
+import ModalDeleteFollowerFromProfileFollowing from '../ModalDeleteFollowerFromProfileFollowing/ModalDeleteFollowerFromProfileFollowing';
 
 interface FollowOrUnFollowProps {
   fo: UsersSuggestionProps;
@@ -66,6 +66,7 @@ const FollowOrUnFollow = ({ fo, userId, postCreatorId }: FollowOrUnFollowProps) 
   };
 
   const showModalUserDeleteFollowing = (value: FollowingListsProps) => {
+    setLastButtonClick('Seguindo');
     if (userId === null) return;
     const follow = {
       followerId: userId,
@@ -73,7 +74,6 @@ const FollowOrUnFollow = ({ fo, userId, postCreatorId }: FollowOrUnFollowProps) 
       id: 0,
     };
     setDataUserFollowerAndFollowingId(follow);
-    setLastButtonClick('Seguindo');
     setDataUserDeleteFollowing(value);
     setShowConfirmDeleteFollowing(true);
   };

@@ -21,6 +21,8 @@ interface ModalPhotoProps {
   setNewStory: React.Dispatch<React.SetStateAction<boolean>>;
   setShowStoryCircle: React.Dispatch<React.SetStateAction<boolean>>;
   setCreateImgOrVideo: React.Dispatch<React.SetStateAction<AllPost | null>>;
+  setShowShare: React.Dispatch<React.SetStateAction<boolean>>;
+  showShare: boolean;
 }
 
 const ModalPhoto = ({
@@ -34,14 +36,16 @@ const ModalPhoto = ({
   setNewStory,
   setShowStoryCircle,
   setCreateImgOrVideo,
+  setShowShare,
+  showShare,
 }: ModalPhotoProps) => {
   const [showModalDiscardPost, setShowModalDiscardPost] = useState(false);
   const [text, setText] = useState('');
   const [decreaseDiv, setDecreaseDiv] = useState(false);
-  const [showShare, setShowShare] = useState(false);
+  // const [showShare, setShowShare] = useState(false);
   const textRef = useRef<HTMLTextAreaElement | null>(null);
-  const ContainerRefImg = useRef<HTMLDivElement | null>(null);
-  const [newa, setNewa] = useState<string>('');
+
+  const [imgGeneratedByCanvas, setImgGeneratedByCanvas] = useState<string>('');
   const [textAreaValue, setTextAreaValue] = useState<string>('');
   const [openTextStory, setOpenTextStory] = useState(false);
 
@@ -66,32 +70,10 @@ const ModalPhoto = ({
   };
 
   const handleOpenText = () => {
-    setEixoX(489.5);
-    setEixoY(410);
+    setEixoX(294.5);
+    setEixoY(311.5);
     setPositionLCR('center');
-    setOpenTextStory(true);
-  };
-
-  useEffect(() => {
-    if (ContainerRefImg.current) {
-      ContainerRefImg.current.addEventListener('mousedown', handleMouseDown);
-    }
-
-    return () => {
-      if (ContainerRefImg.current) {
-        ContainerRefImg.current.removeEventListener('mousedown', handleMouseDown);
-      }
-    };
-  }, [ContainerRefImg.current]);
-
-  const handleMouseDown = () => {
-    if (textRef.current) {
-      setTextAreaValue(textRef.current.value);
-    }
-
-    setOpenTextStory(false);
-    setBarCenterOrLeft(true);
-    setBarRight(false);
+    setOpenTextStory(true); //
   };
 
   useEffect(() => {
@@ -136,40 +118,35 @@ const ModalPhoto = ({
   };
 
   const [textArea, setTextArea] = useState('');
-  const [unlock, setUnlock] = useState(false);
-  const [valueCentral, setValueCentral] = useState<number>(0);
-  const [lastClickX, setLastClickX] = useState<number>(0);
+
   const [colorChosen, setColorChosen] = useState('white');
-  const [isOnMoveMouse, setIsOnMoveMouse] = useState(false);
   const [fontChosen, setFontChosen] = useState('Arial');
-  const [rectangleHeight, setRectangleHeight] = useState<number>(0);
-  const [lastClickY, setLastClickY] = useState<number>(0);
+
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
   useEffect(() => {
-    const handlePublisha = () => {
+    const handlePublishh = () => {
       if (selectedImagem && !createPost) {
         const img = new Image();
         img.src = selectedImagem;
 
         img.onload = async (e) => {
-          const canvas = document.createElement('canvas');
-          if (ContainerRefImg.current.clientWidth === undefined) return;
+          if (canvasRef.current === null) return;
 
-          canvas.width = ContainerRefImg.current.clientWidth;
-          canvas.height = ContainerRefImg.current.clientHeight;
+          canvasRef.current.width = img.width;
+          canvasRef.current.height = img.height;
 
-          const ctx = canvas.getContext('2d');
+          const ctx = canvasRef.current.getContext('2d');
           if (ctx) {
-            ctx.drawImage(img, 0, 0);
+            ctx.imageSmoothingEnabled = false;
+
+            ctx.drawImage(img, 0, 0, img.width, img.height);
 
             if (textAreaValue && !openTextStory) {
               const textBackgroundColor = colorChosen;
 
-              const textX = Math.abs(eixoX - 175 * 1.35);
-              const textY = eixoY - 35 * 1.3;
-
-              setLastClickX(eixoX);
-              setLastClickY(textY);
+              const textX = eixoX - textAreaValue.length * 4.5;
+              const textY = eixoY;
 
               ctx.fillStyle = textBackgroundColor;
               ctx.beginPath();
@@ -185,10 +162,6 @@ const ModalPhoto = ({
 
               const rectangleHeight = 23;
               const borderRadius = 7;
-
-              setValueCentral(rectangleWidth);
-
-              setRectangleHeight(rectangleHeight);
 
               ctx.moveTo(textX - leftMargin + borderRadius, textY - topMargin);
               ctx.lineTo(textX - leftMargin + rectangleWidth - borderRadius, textY - topMargin);
@@ -235,84 +208,59 @@ const ModalPhoto = ({
               ctx.fillText(textAreaValue, textX, textY);
             }
 
-            const dataURL = canvas.toDataURL();
-
-            setNewa(dataURL);
+            const dataURL = canvasRef.current.toDataURL('image/jpeg', 1);
+            setImgGeneratedByCanvas(dataURL);
           }
         };
       }
     };
-    handlePublisha();
+    handlePublishh();
   }, [
     selectedImagem,
     textAreaValue,
-    unlock,
     eixoX,
     eixoY,
     openTextStory,
     colorChosen,
     fontChosen,
-    isOnMoveMouse,
     positionLCR,
+    canvasRef,
+    createPost,
   ]);
 
-  const holdTimeout = useRef<NodeJS.Timeout | null>(null);
   const [openColors, setOpenColors] = useState(false);
   const [choseColorOrFont, setChooseColorOrFont] = useState<boolean>(true);
-  const [libery, setLibery] = useState(false);
+  const [unlock, setUnlock] = useState(false);
+  const ContainerRefImg = useRef<HTMLDivElement | null>(null);
 
-  const handleMouseUp = () => {
-    setIsOnMoveMouse(false);
-    setLibery(false);
-    if (holdTimeout.current === null) return;
-    clearTimeout(holdTimeout.current);
-    setOpenColors(false);
-    if (!unlock) {
-      setOpenTextStory(true);
-      setTextAreaValue('');
-    }
+  const [mouseEnterIconsInteractionTopAndBottom, setMouseEnterIconsInteractionTopAndBottom] =
+    useState(false);
+
+  const handleMouseUp = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     setUnlock(false);
+
+    setOpenColors(false);
   };
 
   const handleMouseMoveSelectedImg = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     if (!unlock) return;
 
-    const mouseX = e.clientX - valueCentral / 2;
+    if (ContainerRefImg.current === null) return;
+    const containerRect = ContainerRefImg.current.getBoundingClientRect();
 
-    const divCanvas = valueCentral / 2.5;
+    const offsetX = e.clientX - containerRect.left;
+    const offsetY = e.clientY - containerRect.top;
 
-    const minX = lastClickX - divCanvas;
-    const maxX = lastClickX + divCanvas;
-
-    if (libery) {
-      if (mouseX >= minX - 110 && mouseX <= maxX + 110) {
-        setIsOnMoveMouse(true);
-        const mouseX = e.clientX - valueCentral / 2;
-        const mouseY = e.clientY - 7 * 1.3;
-
-        setEixoX(mouseX);
-        setEixoY(mouseY);
-      }
-    }
+    setEixoX(offsetX);
+    setEixoY(offsetY);
   };
 
   const handleMouseDownSelectImg = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     setUnlock(true);
 
-    const mouseX = e.clientX - valueCentral / 2;
-
-    const divCanvas = valueCentral / 2.5;
-
-    const minX = lastClickX - divCanvas;
-    const maxX = lastClickX + divCanvas;
-
-    if (mouseX >= minX - 20 && mouseX <= maxX + 20) {
-      setLibery(true);
-    }
-
-    holdTimeout.current = setTimeout(() => {
-      setUnlock(true);
-    }, 100);
+    if (mouseEnterIconsInteractionTopAndBottom) return;
+    if (ContainerRefImg.current === null) return;
+    setOpenTextStory(false);
   };
 
   const handleChangeTextarea = (e: ChangeEvent<HTMLTextAreaElement>) => {
@@ -344,17 +292,24 @@ const ModalPhoto = ({
 
   const [isImg] = useState(true);
 
+  const handleMouseEnterIconsAll = () => {
+    setMouseEnterIconsInteractionTopAndBottom(true);
+  };
+
+  const handleMouseLeaveIconsAll = () => {
+    setMouseEnterIconsInteractionTopAndBottom(false);
+  };
+
   return (
-    <Styled.MainDeTodasTest $extende={String(showShare)} $isImg={String(isImg)}>
+    <Styled.MainDeTodasTest $extende={String(showShare)} $createpost={String(createPost)}>
       <PostModalPhoto
         text={text}
         imgData={imgData}
         selectedImagem={selectedImagem}
         userId={userId}
-        newa={newa}
+        imgGeneratedByCanvas={imgGeneratedByCanvas} //Só mandar para banco quando enviar
         showShare={showShare}
         decreaseDiv={decreaseDiv}
-        createPost={createPost}
         setShowShare={setShowShare}
         setDecreaseDiv={setDecreaseDiv}
         handlePublish={handlePublish}
@@ -364,97 +319,103 @@ const ModalPhoto = ({
         setShowStoryCircle={setShowStoryCircle}
         setCreateImgOrVideo={setCreateImgOrVideo}
       />
-      <Styled.ContainerSelectImg>
-        <>
-          {!decreaseDiv && (
-            <>
-              {/* <Styled.ContainerSelectedImage ref={ContainerRefImg}>
-                {selectedImagem && <Styled.ImgSelected src={selectedImagem} alt="selected image" />}
-              </Styled.ContainerSelectedImage> */}
+      <Styled.ContainerImgAndLegendShare>
+        {!decreaseDiv && (
+          <>
+            <Styled.ContainerSelectedImage
+              ref={ContainerRefImg}
+              onMouseMove={handleMouseMoveSelectedImg}
+              onMouseDown={handleMouseDownSelectImg}
+              onMouseUp={handleMouseUp}
+              $extende={String(showShare)}
+              $createstory={String(!createPost)}
+            >
+              {createPost ? (
+                selectedImagem && <Styled.ImgSelected src={selectedImagem} alt="selected image" />
+              ) : (
+                <canvas style={{ width: '480px', height: '750px' }} ref={canvasRef} />
+              )}
 
-              <Styled.ContainerSelectedImage
-                ref={ContainerRefImg}
-                onMouseMove={handleMouseMoveSelectedImg}
-                onMouseDown={handleMouseDownSelectImg}
-                onMouseUp={handleMouseUp}
-                $extende={String(showShare)}
-                $createstory={String(!createPost)}
-              >
-                {createPost
-                  ? selectedImagem && (
-                      <Styled.ImgSelected src={selectedImagem} alt="selected image" />
-                    )
-                  : newa && <Styled.ImgSelected src={newa} alt="selected image" />}
-              </Styled.ContainerSelectedImage>
-              {openTextStory ? (
-                <Styled.ContainerMainSvg>
-                  {barCenterOrLeft ? (
-                    <Styled.ContainerSvg $opentextstory={String(openTextStory)}>
-                      <FontAwesomeIcon icon={faBars} onClick={handleBarLeft} />
-                      {/* center */}
-                    </Styled.ContainerSvg>
-                  ) : (
-                    <>
-                      {barRight ? (
+              {!createPost && (
+                <>
+                  {openTextStory ? (
+                    <Styled.ContainerMainSvg
+                      onMouseEnter={handleMouseEnterIconsAll}
+                      onMouseLeave={handleMouseLeaveIconsAll}
+                    >
+                      {barCenterOrLeft ? (
                         <Styled.ContainerSvg $opentextstory={String(openTextStory)}>
-                          <FontAwesomeIcon icon={faBarsStaggered} onClick={handleBarCenter} />
-                          {/* right */}
+                          <FontAwesomeIcon icon={faBars} onClick={handleBarLeft} />
+                          {/* center */}
                         </Styled.ContainerSvg>
                       ) : (
-                        <Styled.ContainerSvg $opentextstory={String(openTextStory)}>
-                          <FontAwesomeIcon
-                            icon={faBarsStaggered}
-                            flip="horizontal"
-                            onClick={handleBarRight}
-                          />{' '}
-                          {/* left */}
-                        </Styled.ContainerSvg>
+                        <>
+                          {barRight ? (
+                            <Styled.ContainerSvg $opentextstory={String(openTextStory)}>
+                              <FontAwesomeIcon icon={faBarsStaggered} onClick={handleBarCenter} />
+                              {/* right */}
+                            </Styled.ContainerSvg>
+                          ) : (
+                            <Styled.ContainerSvg $opentextstory={String(openTextStory)}>
+                              <FontAwesomeIcon
+                                icon={faBarsStaggered}
+                                flip="horizontal"
+                                onClick={handleBarRight}
+                              />{' '}
+                              {/* left */}
+                            </Styled.ContainerSvg>
+                          )}
+                        </>
                       )}
-                    </>
-                  )}
-                  {choseColorOrFont ? (
-                    <Styled.ContainerImgColor onClick={() => setChooseColorOrFont(false)}>
-                      <Styled.ContainerImg
-                        src="https://upload.wikimedia.org/wikipedia/commons/7/71/Gradient_color_wheel.png"
-                        onClick={handleOpenColors}
+                      {choseColorOrFont ? (
+                        <Styled.ContainerImgColor onClick={() => setChooseColorOrFont(false)}>
+                          <Styled.ContainerImg
+                            src="https://upload.wikimedia.org/wikipedia/commons/7/71/Gradient_color_wheel.png"
+                            onClick={handleOpenColors}
+                          />
+                        </Styled.ContainerImgColor>
+                      ) : (
+                        <Styled.ContainerFontA onClick={handleFont}>
+                          <FontAwesomeIcon icon={faFont} />
+                        </Styled.ContainerFontA>
+                      )}
+                      <FontsText
+                        openColors={openColors}
+                        openTextStory={openTextStory}
+                        handleColor={handleColor}
+                        handleFontSelected={handleFontSelected}
                       />
-                    </Styled.ContainerImgColor>
+                    </Styled.ContainerMainSvg>
                   ) : (
-                    <Styled.ContainerFontA onClick={handleFont}>
-                      <FontAwesomeIcon icon={faFont} />
-                    </Styled.ContainerFontA>
+                    <Styled.ContainerSvg $opentextstory={String(openTextStory)}>
+                      <FontAwesomeIcon icon={faFont} onClick={handleOpenText} />
+                    </Styled.ContainerSvg>
                   )}
-                </Styled.ContainerMainSvg>
-              ) : (
-                <Styled.ContainerSvg $opentextstory={String(openTextStory)}>
-                  <FontAwesomeIcon icon={faFont} onClick={handleOpenText} />
-                </Styled.ContainerSvg>
+                </>
               )}
 
-              {openTextStory && (
-                <Styled.ContainerTextarea
-                  $width={Math.max(50, 1 + textArea.length * 10)}
-                  $positionlcr={positionLCR}
-                >
-                  <Styled.Textarea
-                    ref={textRef}
-                    onChange={(e) => handleChangeTextarea(e)}
-                    value={textArea}
-                    $textvalue={textArea}
-                    $colorchosen={colorChosen}
-                    $fontChosen={fontChosen}
-                  />
-                </Styled.ContainerTextarea>
+              {!createPost && (
+                <>
+                  {openTextStory && (
+                    <Styled.ContainerTextarea
+                      $width={Math.max(50, 1 + textArea.length * 10)}
+                      $positionlcr={positionLCR}
+                    >
+                      <Styled.Textarea
+                        ref={textRef}
+                        onChange={(e) => handleChangeTextarea(e)}
+                        value={textArea}
+                        $textvalue={textArea}
+                        $colorchosen={colorChosen}
+                        $fontChosen={fontChosen}
+                      />
+                    </Styled.ContainerTextarea>
+                  )}
+                </>
               )}
-              <FontsText
-                openColors={openColors}
-                openTextStory={openTextStory}
-                handleColor={handleColor}
-                handleFontSelected={handleFontSelected}
-              />
-            </>
-          )}
-        </>
+            </Styled.ContainerSelectedImage>
+          </>
+        )}
         <InfoUserShare
           userId={userId}
           text={text}
@@ -464,7 +425,7 @@ const ModalPhoto = ({
           decreaseDiv={decreaseDiv}
           createPost={createPost}
         />
-      </Styled.ContainerSelectImg>
+      </Styled.ContainerImgAndLegendShare>
       <ModalDiscardPost
         imgData={imgData}
         showModalDiscardPost={showModalDiscardPost}

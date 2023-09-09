@@ -15,8 +15,8 @@ interface H1FontProps {
 
 export const ContainerColorsMain = styled.div`
   position: absolute;
-  left: 142px;
-  top: 710px;
+  top: 665px;
+  right: 103px;
   width: 200px;
   height: 33px;
   display: flex;

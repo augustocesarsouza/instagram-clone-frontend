@@ -109,8 +109,9 @@ const Profile = ({
   const { postCreatorId } = location.state ? location.state : 0;
 
   const [followingList, setFollowingList] = useState<FollowingListsProps[] | null>(null);
-  const [followersUser, setFollowersUser] = useState<FollowersUserProps[] | null>(null);
   const [followingUser, setFollowingUser] = useState<FollowingListsProps[] | null>(null);
+  const [followersList, setFollowersList] = useState<FollowersUserProps[] | null>(null);
+  const [followersUser, setFollowersUser] = useState<FollowersUserProps[] | null>(null);
   const [dataUserOnly, setDataUserOnly] = useState<DataUserOnlyProps | null>(null);
   const [fetchOnLoggedInUser, setFetchOnLoggedInUser] = useState(false);
   const [checkIfUserAlreadyFollows, setCheckIfUserAlreadyFollows] = useState({});
@@ -145,6 +146,7 @@ const Profile = ({
       if (res.status === 200) {
         const json = await res.json();
         setFollowersUser(json.data as FollowersUserProps[]);
+        setFollowersList(json.data as FollowersUserProps[]);
       }
     };
     if (postCreatorId > 0) {

@@ -22,22 +22,43 @@ interface ContainerSharedPostProps {
   $createstory: string;
 }
 
+const ContainerShareAnimation = keyframes`
+  0%{
+    transform: scaleX(0);
+    transform-origin: left;
+  }
+
+  18%{
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+`
+
+const Animation = css`
+  animation: ${ContainerShareAnimation} 1s ease forwards;
+`
+
 export const ContainerContentAdvanced = styled.div<ContainerContentAdvancedProps>`
-  width: ${props => props.$extende === "true" && "71.6%"};
+  /* width: ${props => props.$extende === "true" && "71.6%"};
   width: ${props => props.$extende === "false" && "46.6%"};
   width: ${props => props.$decrease === "true" && "51.3%"};
-  width: ${props => props.$createstory === "true" && "46.7%"};
+  width: ${props => props.$createstory === "true" && "46.7%"}; */
 
-  height: 3rem;
+  /* width: ${props => props.$extende === "true" ? "60%" : "100%"}; */
+  width: 100%;
+
   background-color: white;
   border-radius: 12px 9px 0px 0px;
-  position: absolute;
-  z-index: 10;
+  /* height: 3rem; */
+  /* z-index: 10; */
+  /* position: absolute;
   top: 13px;
   left: ${props => props.$extende === "true" ? "192px" : "276px"};
-  left: ${props => props.$createstory === "true" && "238px"};
-  transition: width 1s ease;
-  transition: ${props => props.$decrease === "true" ? "width 0s ease" : "width 1s ease"};
+  left: ${props => props.$createstory === "true" && "238px"}; */
+
+  /* transition: width 1s ease; */
+  /* transition: ${props => props.$decrease === "true" ? "width 1s ease" : "width 1s ease"}; */
+  ${props => props => props.$extende === "true" ? Animation : null};
 `
 
 export const ContainerCreatePost = styled.div<ContainerCreatePostProps>`

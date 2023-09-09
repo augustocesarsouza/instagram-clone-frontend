@@ -94,13 +94,13 @@ const ChoiceStory = ({
   };
 
   return (
-    <>
+    <Styled.ContainerBackground>
       {choiceStory && (
-        <Styled.ContainerBackground>
-          <Styled.SvgIconExit onClick={handleCloseChoice}>
-            <FontAwesomeIcon icon={faXmark} className="icon-exit" />
-          </Styled.SvgIconExit>
+        <Styled.ContainerMain>
           <Styled.ContainerChoice>
+            <Styled.SvgIconExit onClick={handleCloseChoice}>
+              <FontAwesomeIcon icon={faXmark} className="icon-exit" />
+            </Styled.SvgIconExit>
             <Styled.ButtonChoice $buttonposition="1" onClick={handleCreateNewStory}>
               Criador Story
             </Styled.ButtonChoice>
@@ -121,9 +121,9 @@ const ChoiceStory = ({
               </Styled.ButtonChoice>
             )}
           </Styled.ContainerChoice>
-        </Styled.ContainerBackground>
+        </Styled.ContainerMain>
       )}
-    </>
+    </Styled.ContainerBackground>
   );
 };
 

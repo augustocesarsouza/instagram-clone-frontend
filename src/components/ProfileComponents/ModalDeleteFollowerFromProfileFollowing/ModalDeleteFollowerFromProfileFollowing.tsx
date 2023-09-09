@@ -1,5 +1,10 @@
+import { useContext } from 'react';
 import Url from '../../../Utils/Url';
-import { FollowingListsProps } from '../../../templates/Profile/Profile';
+import {
+  ContextProfile,
+  ContextProfileProps,
+  FollowingListsProps,
+} from '../../../templates/Profile/Profile';
 import { followingByUserLoggedProps } from '../FollowOrUnFollow/FollowOrUnFollow';
 import * as Styled from './styled';
 
@@ -22,6 +27,8 @@ const ModalDeleteFollowerFromProfileFollowing = ({
   setDataUserDeleteFollowing,
   setMockFollowingByUserLogged,
 }: ModalDeleteFollowerFromProfileFollowingProps) => {
+  const useContextModalFollowers = useContext<ContextProfileProps | null>(ContextProfile);
+
   const handleRemoveFollowing = async () => {
     if (dataUserDeleteFollowing === null) return;
     const userUnFollow = dataUserDeleteFollowing.id;

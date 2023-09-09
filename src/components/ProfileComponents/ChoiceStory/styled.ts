@@ -17,17 +17,27 @@ export const ContainerBackground = styled.div`
   }
 `
 
+export const ContainerMain = styled.div`
+  width: 50rem;
+  height: 40rem;
+  background-color: #00000000;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`
+
 export const SvgIconExit = styled.svg`
   position: absolute;
-  left: 975px;
-  top: 15px;
+  right: 0px;
+  top: 0px;
   width: 35px;
   height: 35px;
 `
 
 export const ContainerChoice = styled.div`
-  width: 13rem;
-  height: 5rem;
+  width: 50%;
+  height: 20%;
   background-color: white;
   display: flex;
   flex-direction: column;

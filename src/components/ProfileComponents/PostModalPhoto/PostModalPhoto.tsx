@@ -1,9 +1,8 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import * as Styled from './styled';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
-import { useState, useContext, useEffect } from 'react';
+import { useState, useContext } from 'react';
 import Url from '../../../Utils/Url';
-import { StoryImgProps } from '../../StoryComponent/Story/Story';
 import { StoryProps } from '../InfoProfile/InfoProfile';
 import {
   ContextModalSharePhoto,
@@ -17,7 +16,7 @@ interface PostModalPhotoProps {
   imgData: ImgProcess | undefined;
   selectedImagem: string | null;
   userId: number | null;
-  newa: string;
+  imgGeneratedByCanvas: string;
   showShare: boolean;
   decreaseDiv: boolean;
   //createPost: boolean;
@@ -36,7 +35,7 @@ const PostModalPhoto = ({
   imgData,
   selectedImagem,
   userId,
-  newa,
+  imgGeneratedByCanvas,
   showShare,
   decreaseDiv,
   //createPost,
@@ -85,7 +84,7 @@ const PostModalPhoto = ({
   const handleShareStory = async () => {
     if (imgData === undefined) return;
     const createStory = {
-      Url: newa,
+      Url: imgGeneratedByCanvas,
       AuthorId: userId,
       publicId: imgData.publicId,
       isImagem: imgData.isImagem,

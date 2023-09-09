@@ -20,20 +20,16 @@ const ContainerPublicAnima = keyframes`
 `
 
 const ContainerPublicAnimation = css`
-  animation: ${ContainerPublicAnima} 1s ease forwards;
+  animation: ${ContainerPublicAnima} 0.2s ease forwards;
 `
 
 export const ContainerPublic = styled.div<ContainerPublicProps>`
-  height: 37rem;
-  width: ${props => props.$extende === "true" ? "243px" : "26rem"};
+  height: auto;
+  width: ${props => props.$extende === "true" ? "320px" : "26rem"};
   background-color: white;
   ${props => props.$extende === "true" ? ContainerPublicAnimation : null};
-  position: absolute;
-  left: ${props => props.$extende === "true" ? "672px" : props.$isimg === "true" ? "720px" : "672px"};
-  
-  left: ${props => props.$isimg === "true" && props.$createpost === "true" ? "672px" : "672px"}; 
 
-  top: ${props => props.$isimg === "true" ? props.$createpost === "true" ? "61px" : "61px" : props.$createpost === "true" && "52px" };
+  
 `
 
 export const WrapperDataUser = styled.div`

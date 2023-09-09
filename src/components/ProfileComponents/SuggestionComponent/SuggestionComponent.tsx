@@ -107,6 +107,9 @@ const SuggestionComponent = ({
     fetchUsersSuggestion();
   }, [firstFollowing, userId, postCreatorId]);
 
+  const [removeFromSuggestionOrNotSuggestion, setRemoveFromSuggestionOrNotSuggestion] =
+    useState('');
+
   const showModalUserDeleteFollowing = (value: FollowingListsProps) => {
     if (userId === null) return;
     const follow = {
@@ -118,6 +121,7 @@ const SuggestionComponent = ({
 
     lastButtonClickRef.current = 'Seguindo';
     setDataUserDeleteFollowing(value);
+    setRemoveFromSuggestionOrNotSuggestion('suggestion');
     setShowConfirmDelete(true);
   };
 
@@ -203,6 +207,7 @@ const SuggestionComponent = ({
           setShowConfirmDelete={setShowConfirmDelete}
           dataUserDeleteFollower={dataUserDeleteFollowing}
           userId={userId}
+          removeFromSuggestionOrNotSuggestion={removeFromSuggestionOrNotSuggestion}
           setFollowersUser={contextProfile.setFollowingList}
         />
       )}

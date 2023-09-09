@@ -7,6 +7,7 @@ interface ModalUserDeleteFollowerProps {
   setShowConfirmDelete: React.Dispatch<React.SetStateAction<boolean>>;
   dataUserDeleteFollower: FollowingListsProps | null;
   userId: number | null;
+  removeFromSuggestionOrNotSuggestion: string;
   setFollowersUser: React.Dispatch<React.SetStateAction<FollowersUserProps[] | null>>;
 }
 
@@ -15,6 +16,7 @@ const ModalUserDeleteFollower = ({
   setShowConfirmDelete,
   dataUserDeleteFollower,
   userId,
+  removeFromSuggestionOrNotSuggestion,
   setFollowersUser,
 }: ModalUserDeleteFollowerProps) => {
   const handleCloseModalRemoveFollowing = () => {
@@ -27,26 +29,28 @@ const ModalUserDeleteFollower = ({
       FollowerId: dataUserDeleteFollower?.id,
       FollowingId: userId,
     };
-    setFollowersUser((prev) =>
-      prev !== null ? [...prev.filter((f) => f.id !== dataUserDeleteFollower.id)] : prev
-    );
-    setShowConfirmDelete(false);
-
-    // const res = await fetch(`${Url}/follow`, {
-    //   method: 'DELETE',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify(jsonRemoveFollowing),
-    // });
-    // if (res.status === 200) {
-    //   const json = await res.json();
-    //   var follower = json.data;
-    //   setFollowersUser((prev) =>
-    //     prev !== null ? [...prev.filter((fo) => fo.id != follower.followerId)] : prev
-    //   );
-    //   setShowConfirmDelete(false);
-    // }
+    if (removeFromSuggestionOrNotSuggestion === 'suggestion') {
+      setFollowersUser((prev) =>
+        prev !== null ? [...prev.filter((f) => f.id !== dataUserDeleteFollower.id)] : prev
+      );
+      setShowConfirmDelete(false);
+    } else {
+      const res = await fetch(`${Url}/follow`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(jsonRemoveFollowing),
+      });
+      if (res.status === 200) {
+        const json = await res.json();
+        var follower = json.data;
+        setFollowersUser((prev) =>
+          prev !== null ? [...prev.filter((fo) => fo.id != follower.followerId)] : prev
+        );
+        setShowConfirmDelete(false);
+      }
+    }
   };
 
   return (

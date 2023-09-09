@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css, keyframes } from "styled-components";
 
 interface P {
   $paragr: string;
@@ -14,7 +14,7 @@ interface MainShareProps {
 
 export const MainShare = styled.div<MainShareProps>`
   width: 100%;
-  height: 102%;
+  height: 100%;
   justify-content: center;
   align-items: center;
   position: absolute;
@@ -40,11 +40,20 @@ export const ContainerClosedModal = styled.div`
   }
 `
 
-export const ContainerContentShare = styled.div`
-  /* height: 37rem;
-  background-color: white;
-  border-radius: 10px; */
-  /* position: relative; */
+interface ContainerContentShareProps{
+  $advanceshare: string;
+}
+
+export const ContainerContentShare = styled.div<ContainerContentShareProps>`
+  width: ${props => props.$advanceshare === "true" && "800px"};
+
+  @media (max-width: 900px) {
+    width: 580px;
+  } 
+
+  @media (max-width: 650px) {
+    width: 540px;
+  }
 `
 
 export const ContainerPublic = styled.div`

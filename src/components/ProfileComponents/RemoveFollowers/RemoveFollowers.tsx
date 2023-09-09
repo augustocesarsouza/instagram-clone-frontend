@@ -41,8 +41,12 @@ const RemoveFollowers = ({
     setSeeFollowersOrFollowing(false);
   };
 
+  const [removeFromSuggestionOrNotSuggestion, setRemoveFromSuggestionOrNotSuggestion] =
+    useState('');
+
   const showModalConfirmDelete = (value: FollowingListsProps) => {
     setDataUserDeleteFollower(value);
+    setRemoveFromSuggestionOrNotSuggestion('notsuggestion');
     setShowConfirmDelete(true);
   };
 
@@ -121,6 +125,7 @@ const RemoveFollowers = ({
         setShowConfirmDelete={setShowConfirmDelete}
         dataUserDeleteFollower={dataUserDeleteFollower}
         userId={userId}
+        removeFromSuggestionOrNotSuggestion={removeFromSuggestionOrNotSuggestion}
         setFollowersUser={setFollowersUser}
       />
     </>

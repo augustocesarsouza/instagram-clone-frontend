@@ -18,6 +18,7 @@ interface ContainerSvgProps {
 
 interface MainDeTodasTestProps {
   $extende: string;
+  $createpost: string;
 }
 
 interface ContainerSelectedImageProps {
@@ -26,41 +27,62 @@ interface ContainerSelectedImageProps {
 }
 
 export const MainDeTodasTest = styled.div<MainDeTodasTestProps>`
-  position: absolute;
-  height: 855px;
-  /* width: 480px; //story; */
-  /* left: -221px;  //story; */
-  left: ${props => props.$extende === "true" ? "0px" :  props.$extende === "true" ? "-516px" : "0px"}; // 516px
-  
-  width: 1026px; 
-  top: 0px; //437px
-  transition: left 0.5s ease;
-`
-
-export const ContainerSelectImg = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100%;
-  position: relative;
+  /* height: 100vh; */
+
+  width: ${props => props.$extende === "true" && props.$createpost === "true" && "800px"};
+  /* width: 300px; */
+
+  @media (max-width: 900px) {
+    width: ${props => props.$extende === "true" && props.$createpost === "true" && "580px"};
+  }
+
+  @media (max-width: 700px) {
+    width: ${props => props.$extende === "true" && props.$createpost === "true" && "520px" };
+  }
+`
+
+export const MainImgAndText = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+`
+
+export const ContainerImgAndLegendShare = styled.div`
+  display: flex;
 `
 
 export const ContainerMainAll = styled.div`
-  position: relative;
-  width: 1022px;
-  height: 875px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+ position: absolute;
+ width: 100%;
+ height: 100%;
+  
 `
 
 export const ContainerSelectedImage = styled.div<ContainerSelectedImageProps>`
   width: 480px;
   height: 750px;
-  position: absolute;
+  
   user-select: none;
-  left: ${props => props.$createstory === "true" ? "239px" : props.$extende === "true" ? "192px" : "275px"};
+  position: relative;
 
+  /* position: absolute;
+  left: ${props => props.$createstory === "true" ? "239px" : props.$extende === "true" ? "192px" : "275px"}; */
+
+  @media (max-width: 900px) {
+    width: 260px;
+    height: 470px;
+  }
+
+  @media (max-width: 700px) {
+    width: 200px;
+    height: 360px;
+  }
 `
 
 export const ImgSelected = styled.img`
@@ -74,18 +96,19 @@ export const ImgSelected = styled.img`
 
 export const ContainerMainSvg = styled.div`
   position: absolute;
-  right: 316px;
-  top: 80px;
+  right: 40px;
+  top: 20px;
   width: 109px;
   display: flex;
   gap: 10px;
   align-items: center;
+ 
 `
 
 export const ContainerSvg = styled.div<ContainerSvgProps>`
   position: ${props => props.$opentextstory === "false" && "absolute"};
-  right: ${props => props.$opentextstory === "false" && "360px"};
-  top: ${props => props.$opentextstory === "false" && "80px"};
+  right: ${props => props.$opentextstory === "false" && "86px"};
+  top: ${props => props.$opentextstory === "false" && "12px"};
 
   width: 25px;
   height: 25px;
@@ -94,6 +117,7 @@ export const ContainerSvg = styled.div<ContainerSvgProps>`
   justify-content: center;
   align-items: center;
   user-select: none;
+
 
   svg{
     color: white;
@@ -134,12 +158,13 @@ export const ContainerFontA = styled.div`
 
 export const ContainerTextarea = styled.div<ContainerTextareaProps>`
   position: absolute;
-  top: 400px;
+  top: 330px;
   /* left: 508px; */
   /* left: calc(50% - ${props => props.$width / 2}px); //Centraliza horizontalmente */
-  left: ${props => props.$positionlcr === "left" && "306px"};
-  right: ${props => props.$positionlcr === "right" && "306px"};
+  left: ${props => props.$positionlcr === "left" && "345px"};
+  right: ${props => props.$positionlcr === "right" && "345px"};
   left: ${props => props.$positionlcr === "center" && `calc(50% - ${props.$width / 2}px)`};
+  height: 23px;
 `
 
 export const Textarea = styled.textarea<TextareaProps>`

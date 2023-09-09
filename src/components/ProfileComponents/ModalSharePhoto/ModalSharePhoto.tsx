@@ -73,6 +73,8 @@ const ModalSharePhoto = ({
 
         reader.onload = (e) => {
           const imageDataUrl = e.target?.result as string;
+          // setSelectedImage(imageDataUrl);
+          // return;
 
           if (createPost && imageDataUrl.startsWith('data:image/')) {
             setShowLoading(false);
@@ -141,7 +143,11 @@ const ModalSharePhoto = ({
     inputElement.click();
   };
 
+  const [showShare, setShowShare] = useState(false);
+
   const handleCloseModal = async () => {
+    setShowShare(false);
+    setShowLoading(false);
     setSelectedImage(null);
     setChooseFile(true);
     if (createPost) {
@@ -172,7 +178,7 @@ const ModalSharePhoto = ({
           <FontAwesomeIcon icon={faXmark} onClick={handleCloseModal} />
         </Styled.ContainerClosedModal>
         <ContextModalSharePhoto.Provider value={{ setCreateNewStory, createPost }}>
-          <Styled.ContainerContentShare>
+          <>
             {selectedImagem ? (
               <ModalPhoto
                 userId={userId}
@@ -185,6 +191,8 @@ const ModalSharePhoto = ({
                 setNewStory={setNewStory}
                 setShowStoryCircle={setShowStoryCircle}
                 setCreateImgOrVideo={setCreateImgOrVideo}
+                setShowShare={setShowShare}
+                showShare={showShare}
               />
             ) : selectedVideo ? (
               <ModalVideo
@@ -224,7 +232,7 @@ const ModalSharePhoto = ({
                 )}
               </>
             )}
-          </Styled.ContainerContentShare>
+          </>
         </ContextModalSharePhoto.Provider>
       </Styled.MainShare>
     </>
