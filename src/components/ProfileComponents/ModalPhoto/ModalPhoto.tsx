@@ -333,7 +333,7 @@ const ModalPhoto = ({
               {createPost ? (
                 selectedImagem && <Styled.ImgSelected src={selectedImagem} alt="selected image" />
               ) : (
-                <canvas style={{ width: '480px', height: '750px' }} ref={canvasRef} />
+                <canvas style={{ width: '100%', height: '100%' }} ref={canvasRef} />
               )}
 
               {!createPost && (

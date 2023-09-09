@@ -167,10 +167,15 @@ const ModalVideo = ({
 
   const handleMouseMoveSelectedImg = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     if (!unlock) return;
-    const mouseX = e.clientX;
-    const mouseY = e.clientY;
-    setEixoX(mouseX - 310);
-    setEixoY(mouseY - 60);
+
+    if (ContainerRefImg.current === null) return;
+    const containerRect = ContainerRefImg.current.getBoundingClientRect();
+
+    const offsetX = e.clientX - containerRect.left;
+    const offsetY = e.clientY - containerRect.top;
+
+    setEixoX(offsetX - textArea.length * 4);
+    setEixoY(offsetY - 10);
   };
 
   const handleMouseDownSelectImg = () => {
@@ -250,6 +255,10 @@ const ModalVideo = ({
 
   const [isImg] = useState(false);
 
+  // 543x891
+  // width: 542px;
+  // height: 871px;
+
   return (
     <Styled.MainDeTodasTest $extende={String(showShare)} $createpost={String(createPost)}>
       <PostModalVideo
@@ -268,18 +277,17 @@ const ModalVideo = ({
         setCreateImgOrVideo={setCreateImgOrVideo}
         handleModalDiscardPost={handleModalDiscardPost}
       />
-      <Styled.ContainerSelectImg
-        onMouseMove={handleMouseMoveSelectedImg}
-        onMouseDown={handleMouseDownSelectImg}
-        onMouseUp={handleMouseUp}
-        ref={ContainerRefImg}
-      >
+      <Styled.ContainerSelectImg>
         <>
           {!decreaseDiv && (
             <>
               <Styled.ContainerSelectedImageOutro
                 $extende={String(showShare)}
                 $createstory={String(!createPost)}
+                onMouseMove={handleMouseMoveSelectedImg}
+                onMouseDown={handleMouseDownSelectImg}
+                onMouseUp={handleMouseUp}
+                ref={ContainerRefImg}
               >
                 {selectedVideo && (
                   <>

@@ -40,9 +40,9 @@ export const ContainerTextValue = styled.div<ContainerTextValueProps>`
 export const Pvalue = styled.p``
 
 export const ContainerSee = styled.div`
-  width: 543px;
+  width: 542px;
   /* height: 53rem; */
-  height: 891px;  //835px
+  height: 871px;  //835px
   background-color: white;
   display: flex;
   flex-direction: column;
@@ -81,7 +81,7 @@ export const ContainerBackgroundBlack = styled.div`
 
 export const LineBlack = styled.div.attrs<LineBlackProps>(props => ({
   style: {
-      width: props.$imgorvideo === 1 ? props.$completedindexes?.includes((props.$idphoto)) 
+        width: props.$imgorvideo === 1 ? props.$completedindexes?.includes((props.$idphoto)) 
       ? `${props.$widthdivprogressbar}px`
       : props.$idphoto === (props.$story[props.$currentphotoindex]?.id ?? null) 
       ? `${props.$countpx}px`
@@ -90,21 +90,14 @@ export const LineBlack = styled.div.attrs<LineBlackProps>(props => ({
         : props.$idphoto === (props.$story[props.$currentphotoindex]?.id ?? null) 
         ? `${props.$progress}%`
         : undefined,
-        
-      
-    height: '3px',
-    background:'#ffffff',
-    position: 'absolute',
-    borderRadius: '2px',
-
-    transition: 'width 0.2s linear',
   },
-}))``;
-// width: props.$imgorvideo === 0 && props.$completedindexes?.includes((props.$idphoto)) 
-//   ? `100%`
-//   : props.$idphoto === (props.$story[props.$currentphotoindex]?.id ?? null) 
-//   ? `${props.$progress}%`
-//   : undefined,
+}))`
+  height: 3px;
+  background: #ffffff;
+  position: absolute;
+  border-radius: 2px;
+  transition: width 0.2s linear;
+`;
 
 export const WrapperMainStatusInfoUser = styled.div`
   display: flex;
@@ -192,6 +185,12 @@ export const Textarea = styled.textarea`
   }
 `
 
+export const ContainerImgAndIcon = styled.div`
+  position: relative;
+  width: 543px;
+  height: 871px;
+`
+
 export const ContainerImg = styled.div`
   height: 100%;
   background: black;
@@ -209,3 +208,22 @@ export const Video = styled.video`
 `
 
 export const Source = styled.source``
+
+interface WrapperArrowProps {
+  $arrowdirection: string;
+}
+
+export const WrapperArrow = styled.div<WrapperArrowProps>`
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  right: ${props => props.$arrowdirection === "right" ? "-50px" : "759px"};
+  top: 349px;
+
+  svg {
+    font-size: 30px;
+    color: white;
+    cursor: pointer;
+    
+  }
+`

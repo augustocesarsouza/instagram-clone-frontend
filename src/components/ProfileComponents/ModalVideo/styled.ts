@@ -39,13 +39,18 @@ interface ContainerSelectedImageOutroProps {
 
 export const MainDeTodasTest = styled.div<MainDeTodasTestProps>`
   position: absolute;
-  height: 868px;
-  /* width: 480px; //story; */
+  /* height: 868px; */
+  height: 100%;
+  width: 100%; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
   /* left: -221px;  //story; */
-  left: ${props => props.$createpost === "true" ? "0px" : props.$extende === "true" ? "0px" : "0px"};//-516px
-  top: 0px; //-437px
-  width: 1010px; 
-  transition: left 0.5s ease;
+  /* left: ${props => props.$createpost === "true" ? "0px" : props.$extende === "true" ? "0px" : "0px"};//-516px */
+  /* top: 0px; //-437px */
+  /* width: 1010px;  */
+  /* transition: left 0.5s ease; */
 `
 
 
@@ -53,8 +58,9 @@ export const ContainerSelectImg = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100%;
-  position: relative;
+  width: 100%;
+  /* height: 100%; */
+  /* position: relative; */
 `
 
 export const ContainerSelectedImage = styled.div`
@@ -67,14 +73,17 @@ export const ContainerSelectedImage = styled.div`
 `
 
 export const ContainerSelectedImageOutro = styled.div<ContainerSelectedImageOutroProps>`
-  width: 505px; // 480px
-  height: 815px; // 750px
-  /* height: 848px; */
+  width: 542px;
+  height: 871px;
   user-select: none;
-  position: absolute;
+  position: relative;
+
+
+  /* height: 848px; */
+  /* position: absolute; */
   /* left: ${props => props.$extende === "true" ? "192px" : "239px"}; */
-  left: ${props => props.$createstory === "true" ? "276px" : props.$extende === "true" ? "192px" : "275px"};
-  top: 53px;
+  /* left: ${props => props.$createstory === "true" ? "276px" : props.$extende === "true" ? "192px" : "275px"}; */
+  /* top: 53px; */
 `
 
 export const Video = styled.video`
@@ -201,6 +210,7 @@ export const ContainerTextarea = styled.div<ContainerTextareaProps>`
   /* left: calc(50% - ${props => props.$width / 2}px); //Centraliza horizontalmente */
   left: ${props => props.$positionlcr === "left" && "306px"};
   right: ${props => props.$positionlcr === "right" && "306px"};
+
   left: ${props => props.$positionlcr === "center" && `calc(50% - ${props.$width / 2}px)`};
 `
 

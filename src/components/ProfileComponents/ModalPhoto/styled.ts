@@ -33,7 +33,7 @@ export const MainDeTodasTest = styled.div<MainDeTodasTestProps>`
   align-items: center;
   /* height: 100vh; */
 
-  width: ${props => props.$extende === "true" && props.$createpost === "true" && "800px"};
+  width: ${props => props.$extende === "true" && props.$createpost === "true" && "863px"};
   /* width: 300px; */
 
   @media (max-width: 900px) {
@@ -65,8 +65,8 @@ export const ContainerMainAll = styled.div`
 `
 
 export const ContainerSelectedImage = styled.div<ContainerSelectedImageProps>`
-  width: 480px;
-  height: 750px;
+  width: 542px;
+  height: 871px;
   
   user-select: none;
   position: relative;

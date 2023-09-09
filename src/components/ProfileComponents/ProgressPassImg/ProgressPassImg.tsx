@@ -3,6 +3,7 @@ import { LastStorySeenProps, StoryProps, jsonPropertyTextProps } from '../InfoPr
 import * as Styled from './styled';
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import {
+  faArrowRight,
   faEllipsis,
   faPause,
   faPlay,
@@ -60,7 +61,7 @@ const ProgressPassImg = ({
 ProgressPassImgProps) => {
   const [sound, setSound] = useState(false);
   const [widthDivProgressBar, setWidthDivProgressBar] = useState<number>(9999);
-  const [isImgOrVideo, setIsImgOrVideo] = useState<number>(0);
+  const [isImgOrVideo, setIsImgOrVideo] = useState<number>(story[currentPhotoIndex].isImagem);
 
   const ref = useRef<HTMLDivElement | null>(null);
   const timeOutRef = useRef<NodeJS.Timeout | null>(null);
@@ -271,14 +272,15 @@ ProgressPassImgProps) => {
     }
   }, [refVideo, pause]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (jaVerificou) {
-      if (story[currentPhotoIndex]?.isImagem !== undefined) {
-        const storyVideoOrImg = story[currentPhotoIndex]?.isImagem;
+      if (story[currentPhotoIndex]) {
+        const storyVideoOrImg = story[currentPhotoIndex].isImagem;
+
         setIsImgOrVideo(storyVideoOrImg);
       }
     }
-  }, [currentPhotoIndex, story]);
+  }, [currentPhotoIndex, story, jaVerificou]);
 
   const handleTimeUpdate = (e: React.SyntheticEvent<HTMLVideoElement, Event>) => {
     var currentTime = e.currentTarget.currentTime;
@@ -318,14 +320,69 @@ ProgressPassImgProps) => {
     setPause(true);
   };
 
+  const handlePassStory = () => {
+    setJaVerificou(true);
+    setPause(false);
+    if (story && story.length > 0) {
+      setCurrentPhotoIndex((prevIndex) => {
+        const newIndex = prevIndex + 1;
+
+        if (newIndex >= story.length) {
+          setChoiceStory(false);
+          setSeeStories(false);
+          setCompleteIndexes(null);
+          setProgressBar(0);
+          setCountPixelFill(0);
+
+          // fetchAlreadyVisualized(newIndex - 1);
+
+          return 0;
+        } else {
+          setProgressBar(0);
+          setCountPixelFill(0);
+          setCompleteIndexes((prev) =>
+            prev !== null && !prev.includes(story[prevIndex].id)
+              ? [...prev, story[prevIndex].id]
+              : prev
+          );
+
+          // fetchAlreadyVisualized(prevIndex);
+
+          return newIndex;
+        }
+      });
+    }
+  };
+
+  const handleReturnStory = () => {
+    setPause(false);
+    if (story && story.length > 0) {
+      setProgressBar(0);
+      setCountPixelFill(0);
+      setCompleteIndexes((prev) =>
+        prev !== null
+          ? [...prev.filter((index) => index !== story[currentPhotoIndex - 1].id)]
+          : prev
+      );
+      setCurrentPhotoIndex((prevIndex) => {
+        if (prevIndex > 0) {
+          return prevIndex - 1;
+        }
+        return prevIndex;
+      });
+      setProgressBar(0);
+      setCountPixelFill(0);
+    }
+  };
+
   return (
     <>
       {story && (
         <Styled.ContainerSee>
-          <Styled.Line>
-            <Styled.ContainerProgressBar>
-              {story.map((sto, index) => {
-                return (
+          <Styled.ContainerImgAndIcon>
+            <Styled.Line>
+              <Styled.ContainerProgressBar>
+                {story.map((sto, index) => (
                   <Styled.ContainerBackgroundBlack key={sto.id} ref={refDivLength}>
                     <Styled.LineBlack
                       $imgorvideo={isImgOrVideo}
@@ -338,92 +395,101 @@ ProgressPassImgProps) => {
                       $widthdivprogressbar={widthDivProgressBar}
                     ></Styled.LineBlack>
                   </Styled.ContainerBackgroundBlack>
-                );
-              })}
-            </Styled.ContainerProgressBar>
+                ))}
+              </Styled.ContainerProgressBar>
 
-            <Styled.WrapperMainStatusInfoUser>
-              {dataUserOnly && (
-                <Styled.WrapperMainInfoUser>
-                  <Styled.WrapperImagem>
-                    <Styled.WrapperImg src={dataUserOnly.imagePerfil} />
-                  </Styled.WrapperImagem>
-                  <Styled.WrapperInfoUser>
-                    <Styled.P>{dataUserOnly.name}</Styled.P>
-                  </Styled.WrapperInfoUser>
-                </Styled.WrapperMainInfoUser>
-              )}
-              <Styled.WrapperSvg>
-                {pause ? (
-                  <FontAwesomeIcon icon={faPlay} onClick={handlePauseOn} />
-                ) : (
-                  <FontAwesomeIcon icon={faPause} onClick={handlePauseOff} />
+              <Styled.WrapperMainStatusInfoUser>
+                {dataUserOnly && (
+                  <Styled.WrapperMainInfoUser>
+                    <Styled.WrapperImagem>
+                      <Styled.WrapperImg src={dataUserOnly.imagePerfil} />
+                    </Styled.WrapperImagem>
+                    <Styled.WrapperInfoUser>
+                      <Styled.P>{dataUserOnly.name}</Styled.P>
+                    </Styled.WrapperInfoUser>
+                  </Styled.WrapperMainInfoUser>
                 )}
-                {sound ? (
-                  <FontAwesomeIcon icon={faVolumeHigh} onClick={handleSoundOn} />
-                ) : (
-                  <FontAwesomeIcon icon={faVolumeXmark} onClick={handleSoundFalse} />
-                )}
-                <FontAwesomeIcon icon={faEllipsis} />
-              </Styled.WrapperSvg>
-            </Styled.WrapperMainStatusInfoUser>
-          </Styled.Line>
-          <Styled.ContainerTextArea>
-            <Styled.ContainerOnlyTextarea>
-              <Styled.Textarea placeholder="Responder a alanzoka..." />
-            </Styled.ContainerOnlyTextarea>
-          </Styled.ContainerTextArea>
-          <Styled.ContainerImg ref={ref}>
-            {story[currentPhotoIndex].isImagem == 1 ? (
-              <>
+                <Styled.WrapperSvg>
+                  {pause ? (
+                    <FontAwesomeIcon icon={faPlay} onClick={handlePauseOn} />
+                  ) : (
+                    <FontAwesomeIcon icon={faPause} onClick={handlePauseOff} />
+                  )}
+                  {sound ? (
+                    <FontAwesomeIcon icon={faVolumeHigh} onClick={handleSoundOn} />
+                  ) : (
+                    <FontAwesomeIcon icon={faVolumeXmark} onClick={handleSoundFalse} />
+                  )}
+                  <FontAwesomeIcon icon={faEllipsis} />
+                </Styled.WrapperSvg>
+              </Styled.WrapperMainStatusInfoUser>
+            </Styled.Line>
+            <Styled.ContainerTextArea>
+              <Styled.ContainerOnlyTextarea>
+                <Styled.Textarea placeholder="Responder a alanzoka..." />
+              </Styled.ContainerOnlyTextarea>
+            </Styled.ContainerTextArea>
+
+            <Styled.ContainerImg ref={ref}>
+              {story[currentPhotoIndex].isImagem == 1 ? (
                 <>
-                  <Styled.ImgStory
-                    key={story[currentPhotoIndex].id}
-                    draggable="false"
-                    src={story[currentPhotoIndex].url}
-                  />
+                  <>
+                    <Styled.ImgStory
+                      key={story[currentPhotoIndex].id}
+                      draggable="false"
+                      src={story[currentPhotoIndex].url}
+                    />
+                  </>
                 </>
-              </>
-            ) : (
-              <>
-                {story[currentPhotoIndex].propertyText === undefined ? (
-                  <>
-                    <Styled.Video
-                      onTimeUpdate={(e) => handleTimeUpdate(e)}
-                      key={story[currentPhotoIndex].id}
-                      autoPlay
-                      muted={isMute}
-                      ref={refVideo}
-                    >
-                      <Styled.Source src={story[currentPhotoIndex].url} />
-                    </Styled.Video>
-                  </>
-                ) : (
-                  <>
-                    <Styled.Video
-                      onTimeUpdate={(e) => handleTimeUpdate(e)}
-                      key={story[currentPhotoIndex].id}
-                      autoPlay
-                      muted={isMute}
-                      ref={refVideo}
-                    >
-                      <Styled.Source src={story[currentPhotoIndex].url} />
-                    </Styled.Video>
+              ) : (
+                <>
+                  {story[currentPhotoIndex].propertyText === undefined ? (
+                    <>
+                      <Styled.Video
+                        onTimeUpdate={(e) => handleTimeUpdate(e)}
+                        key={story[currentPhotoIndex].id}
+                        autoPlay
+                        muted={isMute}
+                        ref={refVideo}
+                      >
+                        <Styled.Source src={story[currentPhotoIndex].url} />
+                      </Styled.Video>
+                    </>
+                  ) : (
+                    <>
+                      <Styled.Video
+                        onTimeUpdate={(e) => handleTimeUpdate(e)}
+                        key={story[currentPhotoIndex].id}
+                        autoPlay
+                        muted={isMute}
+                        ref={refVideo}
+                      >
+                        <Styled.Source src={story[currentPhotoIndex].url} />
+                      </Styled.Video>
 
-                    <Styled.ContainerTextValue
-                      $colorchosenbackground={story[currentPhotoIndex].propertyText.background}
-                      $fontChosen={story[currentPhotoIndex].propertyText.fontFamily}
-                      $widthtext={story[currentPhotoIndex].propertyText.width}
-                      $eixox={story[currentPhotoIndex].propertyText.left}
-                      $eixoy={story[currentPhotoIndex].propertyText.top}
-                    >
-                      <Styled.Pvalue>{story[currentPhotoIndex].propertyText.text}</Styled.Pvalue>
-                    </Styled.ContainerTextValue>
-                  </>
-                )}
-              </>
+                      <Styled.ContainerTextValue
+                        $colorchosenbackground={story[currentPhotoIndex].propertyText.background}
+                        $fontChosen={story[currentPhotoIndex].propertyText.fontFamily}
+                        $widthtext={story[currentPhotoIndex].propertyText.width}
+                        $eixox={story[currentPhotoIndex].propertyText.left}
+                        $eixoy={story[currentPhotoIndex].propertyText.top}
+                      >
+                        <Styled.Pvalue>{story[currentPhotoIndex].propertyText.text}</Styled.Pvalue>
+                      </Styled.ContainerTextValue>
+                    </>
+                  )}
+                </>
+              )}
+            </Styled.ContainerImg>
+            <Styled.WrapperArrow $arrowdirection="right">
+              <FontAwesomeIcon icon={faArrowRight} onClick={handlePassStory} />
+            </Styled.WrapperArrow>
+            {currentPhotoIndex > 0 && (
+              <Styled.WrapperArrow $arrowdirection="left">
+                <FontAwesomeIcon icon={faArrowRight} onClick={handleReturnStory} rotation={180} />
+              </Styled.WrapperArrow>
             )}
-          </Styled.ContainerImg>
+          </Styled.ContainerImgAndIcon>
         </Styled.ContainerSee>
       )}
     </>

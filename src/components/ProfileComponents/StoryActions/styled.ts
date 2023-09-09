@@ -5,31 +5,6 @@ interface WrapperArrowProps {
   $arrowdirection: string;
 }
 
-// interface LineBlackProps {
-//   countpx: number;
-//   idphoto: number;
-//   indexbarwhite: number;
-//   completedindexes: number[] | null;
-//   story: StoryProps[];
-//   currentphotoindex: number;
-// }
-
-export const SvgIconExit = styled.div`
-  position: absolute;
-  left: 1603px;
-  top: 15px;
-  width: 35px;
-  height: 35px;
-  
-  svg {
-    color: white;
-    font-size: 25px;
-    position: absolute;
-    right: 1px;
-    cursor: pointer;
-  }
-`
-
 export const ContainerSeeStoriesBackground = styled.div`
   width: 100%;
   height: 100%;
@@ -44,12 +19,36 @@ export const ContainerSeeStoriesBackground = styled.div`
   user-select: none;
 `
 
+export const ContainerSubStoriesSee = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+`
+
+export const SvgIconExit = styled.div`
+  position: absolute;
+  right : 40px;
+  top: 0px;
+  width: 35px;
+  height: 35px;
+  
+  svg {
+    color: white;
+    font-size: 25px;
+    position: absolute;
+    right: 1px;
+    cursor: pointer;
+  }
+`
+
 export const ContainerInstagram = styled.div`
   width: 119px;
   height: 42px;
   position: absolute;
-  left: 1px;
-  top: 1px;
+  left: 18px;
+  top: 0px;
 `
 
 export const ImgInsta = styled.img`
@@ -60,12 +59,14 @@ export const ImgInsta = styled.img`
 `
 
 export const WrapperArrow = styled.div<WrapperArrowProps>`
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  right: ${props => props.$arrowdirection === "right" ? "520px" : "759px"};
+
   svg {
-    position: absolute;
     font-size: 30px;
     color: white;
-    right: ${props => props.$arrowdirection === "right" ? "520px" : "759px"};
-
     cursor: pointer;
     
   }

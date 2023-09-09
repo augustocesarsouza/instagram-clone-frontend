@@ -24,7 +24,7 @@ const ContainerPublicAnimation = css`
 `
 
 export const ContainerPublic = styled.div<ContainerPublicProps>`
-  height: auto;
+  height: 100%;
   width: ${props => props.$extende === "true" ? "320px" : "26rem"};
   background-color: white;
   ${props => props.$extende === "true" ? ContainerPublicAnimation : null};

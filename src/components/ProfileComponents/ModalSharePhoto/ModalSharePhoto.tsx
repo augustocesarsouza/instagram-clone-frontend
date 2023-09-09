@@ -149,6 +149,7 @@ const ModalSharePhoto = ({
     setShowShare(false);
     setShowLoading(false);
     setSelectedImage(null);
+    setSelectedVideo(null);
     setChooseFile(true);
     if (createPost) {
       setCreatePost(false);

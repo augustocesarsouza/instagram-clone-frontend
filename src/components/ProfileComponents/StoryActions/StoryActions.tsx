@@ -160,44 +160,46 @@ const StoryActions = ({
     <>
       {seeStories && (
         <Styled.ContainerSeeStoriesBackground>
-          <Styled.ContainerInstagram>
-            <Styled.ImgInsta src="https://res.cloudinary.com/dyqsqg7pk/image/upload/v1690543788/Instagram_logoWhite.svg_hnx1mk_sz05th.png" />
-          </Styled.ContainerInstagram>
-          <Styled.SvgIconExit onClick={handleCloseStories}>
-            <FontAwesomeIcon icon={faXmark} className="icon-exit" />
-          </Styled.SvgIconExit>
+          <Styled.ContainerSubStoriesSee>
+            <Styled.ContainerInstagram>
+              <Styled.ImgInsta src="https://res.cloudinary.com/dyqsqg7pk/image/upload/v1690543788/Instagram_logoWhite.svg_hnx1mk_sz05th.png" />
+            </Styled.ContainerInstagram>
+            <Styled.SvgIconExit onClick={handleCloseStories}>
+              <FontAwesomeIcon icon={faXmark} className="icon-exit" />
+            </Styled.SvgIconExit>
 
-          <ProgressPassImg
-            userId={userId}
-            story={story}
-            pause={pause}
-            progressBar={progressBar}
-            jaVerificou={jaVerificou}
-            dataUserOnly={dataUserOnly}
-            lastStorySeen={lastStorySeen}
-            countPixelFill={countPixelFill}
-            completedIndexes={completedIndexes}
-            currentPhotoIndex={currentPhotoIndex}
-            setPause={setPause}
-            setSeeStories={setSeeStories}
-            setJaVerificou={setJaVerificou}
-            setChoiceStory={setChoiceStory}
-            setLastStorySeen={setLastStorySeen}
-            setCountPixelFill={setCountPixelFill}
-            setProgressBar={setProgressBar}
-            setCompleteIndexes={setCompleteIndexes}
-            setCurrentPhotoIndex={setCurrentPhotoIndex}
-            //fetchAlreadyVisualized={fetchAlreadyVisualized}
-          />
+            <ProgressPassImg
+              userId={userId}
+              story={story}
+              pause={pause}
+              progressBar={progressBar}
+              jaVerificou={jaVerificou}
+              dataUserOnly={dataUserOnly}
+              lastStorySeen={lastStorySeen}
+              countPixelFill={countPixelFill}
+              completedIndexes={completedIndexes}
+              currentPhotoIndex={currentPhotoIndex}
+              setPause={setPause}
+              setSeeStories={setSeeStories}
+              setJaVerificou={setJaVerificou}
+              setChoiceStory={setChoiceStory}
+              setLastStorySeen={setLastStorySeen}
+              setCountPixelFill={setCountPixelFill}
+              setProgressBar={setProgressBar}
+              setCompleteIndexes={setCompleteIndexes}
+              setCurrentPhotoIndex={setCurrentPhotoIndex}
+              //fetchAlreadyVisualized={fetchAlreadyVisualized}
+            />
 
-          <Styled.WrapperArrow $arrowdirection="right">
-            <FontAwesomeIcon icon={faArrowRight} onClick={handlePassStory} />
-          </Styled.WrapperArrow>
-          {currentPhotoIndex > 0 && (
-            <Styled.WrapperArrow $arrowdirection="left">
-              <FontAwesomeIcon icon={faArrowRight} onClick={handleReturnStory} rotation={180} />
+            {/* <Styled.WrapperArrow $arrowdirection="right">
+              <FontAwesomeIcon icon={faArrowRight} onClick={handlePassStory} />
             </Styled.WrapperArrow>
-          )}
+            {currentPhotoIndex > 0 && (
+              <Styled.WrapperArrow $arrowdirection="left">
+                <FontAwesomeIcon icon={faArrowRight} onClick={handleReturnStory} rotation={180} />
+              </Styled.WrapperArrow>
+            )} */}
+          </Styled.ContainerSubStoriesSee>
         </Styled.ContainerSeeStoriesBackground>
       )}
     </>

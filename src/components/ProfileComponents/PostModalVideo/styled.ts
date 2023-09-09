@@ -22,22 +22,41 @@ interface ContainerSharedPostProps {
   $createstory: string;
 }
 
+const ContainerPublicAnima = keyframes`
+  0% {
+    transform: scaleX(0);
+    transform-origin: left;
+  }
+
+  100% {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+`
+
+const ContainerPublicAnimation = css`
+  animation: ${ContainerPublicAnima} 0.2s ease forwards;
+`
+
 export const ContainerContentAdvanced = styled.div<ContainerContentAdvancedProps>`
-  width: ${props => props.$extende === "true" && "71.5%"};
+  /* width: ${props => props.$extende === "true" && "71.5%"};
   width: ${props => props.$extende === "false" && "50%"};
   width: ${props => props.$decrease === "true" && "51.3%"};
-  width: ${props => props.$createstory === "true" && "49%"};
+  width: ${props => props.$createstory === "true" && "49%"}; */
 
 
-  height: 3rem;
+  /* height: 3rem; */
   background-color: white;
   border-radius: 12px 9px 0px 0px;
-  position: absolute;
-  top: 4px;
-  left: ${props => props.$extende === "true" ? "193px" : "275px"}; //240px true
-  left: ${props => props.$createstory === "true" && "276px"};
-  transition: width 1s ease;
-  transition: ${props => props.$decrease === "true" ? "width 0s ease" : "width 1s ease"};
+  width: 543px;
+  width: ${props => props.$extende === "true" ? "863px": "543px"};
+  ${props => props.$extende === "true" ? ContainerPublicAnimation : null};
+  /* position: absolute; */
+  /* top: 4px; */
+  /* left: ${props => props.$extende === "true" ? "193px" : "275px"}; //240px true */
+  /* left: ${props => props.$createstory === "true" && "276px"}; */
+  /* transition: width 1s ease; */
+  /* transition: ${props => props.$decrease === "true" ? "width 0s ease" : "width 1s ease"}; */
   z-index: 10;
 `
 
