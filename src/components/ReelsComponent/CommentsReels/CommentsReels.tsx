@@ -63,7 +63,7 @@ const CommentsReels = ({ reels, imgUserLogged, userId, mouseOn }: CommentsReelsC
 
   useEffect(() => {
     const fetchCommentsReels = async () => {
-      const res = await fetch(`${Url}/commentsforreels/${reels.id}`);
+      const res = await fetch(`${Url}/comment/reels/${reels.id}`);
       if (res.status === 200) {
         const json = await res.json();
         setCommentsReels(json.data);
@@ -105,7 +105,7 @@ const CommentsReels = ({ reels, imgUserLogged, userId, mouseOn }: CommentsReelsC
         CommentId: commentRespond.id,
       };
 
-      const res = await fetch(`${Url}/subComment`, {
+      const res = await fetch(`${Url}/subcomment`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

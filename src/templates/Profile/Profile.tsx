@@ -118,7 +118,7 @@ const Profile = ({
 
   useEffect(() => {
     const fetchUserDataOnly = async (value: number) => {
-      const res = await fetch(`${Url}/userDataOnly/${value}`);
+      const res = await fetch(`${Url}/user/data/${value}`);
       if (res.status === 200) {
         const json = await res.json();
         setDataUserOnly(json.data as DataUserOnlyProps);
@@ -142,7 +142,7 @@ const Profile = ({
 
   useLayoutEffect(() => {
     const fetchFollowersUser = async (value: number) => {
-      const res = await fetch(`${Url}/followersfromuser/${value}`);
+      const res = await fetch(`${Url}/user/followers/${value}`);
       if (res.status === 200) {
         const json = await res.json();
         setFollowersUser(json.data as FollowersUserProps[]);
@@ -160,7 +160,7 @@ const Profile = ({
 
   useLayoutEffect(() => {
     const fetchFollowersUser = async (value: number) => {
-      const res = await fetch(`${Url}/followingfromuser/${value}`);
+      const res = await fetch(`${Url}/user/following/${value}`);
       if (res.status === 200) {
         const json = await res.json();
         setFollowingUser(json.data as FollowingListsProps[]);

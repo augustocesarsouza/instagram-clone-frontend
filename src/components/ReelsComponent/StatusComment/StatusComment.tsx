@@ -43,7 +43,7 @@ const StatusComment = ({
 
   useEffect(() => {
     const fetchLikesComments = async () => {
-      const res = await fetch(`${Url}/commentslikeinfo/${reelsId}`); //Tentar fazer chave e valor! com o id do CommentId
+      const res = await fetch(`${Url}/comment/info/${reelsId}`); //Tentar fazer chave e valor! com o id do CommentId
       if (res.status === 200) {
         const json = await res.json();
 

@@ -70,7 +70,7 @@ const ChoiceStory = ({
             Base64: base64Img,
           };
 
-          const res = await fetch(`${Url}/update/perfilimg/${email}`, {
+          const res = await fetch(`${Url}/user/update/imgperfil/${email}`, {
             method: 'PUT',
             headers: {
               'Content-Type': 'application/json',

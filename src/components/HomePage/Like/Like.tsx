@@ -58,12 +58,6 @@ const Like = ({ post, userId, setAllPost }: LikeProps) => {
             )
           : prev
       );
-
-      if (createLikePost) {
-        const postId = post.id;
-
-        const resCreate = await fetch(`${Url}/countpostlike/${postId}`);
-      }
     }
   };
 
@@ -92,12 +86,6 @@ const Like = ({ post, userId, setAllPost }: LikeProps) => {
             )
           : prev
       );
-    }
-
-    if (createLikePost) {
-      const postId = post.id;
-
-      const resCreate = await fetch(`${Url}/removelikecount/${postId}`);
     }
   };
 

@@ -41,7 +41,7 @@ const Menu = ({
 
   useEffect(() => {
     const fetchUserDataOnly = async () => {
-      const res = await fetch(`${Url}/userDataOnly/${userId}`);
+      const res = await fetch(`${Url}/user/data/${userId}`);
       if (res.status === 200) {
         const json = await res.json();
         setDataUserOnly(json.data as DataUserOnlyProps);

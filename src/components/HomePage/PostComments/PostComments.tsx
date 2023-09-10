@@ -49,7 +49,7 @@ const PostComments = ({
     if (dataPost !== null) {
       const fetchComments = async (postId: number) => {
         if (postId > 0) {
-          const res = await fetch(`${Url}/comments/${dataPost.id}`);
+          const res = await fetch(`${Url}/comment/user/${dataPost.id}`);
           if (res.status === 200) {
             const json = await res.json();
 

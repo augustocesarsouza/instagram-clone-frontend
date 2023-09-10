@@ -73,7 +73,7 @@ const MessageExchange = ({
     const fetchDataMessagesPaginado = async () => {
       if (userMessage) {
         const res = await fetch(
-          `${Url}/messages/${userId}/${userMessage.id}/${pagina}/${registroPorPagina}`
+          `${Url}/message/pagination/${userId}/${userMessage.id}/${pagina}/${registroPorPagina}`
         );
         if (res.status === 200) {
           const json = await res.json();

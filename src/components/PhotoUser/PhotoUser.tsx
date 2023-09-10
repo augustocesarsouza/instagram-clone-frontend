@@ -36,7 +36,7 @@ const PhotoUser = ({ userId, dataPostUser, ContainerMainRefWidth }: PhotoUserPro
   useEffect(() => {
     const fetchComments = async (dataPhotoComments: DataPost | null) => {
       if (dataPhotoComments) {
-        const res = await fetch(`${Url}/comments/${dataPhotoComments.id}`);
+        const res = await fetch(`${Url}/comment/user/${dataPhotoComments.id}`);
         if (res.status === 200) {
           const json = await res.json();
 

@@ -9,7 +9,7 @@ import Url from '../../../Utils/Url';
 enableFetchMocks();
 
 const worker = setupServer(
-  rest.get('https://localhost:7266/v1/followallfollowersfromuser/:id', async (req, res, ctx) => {
+  rest.get('https://localhost:7266/v1/follow/user/followers/:id', async (req, res, ctx) => {
     const id = req.params.id; // Capturar o parâmetro :id da URL
     return res(
       ctx.json({
@@ -49,7 +49,7 @@ const worker = setupServer(
       })
     );
   }),
-  rest.get('https://localhost:7266/v1/threePosts/:id', async (req, res, ctx) => {
+  rest.get('https://localhost:7266/v1/post/three/:id', async (req, res, ctx) => {
     const id = req.params.id;
     return res(
       ctx.json({

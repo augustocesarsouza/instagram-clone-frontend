@@ -83,38 +83,18 @@ const AppContent = () => {
 
     if (location.pathname === '/') return;
 
-    // const fetchFollowing = async () => {
-    //   if (dataUser !== null) {
-    //     return;
-    //   }
-    //   const res = await fetch(`${Url}/userFollows/${userId}`);
-    //   if (res.status === 200) {
-    //     const json = await res.json();
-
-    //     setDataUser(json.data);
-    //     setMyFollowing(json.data.following);
-    //     const emailUsersArray = [];
-
-    //     json.data.following.forEach((follo) => {
-    //       emailUsersArray.push(follo.email);
-    //     });
-    //     setEmailUsers(emailUsersArray);
-    //   }
-    // };
-    // fetchFollowing();
-
-    const fetchfollowers = async () => {
+    const fetchFollowers = async () => {
       if (dataUser !== null) {
         return;
       }
 
-      const resUser = await fetch(`${Url}/userDataOnly/${userId}`);
+      const resUser = await fetch(`${Url}/user/data/${userId}`);
       if (resUser.status === 200) {
         const json = await resUser.json();
         setDataUser(json.data);
       }
 
-      const res = await fetch(`${Url}/followingfromuser/${userId}`);
+      const res = await fetch(`${Url}/user/following/${userId}`);
       if (res.status === 200) {
         const json = await res.json();
 
@@ -130,7 +110,7 @@ const AppContent = () => {
         setEmailUsers(emailUsersArray);
       }
     };
-    fetchfollowers();
+    fetchFollowers();
   }, [location.pathname]);
 
   useEffect(() => {
@@ -287,6 +267,7 @@ const AppContent = () => {
   };
 
   const showModalTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
   useEffect(() => {
     if (showModalTimeoutRef.current) {
       clearTimeout(showModalTimeoutRef.current);

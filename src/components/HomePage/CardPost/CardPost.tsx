@@ -62,7 +62,7 @@ const CardPost = ({ createImgOrVideo, connection }: AllPostsProps) => {
 
   useLayoutEffect(() => {
     const fetchAllPosts = async () => {
-      const res = await fetch(`${Url}/posts`); // A ideia aqui controlar quando Post vou pegar depois controla isso pega 10 depois se a pessoa carregar  mais você pega
+      const res = await fetch(`${Url}/post/all`); // A ideia aqui controlar quando Post vou pegar depois controla isso pega 10 depois se a pessoa carregar  mais você pega
       if (res.status === 200) {
         const json = await res.json();
         setAllPost(json.data as AllPost[]);

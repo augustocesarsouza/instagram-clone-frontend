@@ -41,7 +41,9 @@ const CardComments = ({
     let registroPorPagina = 5;
 
     if (subComments[commentId] === undefined || cmt.subCommentsCountsMock > 0) {
-      const res = await fetch(`${Url}/subComments/${commentId}/${pagina}/${registroPorPagina}`);
+      const res = await fetch(
+        `${Url}/subcomment/pagination/${commentId}/${pagina}/${registroPorPagina}`
+      );
       if (res.status === 200) {
         const json = await res.json();
 
@@ -81,7 +83,7 @@ const CardComments = ({
   };
 
   const handleGetCommentDelete = async (commentId: number) => {
-    const res = await fetch(`${Url}/comment/${commentId}`, {
+    const res = await fetch(`${Url}/comment/delete/${commentId}`, {
       method: 'DELETE',
     });
     if (res.status === 200) {

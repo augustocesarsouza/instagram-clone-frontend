@@ -43,7 +43,7 @@ const UserCommentAndCountLikes = ({
   useEffect(() => {
     const fetchLikesComments = async () => {
       if (postId === null) return;
-      const res = await fetch(`${Url}/commentslikeinfo/${postId}`);
+      const res = await fetch(`${Url}/comment/info/${postId}`);
       if (res.status === 200) {
         const json = await res.json();
         setLikesCommentsInfo(json.data);

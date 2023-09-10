@@ -38,7 +38,7 @@ const ControlUserFollowOrUnFollow = ({
     if (postCreatorId === undefined || userId === null) return;
     const fetchFollowersFromFollowing = async () => {
       const res = await fetch(
-        `${Url}/get/suggestion/followers/${postCreatorId}/${userId}/${false}`
+        `${Url}/user/followers/suggestion/${postCreatorId}/${userId}/${false}`
       );
       const json = await res.json();
       setFollowersFromFollowing(json.data);

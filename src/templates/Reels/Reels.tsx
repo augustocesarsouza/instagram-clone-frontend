@@ -48,7 +48,7 @@ const Reels = ({ userId, imgUserLogged }: ReelsProps) => {
   const ContainerRef = useRef<HTMLDivElement | null>(null);
 
   const fetchListReelsAsync = async () => {
-    const res = await fetch(`${Url}/videosreels`);
+    const res = await fetch(`${Url}/post/videos/reels`);
     if (res.status === 200) {
       const json = await res.json();
       setListReels(json.data);

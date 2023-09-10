@@ -23,7 +23,7 @@ const Login = () => {
 
   const handlerLogin = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    const res = await fetch(`${Url}/userLogin/${email}/${password}`);
+    const res = await fetch(`${Url}/user/login/${email}/${password}`);
     if (res.status == 200) {
       const json = await res.json();
 

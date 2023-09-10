@@ -99,7 +99,7 @@ const SuggestionComponent = ({
       //Aqui você tem sugestão do followers do seus amigo tem que fazer com pessoas aleatorias tbm porque se voc~e nao tiver nenhum seguidor lascou ele nao te segure nada!
 
       const res = await fetch(
-        `${Url}/get/suggestion/followers/${firstFollowing.id}/${userId}/${true}`
+        `${Url}/user/followers/suggestion/${firstFollowing.id}/${userId}/${true}`
       );
       const json = await res.json();
       setUsersSuggestion(json.data);

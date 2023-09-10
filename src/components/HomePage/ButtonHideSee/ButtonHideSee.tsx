@@ -32,7 +32,9 @@ const ButtonHideSee = ({
     let registroPorPagina = 5;
 
     if (subComments[commentId] === undefined || comment.subCommentsCountsMock > 0) {
-      const res = await fetch(`${Url}/subComments/${commentId}/${pagina}/${registroPorPagina}`);
+      const res = await fetch(
+        `${Url}/subcomment/pagination/${commentId}/${pagina}/${registroPorPagina}`
+      );
       if (res.status === 200) {
         const json = await res.json();
 

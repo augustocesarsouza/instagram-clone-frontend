@@ -51,8 +51,8 @@ const Publications = ({
   };
 
   useLayoutEffect(() => {
-    const fetchPostUser = async (id: number) => {
-      const res = await fetch(`${Url}/postAuthorId/${id}`);
+    const fetchPostUser = async (authorId: number) => {
+      const res = await fetch(`${Url}/post/author/${authorId}`);
       if (res.status === 200) {
         const json = await res.json();
         setDataPostUser(json.data);

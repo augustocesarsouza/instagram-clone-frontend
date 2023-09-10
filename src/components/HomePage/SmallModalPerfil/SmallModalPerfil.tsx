@@ -45,7 +45,7 @@ const SmallModalPerfil = ({
   const [FollowersList, setFollowersList] = useState<FollowersListsProps[] | null>(null);
   useLayoutEffect(() => {
     const fetchFollowersUser = async () => {
-      const res = await fetch(`${Url}/followallfollowersfromuser/${idUserPerfil}`);
+      const res = await fetch(`${Url}/follow/user/follower/all/${idUserPerfil}`);
       if (res.status === 200) {
         const json = await res.json();
         setFollowersList(json.data);
@@ -56,7 +56,7 @@ const SmallModalPerfil = ({
 
   useLayoutEffect(() => {
     const fetchFollowersUser = async () => {
-      const res = await fetch(`${Url}/followallfollowingfromuser/${idUserPerfil}`);
+      const res = await fetch(`${Url}/follow/user/following/all/${idUserPerfil}`);
       if (res.status === 200) {
         const json = await res.json();
         setFollowingList(json.data as FollowingListsProps[]);
@@ -67,7 +67,7 @@ const SmallModalPerfil = ({
 
   useLayoutEffect(() => {
     const fetchThreePost = async () => {
-      const res = await fetch(`${Url}/threePosts/${idUserPerfil}`);
+      const res = await fetch(`${Url}/pots/three/${idUserPerfil}`);
       if (res.status === 200) {
         const json = await res.json();
         setThreePost(json.data);
