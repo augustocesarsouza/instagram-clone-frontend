@@ -9,7 +9,6 @@ import { useEffect, useState } from 'react';
 interface FollowingMessageProps {
   dataUser: DataUser | null;
   fetchDataMessages: (value: Following) => void;
-  userId: number;
   myFollowing: Following[];
   setPagina: React.Dispatch<React.SetStateAction<number>>;
   setDataMessages: React.Dispatch<React.SetStateAction<DataMessages[]>>;
@@ -18,7 +17,6 @@ interface FollowingMessageProps {
 const FollowingMessage = ({
   dataUser,
   fetchDataMessages,
-  userId,
   myFollowing,
   setPagina,
   setDataMessages,

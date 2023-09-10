@@ -79,7 +79,6 @@ const ChoiceStory = ({
           });
           if (res.status === 200) {
             const json = await res.json();
-            console.log(json.data);
 
             contextProfile.setDataUserOnly((prev) =>
               prev !== null ? { ...prev, imagePerfil: base64Img } : prev

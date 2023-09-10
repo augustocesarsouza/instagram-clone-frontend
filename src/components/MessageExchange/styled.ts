@@ -24,7 +24,8 @@ export const ContainerMessage = styled.div`
 export const ContainerMainMessageAndTextarea = styled.div`
   display: flex;
   flex-direction: column;
-  height: 53.7rem;
+  height: 50rem;
+  max-height: 55rem;
   justify-content: flex-end;
 
   @media (max-width: 750px) {
@@ -35,7 +36,14 @@ export const ContainerMainMessageAndTextarea = styled.div`
     height: 54.1rem;
   }
 
+  @media (max-height: 931px) {
+    height: 54rem;
+  }
   
+  @media (max-height: 875px) {
+    height: 50rem;
+  }
+
 `
 
 export const ContainerMainMessage = styled.div`

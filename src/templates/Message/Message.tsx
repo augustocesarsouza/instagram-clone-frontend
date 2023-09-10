@@ -12,11 +12,15 @@ interface MessageProps {
 }
 
 export interface DataUser {
+  // id: number;
+  // name: string;
+  // imagePerfil: string;
+  // email: string;
+  // follower: Follower[];
   id: number;
   name: string;
   imagePerfil: string;
   email: string;
-  follower: Follower[];
 }
 
 export interface Follower {
@@ -32,8 +36,9 @@ export interface Following {
   imagePerfil: string;
   email: string;
   isOnline: boolean;
-  lastDisconnected: number;
   lastDisconnectedTime: number;
+  lastDisconnected: number;
+  lastDisconnectedTimeMinutes: number;
   measureOfTime: string;
 }
 
@@ -75,7 +80,6 @@ const Message = ({ dataUser, connection, myFollowing }: MessageProps) => {
       <FollowingMessage
         dataUser={dataUser}
         fetchDataMessages={fetchDataMessages}
-        userId={userId}
         myFollowing={myFollowing}
         setPagina={setPagina}
         setDataMessages={setDataMessages}
