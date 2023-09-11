@@ -1,5 +1,5 @@
 import * as signalR from '@microsoft/signalr';
-import { Following, UserFollowingProps } from './AppContent';
+import { Following } from './AppContent';
 import React from 'react';
 
 interface EmailProps{

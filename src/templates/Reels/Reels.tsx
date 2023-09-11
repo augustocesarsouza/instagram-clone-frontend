@@ -111,7 +111,7 @@ const Reels = ({ userId, imgUserLogged }: ReelsProps) => {
                   userId={userId}
                   mouseOn={mouseOn}
                 />
-                <ShareReels />
+                <ShareReels userId={userId} />
               </Styled.ContainerStatusVideo>
             </Styled.ContainerMainReelsAndStatusVideo>
           ))}
