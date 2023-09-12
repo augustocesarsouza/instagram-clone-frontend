@@ -1,16 +1,9 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, createContext } from 'react';
 import * as Styled from './styled';
 import Url from '../../Utils/Url';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faEllipsis,
-  faPause,
-  faPlay,
-  faVolumeHigh,
-  faVolumeXmark,
-} from '@fortawesome/free-solid-svg-icons';
+import { faVolumeHigh, faVolumeXmark } from '@fortawesome/free-solid-svg-icons';
 import VideoComponent from '../../components/ReelsComponent/VideoComponent/VideoComponent';
-import Like from '../../components/HomePage/Like/Like';
 import LikesReels from '../../components/ReelsComponent/LikesReels/LikesReels';
 import CommentsReels from '../../components/ReelsComponent/CommentsReels/CommentsReels';
 import ShareReels from '../../components/ReelsComponent/ShareReels/ShareReels';
@@ -18,6 +11,7 @@ import ShareReels from '../../components/ReelsComponent/ShareReels/ShareReels';
 interface ReelsProps {
   userId: number | null;
   imgUserLogged: string;
+  connection: signalR.HubConnection | null;
 }
 
 export interface ListReels {
@@ -43,7 +37,13 @@ interface User {
   name: string;
 }
 
-const Reels = ({ userId, imgUserLogged }: ReelsProps) => {
+export interface ReelsContextProps {
+  connection: signalR.HubConnection | null;
+}
+
+export const ReelsContext = createContext<ReelsContextProps | null>(null);
+
+const Reels = ({ userId, imgUserLogged, connection }: ReelsProps) => {
   const [listReels, setListReels] = useState<ListReels[] | null>(null);
   const ContainerRef = useRef<HTMLDivElement | null>(null);
 
@@ -80,41 +80,43 @@ const Reels = ({ userId, imgUserLogged }: ReelsProps) => {
   return (
     <Styled.ContainerMain ref={ContainerRef}>
       <Styled.ContainerSecond>
-        {listReels &&
-          listReels.map((ree, index) => (
-            <Styled.ContainerMainReelsAndStatusVideo key={ree.id}>
-              <Styled.ContainerReelsMain>
-                <VideoComponent
-                  ree={ree}
-                  index={index}
-                  sound={sound}
-                  isMuted={isMuted}
-                  listReels={listReels}
-                  ContainerRef={ContainerRef}
-                  mouseOn={mouseOn}
-                />
-                <Styled.ContainerForSvg>
-                  <Styled.WrapperSvg $svg="sound">
-                    {sound ? (
-                      <FontAwesomeIcon icon={faVolumeHigh} onClick={handleSoundOn} />
-                    ) : (
-                      <FontAwesomeIcon icon={faVolumeXmark} onClick={handleSoundFalse} />
-                    )}
-                  </Styled.WrapperSvg>
-                </Styled.ContainerForSvg>
-              </Styled.ContainerReelsMain>
-              <Styled.ContainerStatusVideo>
-                <LikesReels reels={ree} userId={userId} />
-                <CommentsReels
-                  reels={ree}
-                  imgUserLogged={imgUserLogged}
-                  userId={userId}
-                  mouseOn={mouseOn}
-                />
-                <ShareReels userId={userId} />
-              </Styled.ContainerStatusVideo>
-            </Styled.ContainerMainReelsAndStatusVideo>
-          ))}
+        <ReelsContext.Provider value={{ connection }}>
+          {listReels &&
+            listReels.map((ree, index) => (
+              <Styled.ContainerMainReelsAndStatusVideo key={ree.id}>
+                <Styled.ContainerReelsMain>
+                  <VideoComponent
+                    ree={ree}
+                    index={index}
+                    sound={sound}
+                    isMuted={isMuted}
+                    listReels={listReels}
+                    ContainerRef={ContainerRef}
+                    mouseOn={mouseOn}
+                  />
+                  <Styled.ContainerForSvg>
+                    <Styled.WrapperSvg $svg="sound">
+                      {sound ? (
+                        <FontAwesomeIcon icon={faVolumeHigh} onClick={handleSoundOn} />
+                      ) : (
+                        <FontAwesomeIcon icon={faVolumeXmark} onClick={handleSoundFalse} />
+                      )}
+                    </Styled.WrapperSvg>
+                  </Styled.ContainerForSvg>
+                </Styled.ContainerReelsMain>
+                <Styled.ContainerStatusVideo>
+                  <LikesReels reels={ree} userId={userId} />
+                  <CommentsReels
+                    reels={ree}
+                    imgUserLogged={imgUserLogged}
+                    userId={userId}
+                    mouseOn={mouseOn}
+                  />
+                  <ShareReels userId={userId} reels={ree} />
+                </Styled.ContainerStatusVideo>
+              </Styled.ContainerMainReelsAndStatusVideo>
+            ))}
+        </ReelsContext.Provider>
       </Styled.ContainerSecond>
     </Styled.ContainerMain>
   );

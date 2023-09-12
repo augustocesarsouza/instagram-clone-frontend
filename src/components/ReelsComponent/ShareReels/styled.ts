@@ -48,7 +48,7 @@ export const Img = styled.img<ImgProps>`
 
 export const ContainerShareReels = styled.div`
   width: 343px;
-  height: 550px;
+  height: 610px;
   right: 24px;
   bottom: 36px;
   box-shadow: 0px 4px 20px 0px #0000002b;
@@ -82,17 +82,21 @@ interface ParagraphProps {
   $paragraph: string;
 }
 
-// export const P = styled.p<ParagraphProps>`
-//   font-size: 15px;
-//   font-weight: 600;
+export const P = styled.p<ParagraphProps>`
+  font-size: 15px;
+  font-weight: 500;
+  
+  font-weight: ${props => props.$paragraph === "suggestion" && "400"};
+  font-size: ${props => props.$paragraph === "suggestion" && "14px"};;
 
-//   font-weight: ${props => props.$paragraph === "suggestion" && "400"};
-//   font-size: ${props => props.$paragraph === "suggestion" && "14px"};;
+  color: ${props => props.$paragraph === "usermarked" && "#0d9af6"};
+  display: inline-block;
 
-//   width: ${props => props.$paragraph === "usermarked" && "35%"};
-//   max-width: 100%;
-//   background: ${props => props.$paragraph === "usermarked" && "#e0f1ff"};
-// `
+  &:hover{
+    color: ${props => props.$paragraph === "usermarked" && "#2851A3"};
+  }
+  cursor: ${props => props.$paragraph === "usermarked" && "pointer"};
+`
 
 export const ContainerX = styled.div`
   display: flex;
@@ -118,33 +122,48 @@ export const ContainerSearch = styled.div<ContainerSearchProps>`
   flex-direction: column;
   margin-left: ${props => props.$amountofchecked > 0 ? "10px" : "0px"};
   gap: 10px;
+  align-items: flex-start; 
 `
 
-export const ContainerUserMarked = styled.div`
+interface ContainerUserMarkedProps {
+  $name: string;
+  $usermarkeddelete: string;
+}
+
+export const ContainerUserMarked = styled.div<ContainerUserMarkedProps>`
   border-radius: 15px;
   cursor: auto;
   max-width: 12rem;
+
+  background: ${props => props.$name == props.$usermarkeddelete ? "#0095f6" : "#e0f1ff"};
+  padding: 3px 14px;
+  border-radius: 15px;
+
+  svg {
+    margin-left: 10px;
+    color: ${props => props.$name == props.$usermarkeddelete ? "white" : "#0d9af6"};
+
+    cursor: pointer;
+  }
 `
 
-export const P = styled.p<ParagraphProps>`
-  font-size: 15px;
-  font-weight: 600;
-  
-  font-weight: ${props => props.$paragraph === "suggestion" && "400"};
-  font-size: ${props => props.$paragraph === "suggestion" && "14px"};;
+interface ParagraphUserMarkedProps {
+  $name: string;
+  $usermarkeddelete: string
+}
 
-  
-  background: ${props => props.$paragraph === "usermarked" && "#e0f1ff"};
-  padding: ${props => props.$paragraph === "usermarked" && "3px 14px"};
-  border-radius: ${props => props.$paragraph === "usermarked" && "15px"};
-  color: ${props => props.$paragraph === "usermarked" && "#0d9af6"};
+export const ParagraphUserMarked = styled.p<ParagraphUserMarkedProps>`
+  font-size: 15px;
+  font-weight: 500;
+
+  color: ${props => props.$name == props.$usermarkeddelete ? "white" : "#0d9af6"};
   display: inline-block;
 
   &:hover{
-    color: ${props => props.$paragraph === "usermarked" && "#2851A3"};
+    color: ${props => props.$name == props.$usermarkeddelete ? "white" : "#2851A3"};
 
   }
-  cursor: ${props => props.$paragraph === "usermarked" && "pointer"};
+  cursor: pointer;
 `
 
 export const ContainerNameUserMarked = styled.div``

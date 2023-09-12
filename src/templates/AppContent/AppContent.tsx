@@ -204,7 +204,10 @@ const AppContent = () => {
           }
         />
 
-        <Route path="/Reels" element={<Reels userId={userId} imgUserLogged={imgUserLogged} />} />
+        <Route
+          path="/Reels"
+          element={<Reels userId={userId} imgUserLogged={imgUserLogged} connection={connection} />}
+        />
         <Route path="*" element={<NotFound />} />
       </Routes>
       {showModalShare && (
