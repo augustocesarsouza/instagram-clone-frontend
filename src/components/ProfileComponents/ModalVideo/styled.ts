@@ -63,32 +63,36 @@ export const ContainerSelectImg = styled.div`
   /* position: relative; */
 `
 
-export const ContainerSelectedImage = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: #000000;
-  height: 100%;
-  width: 100%;
-`
-
 export const ContainerSelectedImageOutro = styled.div<ContainerSelectedImageOutroProps>`
   width: 542px;
   height: 871px;
   user-select: none;
   position: relative;
+  
 
+  @media (max-width: 1029px) {
+    height: 656px;
+  }
+`
 
-  /* height: 848px; */
-  /* position: absolute; */
-  /* left: ${props => props.$extende === "true" ? "192px" : "239px"}; */
-  /* left: ${props => props.$createstory === "true" ? "276px" : props.$extende === "true" ? "192px" : "275px"}; */
-  /* top: 53px; */
+export const ContainerSelectedImage = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #000000;
+  height: 100%; 
+  width: 100%;
+
+   /* height: 1267.36px;
+  width: 712px; */
+
+  /* transform: scaleY(.5); */
 `
 
 export const Video = styled.video`
   width: 100%;
   height: 100%;
+  
 `
 
 export const Source = styled.source``

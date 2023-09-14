@@ -17,17 +17,8 @@ interface PublicationsProps {
 
 export interface DataPost {
   id: number;
-  title: string;
   url: string;
   isImagem: number;
-  authorId: number;
-  user: User;
-}
-
-export interface User {
-  id: number;
-  name: string;
-  imagePerfil: string;
 }
 
 const Publications = ({

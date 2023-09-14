@@ -39,19 +39,17 @@ export const ContainerUserInfoComment = styled.div`
 `
 
 export const P = styled.p`
-  font-family: 'Quicksand';
   font-size: 13px;
-  font-weight: 500;
-  text-align: justify;
   font-weight: 600;
   margin-right: 5px;
   font-size: 13px;
+  text-align: justify;
   word-wrap: break-word;
 `
 
 export const Span = styled.span`
   margin-left: 10px;
-  font-weight: 500;
+  font-weight: 400;
   word-wrap: break-word;
 `
 

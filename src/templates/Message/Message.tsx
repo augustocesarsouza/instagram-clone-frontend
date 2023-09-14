@@ -2,10 +2,11 @@ import { useLocation } from 'react-router-dom';
 import Url from '../../Utils/Url';
 import * as Styled from './styled';
 import { useEffect, useState } from 'react';
-import FollowingMessage from '../../components/FollowingMessage/FollowingMessage';
-import MessageExchange from '../../components/MessageExchange/MessageExchange';
+import FollowingMessage from '../../components/MessageComponent/FollowingMessage/FollowingMessage';
+import MessageExchange from '../../components/MessageComponent/MessageExchange/MessageExchange';
 
 interface MessageProps {
+  myEmail: string | null;
   dataUser: DataUser | null;
   myFollowing: Following[];
   connection: signalR.HubConnection | null;
@@ -48,9 +49,12 @@ export interface DataMessages {
   recipientEmail: string;
   timestamp: string;
   content: string | undefined;
+  reelId: number | null;
+  urlFrameReel: string | null;
+  publicIdFrameReel: string | null;
 }
 
-const Message = ({ dataUser, connection, myFollowing }: MessageProps) => {
+const Message = ({ myEmail, dataUser, connection, myFollowing }: MessageProps) => {
   const [userMessage, setUserMessage] = useState<Following | null>(null);
   const [pagina, setPagina] = useState(1);
   const [dataMessages, setDataMessages] = useState<DataMessages[]>([]);
@@ -87,6 +91,7 @@ const Message = ({ dataUser, connection, myFollowing }: MessageProps) => {
       <MessageExchange
         userMessage={userMessage}
         userId={userId}
+        myEmail={myEmail}
         connection={connection}
         setPagina={setPagina}
         pagina={pagina}

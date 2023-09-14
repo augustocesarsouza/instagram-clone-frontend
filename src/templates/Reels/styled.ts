@@ -56,7 +56,7 @@ export const ContainerMainReelsAndStatusVideo = styled.div`
 
 export const ContainerReelsMain= styled.div`
   position: relative;
-  
+  cursor: pointer;
 `
 
  export const ContainerClickButton = styled.div`
@@ -92,4 +92,39 @@ export const ContainerStatusVideo = styled.div`
   justify-content: flex-end;
   background: #ffffff;
   position: relative;
+`
+
+export const ContainerShare = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 23px;
+  gap: 5px;
+  
+  
+`
+
+interface WrapperImgProps {
+  $wrapper: string;
+}
+
+export const WrapperImg = styled.div<WrapperImgProps>`
+  width: ${props => props.$wrapper === "icon-share" && "28px"};
+  height: ${props => props.$wrapper === "icon-share" && "28px"};
+  margin-top: ${props => props.$wrapper === "icon-share" && "10px"};
+  display: flex;
+
+  svg {
+    width: 100%;
+    height: 100%;
+    
+    g > path {
+      fill: black;
+    }
+  }
+  
+  cursor: pointer;
+
+  width: ${props => props.$wrapper === "suggestion" && "50px"};
+  height: ${props => props.$wrapper === "suggestion" && "50px"};
 `

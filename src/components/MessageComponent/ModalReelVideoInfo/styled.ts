@@ -1,14 +1,5 @@
-import styled, { css, keyframes } from "styled-components";
+import styled, { css, keyframes } from 'styled-components';
 
-interface WrapperSvgProps {
-  $pause: string;
-}
-
-
-export const ContainerMain = styled.div`
-  display: flex;
-  width: 1.5rem;
-`
 export const ModalOverlay = styled.div`
   position: absolute;
   bottom: 0px;
@@ -47,6 +38,7 @@ export const ModalContent = styled.div<ModalContentProps>`
   max-width: 90%;
   display: flex;
   justify-content: space-around;
+  cursor: pointer;
 
   @media (max-width: 1548px) {
     width: 80%;
@@ -94,8 +86,6 @@ export const ContainerVideo = styled.div`
   width: 60%;
   height: 100%;
   position: relative; 
-  cursor: pointer;
-  
 `
 
 export const Video = styled.video`
@@ -134,9 +124,6 @@ export const WrapperSvgPauseTrue = styled.div<WrapperSvgProps>`
   justify-content: space-between;
   align-items: center;
   z-index: 10;
-  /* position: absolute;
-  left: 146px;
-  top: 170px; */
   ${props => props.$pause === "true" && AppearAndDisappearPauseTrue};
 
   svg {
@@ -144,6 +131,10 @@ export const WrapperSvgPauseTrue = styled.div<WrapperSvgProps>`
     font-size: 60px;
   }
 `
+
+interface WrapperSvgProps {
+  $pause: string;
+}
 
 export const WrapperSvgPauseFalse = styled.div<WrapperSvgProps>`
   display: flex;

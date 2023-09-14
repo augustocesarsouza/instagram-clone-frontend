@@ -1,5 +1,5 @@
 import * as Styled from './styled';
-import { useEffect, useLayoutEffect, useState, useContext } from 'react';
+import { useEffect, useLayoutEffect, useState, useContext, useRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import Url from '../../../Utils/Url';
@@ -8,6 +8,9 @@ import { ListReels, ReelsContext, ReelsContextProps } from '../../../templates/R
 interface ShareReelsProps {
   userId: number | null;
   reels: ListReels;
+  setShowShareReels: React.Dispatch<React.SetStateAction<boolean>>;
+  showShareReels: boolean;
+  videoRef: HTMLVideoElement | null;
 }
 
 interface UsersSuggestion {
@@ -17,8 +20,31 @@ interface UsersSuggestion {
   imagePerfil: string;
 }
 
-const ShareReels = ({ userId, reels }: ShareReelsProps) => {
-  const [showShareReels, setShowShareReels] = useState(false);
+interface ObjImg {
+  url: string;
+  publicId: string;
+  isStory: boolean;
+}
+
+interface Message {
+  id: number;
+  reelId: number;
+  content: string;
+  senderId: number;
+  recipientId: number;
+  timestamp: string;
+  urlFrameReel: string;
+  publicIdFrameReel: string;
+}
+
+const ShareReels = ({
+  userId,
+  reels,
+  setShowShareReels,
+  showShareReels,
+  videoRef,
+}: ShareReelsProps) => {
+  // const [showShareReels, setShowShareReels] = useState(false);
   const [usersSuggestion, setUsersSuggestion] = useState<UsersSuggestion[] | null>(null);
   const userContextReels = useContext<ReelsContextProps | null>(ReelsContext);
 
@@ -34,9 +60,12 @@ const ShareReels = ({ userId, reels }: ShareReelsProps) => {
     fetchSuggestionUsers();
   }, []);
 
-  const handleOpenShare = () => {
-    setShowShareReels((prev) => !prev);
-  };
+  const [videoReels, setVideoReels] = useState<ListReels | null>(null);
+
+  // const handleOpenShare = () => {
+  //   setVideoReels(reels);
+  //   setShowShareReels((prev) => !prev);
+  // };
 
   const closeModal = () => {
     setShowShareReels(false);
@@ -48,6 +77,7 @@ const ShareReels = ({ userId, reels }: ShareReelsProps) => {
   const [listOfUserMarked, setListOfUserMarked] = useState<{ [key: string]: boolean }>({});
   const [listNameUserChecked, setListNameUserChecked] = useState<UsersSuggestion[] | []>([]);
   const [userMarkedDelete, setUserMarkedDelete] = useState('');
+  const inputWriteMessageRef = useRef<HTMLInputElement | null>(null);
 
   const handleClickLabel = (value: UsersSuggestion) => {
     if (listOfUserMarked[value.name]) {
@@ -105,45 +135,105 @@ const ShareReels = ({ userId, reels }: ShareReelsProps) => {
     setListNameUserChecked((prev) => prev.filter((nameuser) => nameuser.name !== name));
   };
 
-  const handleSendReelsForFriends = () => {
-    if (userContextReels === null || userContextReels.connection === null) return;
-    console.log(userContextReels.connection);
+  const imgBase64VideoFrameRef = useRef<string | null>(null);
 
-    listNameUserChecked.forEach((user) => {});
+  const handleSendReelsForFriends = async () => {
+    const imgBase64 = imgBase64VideoFrameRef.current;
+    if (imgBase64 === null) return;
+
+    const objImg = {
+      Url: imgBase64,
+    };
+
+    const res = await fetch(`${Url}/process/img/framevideo`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(objImg),
+    });
+
+    if (res.status === 200) {
+      const json = await res.json();
+      const objImg: ObjImg = json.data;
+
+      const imgBase64 = imgBase64VideoFrameRef.current;
+      if (
+        userContextReels === null ||
+        userContextReels.connection === null ||
+        userContextReels.myEmail === null ||
+        inputWriteMessageRef.current === null ||
+        userId === null ||
+        imgBase64 === null
+      )
+        return;
+
+      const reelsId = reels.id;
+      const senderEmail = userContextReels.myEmail;
+      const valueContext = inputWriteMessageRef.current.value;
+      const nameUserRecipient = listNameUserChecked[0];
+
+      const objShareReels = {
+        senderId: userId,
+        recipientId: nameUserRecipient.id,
+        senderEmail: senderEmail,
+        recipientEmail: nameUserRecipient.email,
+        reelId: reelsId,
+        content: valueContext,
+        UrlFrameReel: objImg.url,
+        PublicIdFrameReel: objImg.publicId,
+      };
+
+      const createMessageRef = await fetch(`${Url}/message`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(objShareReels),
+      });
+
+      if (createMessageRef.status === 200) {
+        const json = await createMessageRef.json();
+        const message: Message = json.data;
+
+        const senObj = {
+          SenderId: userId,
+          RecipientId: nameUserRecipient.id,
+          SenderEmail: senderEmail,
+          RecipientEmail: nameUserRecipient.email,
+          ReelId: reelsId,
+          UrlFrameReel: objImg.url,
+          PublicIdFrameReel: objImg.publicId,
+          Content: valueContext,
+          Timestamp: message.timestamp,
+        };
+
+        userContextReels.connection.invoke('SendMessageReels', senObj);
+      }
+    }
   };
 
+  useEffect(() => {
+    const canvas = document.createElement('canvas');
+    canvas.width = 1080;
+    canvas.height = 1080;
+    const context = canvas.getContext('2d');
+
+    if (context === null || videoRef === null) return;
+
+    if (showShareReels) {
+      setTimeout(() => {
+        if (context === null || videoRef === null) return;
+        context.drawImage(videoRef, 0, 0, 1080, 1080);
+
+        const data = canvas.toDataURL('image/jpeg', 1);
+        imgBase64VideoFrameRef.current = data;
+      }, 100);
+    }
+  }, [showShareReels, videoRef]);
+
   return (
-    <Styled.ContainerShare>
-      <Styled.WrapperImg onClick={handleOpenShare} $wrapper="icon-share">
-        <svg
-          aria-label="Direto"
-          color="rgb(38, 38, 38)"
-          fill="rgb(38, 38, 38)"
-          height="24"
-          role="img"
-          viewBox="0 0 24 24"
-          width="24"
-        >
-          <title>Direto</title>
-          <line
-            fill="none"
-            stroke="currentColor"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            x1="22"
-            x2="9.218"
-            y1="3"
-            y2="10.083"
-          ></line>
-          <polygon
-            fill="none"
-            points="11.698 20.334 22 3.001 2 3.001 9.218 10.084 11.698 20.334"
-            stroke="currentColor"
-            strokeLinejoin="round"
-            strokeWidth="2"
-          ></polygon>
-        </svg>
-      </Styled.WrapperImg>
+    <>
       {showShareReels && (
         <Styled.ContainerShareReels>
           <Styled.ContainerMainShareAndSearch>
@@ -224,7 +314,10 @@ const ShareReels = ({ userId, reels }: ShareReelsProps) => {
           >
             {amountOfchecked >= 1 && (
               <Styled.ContainerSendMessage>
-                <Styled.Input placeholder="Escreva uma mensagem..."></Styled.Input>
+                <Styled.Input
+                  placeholder="Escreva uma mensagem..."
+                  ref={inputWriteMessageRef}
+                ></Styled.Input>
               </Styled.ContainerSendMessage>
             )}
 
@@ -256,7 +349,7 @@ const ShareReels = ({ userId, reels }: ShareReelsProps) => {
           </Styled.ContainerMainSend>
         </Styled.ContainerShareReels>
       )}
-    </Styled.ContainerShare>
+    </>
   );
 };
 

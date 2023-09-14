@@ -1,7 +1,7 @@
 import LikeAndResponse from '../LikeAndResponse/LikeAndResponse';
 import * as Styled from './styled';
 import SubComment from '../SubComment/SubComment';
-import { Comments, contextGlobalPost, contextGlobalPostProps } from '../Comment/Comment';
+import { Comments } from '../Comment/Comment';
 import { SubsComments } from '../PostComments/PostComments';
 import { AllPost } from '../CardPost/CardPost';
 import Url from '../../../Utils/Url';
@@ -10,47 +10,40 @@ import UserCommentAndCountLikes from '../UserCommentAndCountLikes/UserCommentAnd
 
 interface UserCommentProps {
   dataComments: Comments[];
-  responseComment: (value: Comments) => void;
   connection: signalR.HubConnection | null;
   userId: number | null;
-  setExpandedComments: React.Dispatch<React.SetStateAction<number[]>>;
+  postId: number | null;
   expandedComments: number[];
-  setSubComments: React.Dispatch<React.SetStateAction<{ [key: number]: SubsComments[] }>>;
   subComments: { [key: number]: SubsComments[] };
-  setPostComments: React.Dispatch<React.SetStateAction<AllPost | null>>;
-  setDataComments: React.Dispatch<React.SetStateAction<Comments[]>>;
   ContainerCommentPostRef: React.MutableRefObject<null>;
+  seeComments: boolean;
+  setSeeComments: React.Dispatch<React.SetStateAction<boolean>>;
+  responseComment: (value: Comments) => void;
+  setSubComments: React.Dispatch<React.SetStateAction<{ [key: number]: SubsComments[] }>>;
+  setExpandedComments: React.Dispatch<React.SetStateAction<number[]>>;
+  setDataComments: React.Dispatch<React.SetStateAction<Comments[]>>;
 }
 
 const UserComment = ({
   dataComments,
   connection,
   userId,
+  postId,
   expandedComments,
   subComments,
+  setSeeComments,
   responseComment,
   setExpandedComments,
   setSubComments,
-  setPostComments,
   setDataComments,
   ContainerCommentPostRef,
 }: UserCommentProps) => {
   const [commentsNew, setCommentsNew] = useState<Comments[] | null>(null);
-  const [showModalComment, setShowModalComment] = useState(false);
 
   useEffect(() => {
     setCommentsNew(dataComments);
-    setShowModalComment(true);
+    setSeeComments(true);
   }, [dataComments]);
-
-  const contextComment = useContext<contextGlobalPostProps | null>(contextGlobalPost);
-
-  useEffect(() => {
-    if (contextComment !== null) {
-      const { seeComments } = contextComment;
-      setShowModalComment(seeComments);
-    }
-  }, [contextComment]);
 
   useEffect(() => {
     if (connection === null) return;
@@ -62,13 +55,14 @@ const UserComment = ({
 
   return (
     <Styled.ContainerCommentPost ref={ContainerCommentPostRef}>
-      {showModalComment &&
+      {subComments &&
         commentsNew &&
         commentsNew.map((comment, index) => (
           <Styled.ContainerUserComment key={comment.id}>
             <UserCommentAndCountLikes
               comment={comment}
               userId={userId}
+              postId={postId}
               index={index}
               responseComment={responseComment}
             />

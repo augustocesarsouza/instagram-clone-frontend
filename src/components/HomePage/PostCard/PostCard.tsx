@@ -189,14 +189,18 @@ const PostCard = ({ post, userId, seeComments }: PostCardProps) => {
               <Styled.Source src={post.url} type="video/mp4" />
             </Styled.Video>
           )}
-          {pause ? (
-            <Styled.WrapperSvgPauseTrue $pause={String(pause)}>
-              <FontAwesomeIcon icon={faPlay} />
-            </Styled.WrapperSvgPauseTrue>
-          ) : (
-            <Styled.WrapperSvgPauseFalse $pause={String(pause)}>
-              <FontAwesomeIcon icon={faPause} />
-            </Styled.WrapperSvgPauseFalse>
+          {post.isImagem == 0 && (
+            <>
+              {pause ? (
+                <Styled.WrapperSvgPauseTrue $pause={String(pause)}>
+                  <FontAwesomeIcon icon={faPlay} />
+                </Styled.WrapperSvgPauseTrue>
+              ) : (
+                <Styled.WrapperSvgPauseFalse $pause={String(pause)}>
+                  <FontAwesomeIcon icon={faPause} />
+                </Styled.WrapperSvgPauseFalse>
+              )}
+            </>
           )}
         </Styled.ContainerVideo>
         {post.isImagem == 0 && (

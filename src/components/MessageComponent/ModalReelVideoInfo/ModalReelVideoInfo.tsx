@@ -1,74 +1,73 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import * as Styled from './styled';
+import { useEffect, useRef, useState } from 'react';
 import {
-  faComment,
   faPause,
   faPlay,
   faVolumeHigh,
   faVolumeXmark,
   faXmark,
 } from '@fortawesome/free-solid-svg-icons';
-import * as Styled from './styled';
-import { useState, useEffect, useRef } from 'react';
+import ReelComments from '../ReelComments/ReelComments';
 import Url from '../../../Utils/Url';
-import ImgComment from '../ImgComment/ImgComment';
-import PostComments from '../PostComments/PostComments';
-import { AllPost } from '../CardPost/CardPost';
+import { DataMessages } from '../../../templates/Message/Message';
 
-interface CommentProps {
-  postComments: AllPost | null;
+interface ModalReelVideoInfoProps {
   userId: number;
-  setPostComments: React.Dispatch<React.SetStateAction<AllPost | null>>;
   connection: signalR.HubConnection | null;
-  setAllPost: React.Dispatch<React.SetStateAction<AllPost[] | null>>;
-  setSeeComments: React.Dispatch<React.SetStateAction<boolean>>;
-  seeComments: boolean;
+  dataReelClicked: DataMessages | null;
 }
 
-export interface Comments {
+export interface DataReelVideoProps {
   id: number;
-  text: string;
-  createdAt: string;
-  user: User;
-  subCommentsCounts: number;
-  subCommentsCountsMock: number;
-  likeCommentsCounts: number;
-  likeComments: likeCommentsProps[];
+  title: string; // Não tem coloquei por causa do typescript
+  url: string;
+  user: UserReel;
+  postLikes: PostLikes;
+  postLikesCounts: number;
+  commentsLikes: number;
 }
 
-interface User {
+export interface UserReel {
   id: number;
   name: string;
   imagePerfil: string;
 }
 
-interface likeCommentsProps {
-  authorId: number;
-  commentId: number;
+interface PostLikes {
+  PostId: number;
+  AuthorId: number;
 }
 
-const Comment = ({
-  postComments,
-  userId,
-  setPostComments,
-  connection,
-  setAllPost,
-  setSeeComments,
-  seeComments,
-}: CommentProps) => {
+const ModalReelVideoInfo = ({ userId, connection, dataReelClicked }: ModalReelVideoInfoProps) => {
   const [isMuted, setIsMuted] = useState(true);
   const [pause, setPause] = useState(false);
   const [sound, setSound] = useState(false);
-  const [postId, setPostId] = useState<number | null>(null);
 
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const parentsVideo = useRef<HTMLDivElement | null>(null);
+  const [showModalVideo, setShowModalVideo] = useState(false);
+  const [dataReelVideo, setDataReelVideo] = useState<DataReelVideoProps | null>(null);
+  const [seeComments, setSeeComments] = useState(false);
 
   useEffect(() => {
-    if (postComments === null) return;
-    setPostId(postComments.id);
-  }, [postComments]);
+    if (dataReelClicked !== null) {
+      const fetchTest = async () => {
+        const res = await fetch(`${Url}/post/video/info/${dataReelClicked.reelId}`);
+
+        if (res.status === 200) {
+          const json = await res.json();
+          const data = json.data;
+          setDataReelVideo(data);
+          setShowModalVideo(true);
+        }
+      };
+      fetchTest();
+    }
+  }, [dataReelClicked]);
 
   const closeModal = () => {
+    setShowModalVideo(false);
     const scroll = document.getElementById('container-scroll');
 
     if (window.innerWidth <= 750) {
@@ -86,8 +85,8 @@ const Comment = ({
     }
 
     enableBodyScroll();
-    setPostComments(null);
-    setSeeComments(false);
+    // setPostComments(null);
+    // setSeeComments(false);
   };
 
   const enableBodyScroll = () => {
@@ -160,65 +159,58 @@ const Comment = ({
   };
 
   return (
-    <Styled.ContainerMain>
-      {postComments && (
+    <>
+      {showModalVideo && (
         <Styled.ModalOverlay>
           <Styled.ContainerSvgX>
             <FontAwesomeIcon icon={faXmark} onClick={closeModal} />
           </Styled.ContainerSvgX>
 
-          <Styled.ModalContent $isvideo={String(postComments.isImagem == 0)}>
-            {postComments.isImagem == 1 && <ImgComment url={postComments.url} />}
+          <Styled.ModalContent $isvideo={'true'}>
+            <Styled.ContainerVideo ref={parentsVideo}>
+              <Styled.Video
+                autoPlay
+                muted={isMuted}
+                ref={videoRef}
+                onLoadedDataCapture={handleLoadedDataCapture}
+              >
+                <Styled.Source src={dataReelVideo?.url} />
+              </Styled.Video>
 
-            {postComments.isImagem == 0 && (
-              <Styled.ContainerVideo ref={parentsVideo}>
-                <Styled.Video
-                  autoPlay
-                  muted={isMuted}
-                  ref={videoRef}
-                  onLoadedDataCapture={handleLoadedDataCapture}
-                >
-                  <Styled.Source src={postComments.url} />
-                </Styled.Video>
+              <Styled.ContainerForAdjustIcon>
+                {pause ? (
+                  <Styled.WrapperSvgPauseTrue $pause={String(pause)}>
+                    <FontAwesomeIcon icon={faPlay} />
+                  </Styled.WrapperSvgPauseTrue>
+                ) : (
+                  <Styled.WrapperSvgPauseFalse $pause={String(pause)}>
+                    <FontAwesomeIcon icon={faPause} />
+                  </Styled.WrapperSvgPauseFalse>
+                )}
+              </Styled.ContainerForAdjustIcon>
 
-                <Styled.ContainerForAdjustIcon>
-                  {pause ? (
-                    <Styled.WrapperSvgPauseTrue $pause={String(pause)}>
-                      <FontAwesomeIcon icon={faPlay} />
-                    </Styled.WrapperSvgPauseTrue>
-                  ) : (
-                    <Styled.WrapperSvgPauseFalse $pause={String(pause)}>
-                      <FontAwesomeIcon icon={faPause} />
-                    </Styled.WrapperSvgPauseFalse>
-                  )}
-                </Styled.ContainerForAdjustIcon>
+              <Styled.WrapperSound onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+                {sound ? (
+                  <FontAwesomeIcon icon={faVolumeHigh} onClick={handleSoundOn} />
+                ) : (
+                  <FontAwesomeIcon icon={faVolumeXmark} onClick={handleSoundFalse} />
+                )}
+              </Styled.WrapperSound>
+            </Styled.ContainerVideo>
 
-                <Styled.WrapperSound
-                  onMouseEnter={handleMouseEnter}
-                  onMouseLeave={handleMouseLeave}
-                >
-                  {sound ? (
-                    <FontAwesomeIcon icon={faVolumeHigh} onClick={handleSoundOn} />
-                  ) : (
-                    <FontAwesomeIcon icon={faVolumeXmark} onClick={handleSoundFalse} />
-                  )}
-                </Styled.WrapperSound>
-              </Styled.ContainerVideo>
-            )}
-
-            <PostComments
-              dataPost={postComments}
+            <ReelComments
               userId={userId}
+              dataReelVideo={dataReelVideo}
               connection={connection}
               seeComments={seeComments}
               setSeeComments={setSeeComments}
-              setAllPost={setAllPost}
-              setPostComments={setPostComments}
+              setDataReelVideo={setDataReelVideo}
             />
           </Styled.ModalContent>
         </Styled.ModalOverlay>
       )}
-    </Styled.ContainerMain>
+    </>
   );
 };
-export default Comment;
+
+export default ModalReelVideoInfo;

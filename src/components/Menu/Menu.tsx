@@ -57,9 +57,13 @@ const Menu = ({
   }, [base64ImgChange]);
 
   const location = useLocation();
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (location.pathname === '/profile') {
       setActiveButton('profile');
+    }
+
+    if (location.pathname === '/Message') {
+      setActiveButton('message');
     }
   }, [location]);
 

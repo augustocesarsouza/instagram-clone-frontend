@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css, keyframes } from "styled-components";
 
 interface WrapperPMessageProps {
   $mymessage: string;
@@ -89,7 +89,59 @@ export const PTime = styled.p`
 export const WrapperPMessage = styled.div<WrapperPMessageProps>`
   display: flex;
   justify-content: ${props => props.$mymessage === "true" ? 'flex-end' : 'flex-start'};
+`
 
+export const WrapperImg = styled.div`
+  width: 156px;
+  height: 257px;
+  cursor: pointer;
+  position: relative;
+`
+
+export const Svg = styled.div`
+  position: absolute;
+  left: 9px;
+  bottom: 5px;
+`
+
+export const ContainerInfoUserFrame = styled.div`
+ position: absolute;
+ top: 8px;
+ left: 7px;
+ display: flex;
+ align-items: center;
+ font-family: 'Poppins';
+
+`
+
+export const WrapperImgUserFrame = styled.div`
+  width: 30px;
+  height: 30px;
+`
+
+export const ImgUserFrame = styled.img`
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+`
+
+export const ContainerNameUser = styled.div`
+  margin-left: 5px;
+`
+
+export const PName = styled.p`
+  font-size: 13px;
+  font-weight: 600;
+  color: #FFFFFF;
+`
+
+export const Img = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+  
 `
 
 export const P = styled.p<pProps>`
@@ -146,3 +198,4 @@ export const ButtonSend = styled.button`
     color: #364079;
   }
 `
+

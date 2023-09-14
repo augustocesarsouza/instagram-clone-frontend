@@ -1,15 +1,5 @@
 import styled from 'styled-components';
 
-export const ContainerShare = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 23px;
-  gap: 5px;
-  
-  font-family: "Poppins";
-`
-
 interface WrapperImgProps {
   $wrapper: string;
 }
@@ -57,7 +47,9 @@ export const ContainerShareReels = styled.div`
   background: #ffffff;
   display: flex;
   flex-direction: column;
+  z-index: 10;
   /* justify-content: space-between; */
+  font-family: "Poppins";
 `
 
 export const ContainerMainShareAndSearch = styled.div`

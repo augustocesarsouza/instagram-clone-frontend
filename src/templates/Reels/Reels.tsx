@@ -10,6 +10,7 @@ import ShareReels from '../../components/ReelsComponent/ShareReels/ShareReels';
 
 interface ReelsProps {
   userId: number | null;
+  myEmail: string | null;
   imgUserLogged: string;
   connection: signalR.HubConnection | null;
 }
@@ -39,11 +40,12 @@ interface User {
 
 export interface ReelsContextProps {
   connection: signalR.HubConnection | null;
+  myEmail: string | null;
 }
 
 export const ReelsContext = createContext<ReelsContextProps | null>(null);
 
-const Reels = ({ userId, imgUserLogged, connection }: ReelsProps) => {
+const Reels = ({ userId, myEmail, imgUserLogged, connection }: ReelsProps) => {
   const [listReels, setListReels] = useState<ListReels[] | null>(null);
   const ContainerRef = useRef<HTMLDivElement | null>(null);
 
@@ -77,10 +79,17 @@ const Reels = ({ userId, imgUserLogged, connection }: ReelsProps) => {
     document.body.style.overflowY = 'hidden';
   }, []);
 
+  const [showShareReels, setShowShareReels] = useState(false);
+
+  const handleOpenShare = () => {
+    // setVideoReels(reels);
+    setShowShareReels((prev) => !prev);
+  };
+
   return (
     <Styled.ContainerMain ref={ContainerRef}>
       <Styled.ContainerSecond>
-        <ReelsContext.Provider value={{ connection }}>
+        <ReelsContext.Provider value={{ connection, myEmail }}>
           {listReels &&
             listReels.map((ree, index) => (
               <Styled.ContainerMainReelsAndStatusVideo key={ree.id}>
@@ -93,6 +102,9 @@ const Reels = ({ userId, imgUserLogged, connection }: ReelsProps) => {
                     listReels={listReels}
                     ContainerRef={ContainerRef}
                     mouseOn={mouseOn}
+                    userId={userId}
+                    setShowShareReels={setShowShareReels}
+                    showShareReels={showShareReels}
                   />
                   <Styled.ContainerForSvg>
                     <Styled.WrapperSvg $svg="sound">
@@ -112,8 +124,40 @@ const Reels = ({ userId, imgUserLogged, connection }: ReelsProps) => {
                     userId={userId}
                     mouseOn={mouseOn}
                   />
-                  <ShareReels userId={userId} reels={ree} />
+                  <Styled.ContainerShare>
+                    <Styled.WrapperImg onClick={handleOpenShare} $wrapper="icon-share">
+                      <svg
+                        aria-label="Direto"
+                        color="rgb(38, 38, 38)"
+                        fill="rgb(38, 38, 38)"
+                        height="24"
+                        role="img"
+                        viewBox="0 0 24 24"
+                        width="24"
+                      >
+                        <title>Direto</title>
+                        <line
+                          fill="none"
+                          stroke="currentColor"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          x1="22"
+                          x2="9.218"
+                          y1="3"
+                          y2="10.083"
+                        ></line>
+                        <polygon
+                          fill="none"
+                          points="11.698 20.334 22 3.001 2 3.001 9.218 10.084 11.698 20.334"
+                          stroke="currentColor"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                        ></polygon>
+                      </svg>
+                    </Styled.WrapperImg>
+                  </Styled.ContainerShare>
                 </Styled.ContainerStatusVideo>
+                {/* <ShareReels userId={userId} reels={ree} /> */}
               </Styled.ContainerMainReelsAndStatusVideo>
             ))}
         </ReelsContext.Provider>

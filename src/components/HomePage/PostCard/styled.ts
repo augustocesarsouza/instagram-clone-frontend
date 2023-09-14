@@ -66,11 +66,13 @@ export const ContainerVideo = styled.div<ContainerVideo>`
   background: ${props => props.$isimg === "false" && "black"};
   height: 575px;
   margin-bottom: ${props => props.$isimg === "false" && "10px"};
+  
 `
 
 export const Video = styled.video`
   width: 100%;
   height: 100%;
+  cursor: pointer;
 `
 
 export const Source = styled.source``

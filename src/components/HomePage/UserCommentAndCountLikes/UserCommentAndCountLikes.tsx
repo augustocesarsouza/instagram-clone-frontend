@@ -1,5 +1,5 @@
 import Url from '../../../Utils/Url';
-import { Comments, contextGlobalPost, contextGlobalPostProps } from '../Comment/Comment';
+import { Comments } from '../Comment/Comment';
 import LikeAndResponse from '../LikeAndResponse/LikeAndResponse';
 import * as Styled from './styled';
 import { useEffect, useState, useContext } from 'react';
@@ -7,6 +7,7 @@ import { useEffect, useState, useContext } from 'react';
 interface UserCommentAndCountLikesProps {
   comment: Comments;
   userId: number | null;
+  postId: number | null;
   index: number;
   responseComment: (value: Comments) => void;
 }
@@ -26,19 +27,18 @@ const UserCommentAndCountLikes = ({
   comment,
   index,
   userId,
+  postId,
   responseComment,
 }: UserCommentAndCountLikesProps) => {
   const [likesCommentsInfo, setLikesCommentsInfo] = useState<LikesCommentsInfoProps[] | []>([]);
-  const [postId, setPostId] = useState<number | null>(null);
+  // const [postId, setPostId] = useState<number | null>(null);
 
-  const contextComment = useContext<contextGlobalPostProps | null>(contextGlobalPost);
-
-  useEffect(() => {
-    if (contextComment !== null) {
-      const { postId } = contextComment;
-      setPostId(postId);
-    }
-  }, [contextComment]);
+  // useEffect(() => {
+  //   if (contextComment !== null) {
+  //     const { postId } = contextComment;
+  //     // setPostId(postId);
+  //   }
+  // }, [contextComment]);
 
   useEffect(() => {
     const fetchLikesComments = async () => {

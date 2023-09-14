@@ -1,26 +1,41 @@
-import React, { ChangeEventHandler, useEffect, useRef, useState } from 'react';
-import UserComment from '../UserComment/UserComment';
-import * as Styled from './styled';
+import { HubConnection } from '@microsoft/signalr';
 import Url from '../../../Utils/Url';
-import CardPublicationOwner from '../CardPublicationOwner/CardPublicationOwner';
-import { AllPost } from '../CardPost/CardPost';
-import { Comments } from '../Comment/Comment';
-import TextareaComment from '../TextareaComment/TextareaComment';
+import * as Styled from './styled';
+import React, { useEffect, useRef, useState } from 'react';
+import { DataReelVideoProps } from '../ModalReelVideoInfo/ModalReelVideoInfo';
+import CardPublicationOwner from '../../HomePage/CardPublicationOwner/CardPublicationOwner';
+import UserComment from '../../HomePage/UserComment/UserComment';
+import TextareaComment from '../../HomePage/TextareaComment/TextareaComment';
 
-interface PostCommentsProps {
-  dataPost: DataPost | null;
-  userId: number | null;
-  connection: signalR.HubConnection | null;
+interface ReelCommentsProps {
+  userId: number;
+  dataReelVideo: DataReelVideoProps | null;
+  connection: HubConnection | null;
   seeComments: boolean;
   setSeeComments: React.Dispatch<React.SetStateAction<boolean>>;
-  setAllPost: React.Dispatch<React.SetStateAction<AllPost[] | null>>;
-  setPostComments: React.Dispatch<React.SetStateAction<AllPost | null>>;
+  setDataReelVideo: React.Dispatch<React.SetStateAction<DataReelVideoProps | null>>;
 }
 
-export interface DataPost {
+export interface Comments {
   id: number;
-  title: string;
+  text: string;
+  createdAt: string;
   user: User;
+  subCommentsCounts: number;
+  subCommentsCountsMock: number;
+  likeCommentsCounts: number;
+  likeComments: likeCommentsProps[];
+}
+
+interface User {
+  id: number;
+  name: string;
+  imagePerfil: string;
+}
+
+interface likeCommentsProps {
+  authorId: number;
+  commentId: number;
 }
 
 export interface SubsComments {
@@ -30,32 +45,25 @@ export interface SubsComments {
   user: User;
 }
 
-interface User {
-  id: number;
-  name: string;
-  imagePerfil: string;
-}
-
-const PostComments = ({
-  dataPost,
+const ReelComments = ({
   userId,
+  dataReelVideo,
   connection,
   seeComments,
   setSeeComments,
-  setAllPost,
-  setPostComments,
-}: PostCommentsProps) => {
+  setDataReelVideo,
+}: ReelCommentsProps) => {
   const [commentSubComment, setCommentSubComment] = useState<Comments | null>(null);
 
   const [dataComments, setDataComments] = useState<Comments[]>([]);
   const [postId, setPostId] = useState<number | null>(null);
 
   useEffect(() => {
-    if (dataPost !== null) {
+    if (dataReelVideo !== null) {
       const fetchComments = async (postId: number) => {
         setPostId(postId);
         if (postId > 0) {
-          const res = await fetch(`${Url}/comment/user/${dataPost.id}`);
+          const res = await fetch(`${Url}/comment/user/${dataReelVideo.id}`);
           if (res.status === 200) {
             const json = await res.json();
 
@@ -72,23 +80,27 @@ const PostComments = ({
         }
       };
 
-      if (dataPost.id !== null) {
-        fetchComments(dataPost.id);
+      if (dataReelVideo.id !== undefined) {
+        fetchComments(dataReelVideo.id);
       }
     }
-  }, [dataPost]);
+  }, [dataReelVideo]);
 
   useEffect(() => {
     if (connection) {
       connection.on('ReceiveComment', (message) => {
-        setAllPost((prev) =>
-          prev !== null
-            ? prev.map((post) =>
-                post.id == message.postId
-                  ? { ...post, commentsLikes: post.commentsLikes + 1 }
-                  : post
-              )
-            : prev
+        // setAllPost((prev) =>
+        //   prev !== null
+        //     ? prev.map((post) =>
+        //         post.id == message.postId
+        //           ? { ...post, commentsLikes: post.commentsLikes + 1 }
+        //           : post
+        //       )
+        //     : prev
+        // );
+
+        setDataReelVideo((prev) =>
+          prev !== null ? { ...prev, commentsLikes: prev.commentsLikes + 1 } : prev
         );
 
         setDataComments((prev) => {
@@ -150,7 +162,7 @@ const PostComments = ({
   return (
     <Styled.ContainerInfoComment>
       <Styled.ContainerGeneral>
-        <CardPublicationOwner dataPost={dataPost} />
+        <CardPublicationOwner dataPost={dataReelVideo} />
         <UserComment
           dataComments={dataComments}
           connection={connection}
@@ -169,7 +181,7 @@ const PostComments = ({
       </Styled.ContainerGeneral>
       <TextareaComment
         userId={userId}
-        dataPost={dataPost}
+        dataPost={dataReelVideo}
         connection={connection}
         commentSubComment={commentSubComment}
         ContainerCommentPostRef={ContainerCommentPostRef}
@@ -178,4 +190,4 @@ const PostComments = ({
   );
 };
 
-export default PostComments;
+export default ReelComments;

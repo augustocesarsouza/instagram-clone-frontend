@@ -1,30 +1,43 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import * as Styled from './styled';
 import { faPlay, faVolumeHigh, faVolumeXmark, faXmark } from '@fortawesome/free-solid-svg-icons';
-import { Comments } from '../PhotoUser/PhotoUser';
 import { DataPost } from '../ProfileComponents/Publications/Publications';
 import ImgComment from '../HomePage/ImgComment/ImgComment';
-import PostComments from '../HomePage/PostComments/PostComments';
 import { useRef, useEffect, useState, useContext } from 'react';
 import { ContextProfile, ContextProfileProps } from '../../templates/Profile/Profile';
 import * as signalR from '@microsoft/signalr';
+import ProfileComments from '../ProfileComments/ProfileComments';
+import Url from '../../Utils/Url';
 
 interface CommentPhotoUserProps {
-  showModalComment: boolean;
-  setShowModalComment: React.Dispatch<React.SetStateAction<boolean>>;
-  dataComments: Comments[];
   dataPhotoComments: DataPost | null;
   userId: number | null;
-  callFetchMethod: (value: {}) => void;
   setDataPhotoComments: React.Dispatch<React.SetStateAction<DataPost | null>>;
 }
 
+export interface DataInfoPublicationsProps {
+  id: number;
+  title: string; // Não tem coloquei por causa do typescript
+  url: string;
+  user: User;
+  postLikes: PostLikes;
+  postLikesCounts: number;
+  commentsLikes: number;
+}
+
+export interface User {
+  id: number;
+  name: string;
+  imagePerfil: string;
+}
+
+interface PostLikes {
+  PostId: number;
+  AuthorId: number;
+}
+
 const CommentPhotoUser = ({
-  showModalComment,
-  setShowModalComment,
-  dataComments,
   dataPhotoComments,
-  callFetchMethod,
   userId,
   setDataPhotoComments,
 }: CommentPhotoUserProps) => {
@@ -40,6 +53,27 @@ const CommentPhotoUser = ({
 
   const [videoLoaded, setVideoLoaded] = useState(false);
   const [mouseEnterAndLeave, setMouseEnterAndLeave] = useState(false);
+
+  // const [dataComments, setDataComments] = useState<Comments[]>([]);
+  const [showModalComment, setShowModalComment] = useState(false);
+  const [dataInfoPublications, setDataInfoPublications] =
+    useState<DataInfoPublicationsProps | null>(null);
+
+  useEffect(() => {
+    if (dataPhotoComments !== null) {
+      const fetchTest = async () => {
+        const res = await fetch(`${Url}/post/video/info/${dataPhotoComments.id}`);
+
+        if (res.status === 200) {
+          const json = await res.json();
+          const data = json.data;
+          setDataInfoPublications(data);
+          // setShowModalVideo(true);
+        }
+      };
+      fetchTest();
+    }
+  }, [dataPhotoComments]);
 
   useEffect(() => {
     if (useContextProfile !== null) {
@@ -59,10 +93,6 @@ const CommentPhotoUser = ({
     setVideoLoaded(false);
     VideoRef.current = null;
     document.body.style.overflow = '';
-  };
-
-  const disableBodyScroll = () => {
-    document.body.style.overflow = 'hidden';
   };
 
   const enableBodyScroll = () => {
@@ -177,13 +207,16 @@ const CommentPhotoUser = ({
                   </Styled.WrapperSound>
                 </Styled.WrapperVideo>
               )}
-              <PostComments
-                dataPost={dataPhotoComments}
-                showModalComment={showModalComment}
-                dataComments={dataComments}
-                userId={userId}
-                connection={connectionHub}
-              />
+              {userId && (
+                <ProfileComments
+                  userId={userId}
+                  dataInfoPublications={dataInfoPublications}
+                  connectionHub={connectionHub}
+                  showModalComment={showModalComment}
+                  setShowModalComment={setShowModalComment}
+                  setDataInfoPublications={setDataInfoPublications}
+                />
+              )}
             </Styled.ModalContent>
           </Styled.ModalOverlay>
         </Styled.ContainerOptionsPosition>

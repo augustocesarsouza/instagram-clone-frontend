@@ -55,15 +55,23 @@ const InfoUserMessage = ({ userMessage, connection, setDataMessages }: InfoUserM
       if (connection) {
         connection.on('ReceiveMessage', (messageSend: MessageSendProps, recipientEmail: string) => {
           const { senderId, recipientId, content, timestamp } = messageSend;
+
           const newMessage = {
             senderId,
             recipientId,
             content,
             timestamp,
             recipientEmail,
+            reelId: null,
+            urlFrameReel: null,
+            publicIdFrameReel: null,
           };
 
           setDataMessages((prevDataMessages) => [newMessage, ...prevDataMessages]);
+        });
+
+        connection.on('ReceiveReels', (messageReceiveReels, recipientEmail) => {
+          setDataMessages((prev) => [messageReceiveReels, ...prev]);
         });
 
         connection.on('TypeOrnNot', (isTyping: boolean) => {
@@ -74,7 +82,8 @@ const InfoUserMessage = ({ userMessage, connection, setDataMessages }: InfoUserM
     initializeSignalRConnection();
 
     return () => {
-      connection?.off('ReceiveMessage');
+      if (connection === null) return;
+      connection.off('ReceiveMessage');
     };
   }, [connection]);
 

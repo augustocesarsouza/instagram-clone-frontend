@@ -44,16 +44,6 @@ const Create = ({
         setCreateImgOrVideo={setCreateImgOrVideo}
         setCreateNewStory={setCreateNewStory}
       />
-      {/* userId,
-      createPost,
-      choiceStory,
-      createNewStory,
-      setStory,
-      setNewStory,
-      setCreateNewStory,
-      setShowStoryCircle,
-      setCreateImgOrVideo,
-      setCreatePost, */}
     </>
   );
 };

@@ -67,6 +67,7 @@ const AppContent = () => {
   useEffect(() => {
     const userId = localStorage.getItem('UserId');
     const emailConnectionLocal = localStorage.getItem('emailConnection');
+
     if (userId !== null) {
       setUserId(parseInt(userId));
     }
@@ -200,13 +201,25 @@ const AppContent = () => {
         <Route
           path="/Message"
           element={
-            <Message dataUser={dataUser} connection={connection} myFollowing={myFollowing} />
+            <Message
+              myEmail={emailConnection}
+              dataUser={dataUser}
+              connection={connection}
+              myFollowing={myFollowing}
+            />
           }
         />
 
         <Route
           path="/Reels"
-          element={<Reels userId={userId} imgUserLogged={imgUserLogged} connection={connection} />}
+          element={
+            <Reels
+              userId={userId}
+              myEmail={emailConnection}
+              imgUserLogged={imgUserLogged}
+              connection={connection}
+            />
+          }
         />
         <Route path="*" element={<NotFound />} />
       </Routes>

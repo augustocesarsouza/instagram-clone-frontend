@@ -1,9 +1,10 @@
 import * as Styled from './styled';
 import { faPlay, faVolumeHigh, faVolumeXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useEffect, useRef, useState, memo } from 'react';
+import { useEffect, useRef, useState, memo, useLayoutEffect } from 'react';
 import { ListReels } from '../../../templates/Reels/Reels';
 import Like from '../../HomePage/Like/Like';
+import ShareReels from '../ShareReels/ShareReels';
 
 interface VideoComponentProps {
   ree: ListReels;
@@ -13,6 +14,9 @@ interface VideoComponentProps {
   listReels: ListReels[] | null;
   ContainerRef: React.RefObject<HTMLDivElement | null>;
   mouseOn: React.RefObject<boolean>;
+  userId: number | null;
+  setShowShareReels: React.Dispatch<React.SetStateAction<boolean>>;
+  showShareReels: boolean;
 }
 
 const VideoComponent = ({
@@ -23,6 +27,9 @@ const VideoComponent = ({
   listReels,
   ContainerRef,
   mouseOn,
+  userId,
+  setShowShareReels,
+  showShareReels,
 }: VideoComponentProps) => {
   const [pause, setPause] = useState(false);
   const [indexVideo, setIndexVideo] = useState(0);
@@ -186,12 +193,32 @@ const VideoComponent = ({
     }
   }, [videoRef, indexVideo, pause, sound]);
 
+  const [urlBase64Video, setUrlBase64Video] = useState<string | null>(null);
+
+  useLayoutEffect(() => {
+    const fetchVideo = async () => {
+      const resFet = await fetch(ree.url);
+      const blob = await resFet.blob();
+
+      const readerImg = new FileReader();
+      readerImg.onload = async (e) => {
+        const imageDataUrlNew = e.target?.result as string;
+
+        setUrlBase64Video(imageDataUrlNew);
+      };
+      readerImg.readAsDataURL(blob);
+    };
+    fetchVideo();
+  }, [ree]);
+
   return (
     <Styled.WrapperMainSvgVideo onClick={handlePauseVideo}>
       <Styled.WrapperVideo>
-        <Styled.Video ref={index === indexVideo ? videoRef : null} muted={isMuted}>
-          <Styled.Source src={ree.url} type="video/mp4" />
-        </Styled.Video>
+        {urlBase64Video && (
+          <Styled.Video id="video-get" ref={index === indexVideo ? videoRef : null} muted={isMuted}>
+            <Styled.Source src={urlBase64Video} type="video/mp4" />
+          </Styled.Video>
+        )}
 
         {indexVideo === index && (
           <>
@@ -217,6 +244,13 @@ const VideoComponent = ({
           </Styled.ContainerTitle>
         </Styled.ContainerMainInfoUser>
       </Styled.WrapperVideo>
+      <ShareReels
+        userId={userId}
+        reels={ree}
+        setShowShareReels={setShowShareReels}
+        showShareReels={showShareReels}
+        videoRef={videoRef.current}
+      />
     </Styled.WrapperMainSvgVideo>
   );
 };

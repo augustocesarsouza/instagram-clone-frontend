@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { DataMessages, DataUser, Following } from '../../templates/Message/Message';
+import { DataMessages, DataUser, Following } from '../../../templates/Message/Message';
 import * as Styled from './styled';
 import { faPenToSquare, faCircle } from '@fortawesome/free-solid-svg-icons';
 import { faCircle as faCircleOffline } from '@fortawesome/free-regular-svg-icons';
@@ -22,9 +22,12 @@ const FollowingMessage = ({
   setDataMessages,
 }: FollowingMessageProps) => {
   const [activeId, setActiveId] = useState<number | null>(null);
+  const [userClickedLast, setUserClickedLast] = useState<Following>();
 
   const handleClick = (follo: Following) => {
+    if (userClickedLast?.id == follo.id) return;
     setActiveId(follo.id);
+    setUserClickedLast(follo);
     fetchDataMessages(follo);
     setPagina(1);
     setDataMessages([]);
