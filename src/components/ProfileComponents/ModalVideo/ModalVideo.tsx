@@ -255,15 +255,86 @@ const ModalVideo = ({
 
   const [isImg] = useState(false);
 
-  // 543x891
-  // width: 542px;
-  // height: 871px;
+  const [lastY, setLestY] = useState(0);
+  const [moveVideo, setMoveVideo] = useState(0);
+  const [unlockMove, setUnlockMove] = useState(false);
+  const [mouseIsInSon, setMouseIsInSon] = useState(false); // nao apertei
+
+  const handleMouseDownClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    setUnlockMove(true);
+    setLestY(e.clientY);
+    setMouseIsInSon(true);
+  };
+
+  const handleMouseUpClick = () => {
+    setUnlockMove(false);
+    setMouseIsInSon(false);
+    setMoveVideo((prev) => (prev >= 255 ? 255 : prev <= -255 ? -255 : prev));
+  };
+
+  const handleMouseMoveClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    if (!unlockMove) return;
+
+    if (e.clientY < lastY) {
+      // Up
+      setMoveVideo((prev) => (prev <= -349 ? prev : prev - 1)); //Até 349px
+      setLestY(e.clientY);
+    } else if (e.clientY > lastY) {
+      // Down
+
+      setMoveVideo((prev) => (prev <= 349 ? prev + 1 : prev));
+      setLestY(e.clientY);
+    }
+  };
+
+  const [unlockParentMove, setUnlockParentMove] = useState(false);
+
+  const handleMouseEnterSon = () => {
+    setUnlockParentMove(false);
+  };
+
+  const handleMouseLeaveSon = () => {
+    setUnlockParentMove(true);
+  };
+
+  const handleMouseUpClickParent = () => {
+    setUnlockMove(false);
+    setMouseIsInSon(false);
+    setUnlockParentMove(false);
+
+    setMoveVideo((prev) => (prev >= 255 ? 255 : prev <= -255 ? -255 : prev));
+  };
+
+  const handleMouseMoveClickParent = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    if (!unlockParentMove) return;
+    if (!mouseIsInSon) return;
+
+    if (e.clientY < lastY) {
+      // Up
+      setMoveVideo((prev) => (prev <= -349 ? prev : prev - 1)); //Até 349px
+      setLestY(e.clientY);
+    } else if (e.clientY > lastY) {
+      // Down
+
+      setMoveVideo((prev) => (prev <= 349 ? prev + 1 : prev));
+      setLestY(e.clientY);
+    }
+  };
+
+  console.log(moveVideo);
 
   return (
-    <Styled.MainDeTodasTest $extende={String(showShare)} $createpost={String(createPost)}>
+    <Styled.MainDeTodasTest
+      $extende={String(showShare)}
+      $createpost={String(createPost)}
+      $mouseisinson={String(mouseIsInSon)}
+      onMouseUp={handleMouseUpClickParent}
+      onMouseMove={handleMouseMoveClickParent}
+    >
       <PostModalVideo
         text={text}
         userId={userId}
+        moveVideo={moveVideo}
         showShare={showShare}
         decreaseDiv={decreaseDiv}
         selectedVideo={selectedVideo}
@@ -286,13 +357,22 @@ const ModalVideo = ({
                 $createstory={String(!createPost)}
                 onMouseMove={handleMouseMoveSelectedImg}
                 onMouseDown={handleMouseDownSelectImg}
+                onMouseEnter={handleMouseEnterSon}
+                onMouseLeave={handleMouseLeaveSon}
                 onMouseUp={handleMouseUp}
                 ref={ContainerRefImg}
               >
                 {selectedVideo && (
                   <>
                     {!decreaseDiv && (
-                      <Styled.ContainerSelectedImage ref={parentsVideo}>
+                      <Styled.ContainerSelectedVideo
+                        ref={parentsVideo}
+                        $unlockmove={String(unlockMove)}
+                        $movevideo={moveVideo}
+                        onMouseDown={handleMouseDownClick}
+                        onMouseUp={handleMouseUpClick}
+                        onMouseMove={handleMouseMoveClick}
+                      >
                         {selectedVideo && (
                           <Styled.Video
                             autoPlay
@@ -303,7 +383,7 @@ const ModalVideo = ({
                             <Styled.Source src={selectedVideo} type="video/mp4" />
                           </Styled.Video>
                         )}
-                      </Styled.ContainerSelectedImage>
+                      </Styled.ContainerSelectedVideo>
                     )}
                   </>
                 )}
@@ -323,49 +403,56 @@ const ModalVideo = ({
                         <Styled.Pvalue>{textAreaValue}</Styled.Pvalue>
                       </Styled.ContainerTextValue>
                     )}
-                    {openTextStory ? (
-                      <Styled.ContainerMainSvg>
-                        {barCenterOrLeft ? (
-                          <Styled.ContainerSvg $opentextstory={String(openTextStory)}>
-                            <FontAwesomeIcon icon={faBars} onClick={handleBarLeft} />
-                            {/* center */}
-                          </Styled.ContainerSvg>
-                        ) : (
-                          <>
-                            {barRight ? (
+                    {!createPost && (
+                      <>
+                        {openTextStory ? (
+                          <Styled.ContainerMainSvg>
+                            {barCenterOrLeft ? (
                               <Styled.ContainerSvg $opentextstory={String(openTextStory)}>
-                                <FontAwesomeIcon icon={faBarsStaggered} onClick={handleBarCenter} />
-                                {/* right */}
+                                <FontAwesomeIcon icon={faBars} onClick={handleBarLeft} />
+                                {/* center */}
                               </Styled.ContainerSvg>
                             ) : (
-                              <Styled.ContainerSvg $opentextstory={String(openTextStory)}>
-                                <FontAwesomeIcon
-                                  icon={faBarsStaggered}
-                                  flip="horizontal"
-                                  onClick={handleBarRight}
-                                />{' '}
-                                {/* left */}
-                              </Styled.ContainerSvg>
+                              <>
+                                {barRight ? (
+                                  <Styled.ContainerSvg $opentextstory={String(openTextStory)}>
+                                    <FontAwesomeIcon
+                                      icon={faBarsStaggered}
+                                      onClick={handleBarCenter}
+                                    />
+                                    {/* right */}
+                                  </Styled.ContainerSvg>
+                                ) : (
+                                  <Styled.ContainerSvg $opentextstory={String(openTextStory)}>
+                                    <FontAwesomeIcon
+                                      icon={faBarsStaggered}
+                                      flip="horizontal"
+                                      onClick={handleBarRight}
+                                    />{' '}
+                                    {/* left */}
+                                  </Styled.ContainerSvg>
+                                )}
+                              </>
                             )}
-                          </>
-                        )}
-                        {choseColorOrFont ? (
-                          <Styled.ContainerImgColor onClick={() => setChooseColorOrFont(false)}>
-                            <Styled.ContainerImg
-                              src="https://upload.wikimedia.org/wikipedia/commons/7/71/Gradient_color_wheel.png"
-                              onClick={handleOpenColors}
-                            />
-                          </Styled.ContainerImgColor>
+                            {choseColorOrFont ? (
+                              <Styled.ContainerImgColor onClick={() => setChooseColorOrFont(false)}>
+                                <Styled.ContainerImg
+                                  src="https://upload.wikimedia.org/wikipedia/commons/7/71/Gradient_color_wheel.png"
+                                  onClick={handleOpenColors}
+                                />
+                              </Styled.ContainerImgColor>
+                            ) : (
+                              <Styled.ContainerFontA onClick={handleFont}>
+                                <FontAwesomeIcon icon={faFont} />
+                              </Styled.ContainerFontA>
+                            )}
+                          </Styled.ContainerMainSvg>
                         ) : (
-                          <Styled.ContainerFontA onClick={handleFont}>
-                            <FontAwesomeIcon icon={faFont} />
-                          </Styled.ContainerFontA>
+                          <Styled.ContainerSvg $opentextstory={String(openTextStory)}>
+                            <FontAwesomeIcon icon={faFont} onClick={handleOpenText} />
+                          </Styled.ContainerSvg>
                         )}
-                      </Styled.ContainerMainSvg>
-                    ) : (
-                      <Styled.ContainerSvg $opentextstory={String(openTextStory)}>
-                        <FontAwesomeIcon icon={faFont} onClick={handleOpenText} />
-                      </Styled.ContainerSvg>
+                      </>
                     )}
 
                     {openTextStory && (

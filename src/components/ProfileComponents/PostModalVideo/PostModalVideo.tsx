@@ -13,6 +13,7 @@ import {
 interface PostModalVideoProps {
   text: string;
   userId: number | null;
+  moveVideo: number;
   showShare: boolean;
   decreaseDiv: boolean;
   selectedVideo: string | null;
@@ -30,6 +31,7 @@ interface PostModalVideoProps {
 const PostModalVideo = ({
   text,
   userId,
+  moveVideo,
   showShare,
   decreaseDiv,
   selectedVideo,
@@ -59,7 +61,7 @@ const PostModalVideo = ({
     setDecreaseDiv(true);
     setShowShare(false);
 
-    const res = await fetch(`${Url}/post`, {
+    const res = await fetch(`${Url}/post/create/video/${moveVideo}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

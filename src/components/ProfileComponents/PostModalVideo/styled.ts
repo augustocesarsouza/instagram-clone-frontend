@@ -48,8 +48,8 @@ export const ContainerContentAdvanced = styled.div<ContainerContentAdvancedProps
   /* height: 3rem; */
   background-color: white;
   border-radius: 12px 9px 0px 0px;
-  width: 543px;
-  width: ${props => props.$extende === "true" ? "863px": "543px"};
+  z-index: 10;
+  width: ${props => props.$extende === "true" ? "863px": "656px"};
   ${props => props.$extende === "true" ? ContainerPublicAnimation : null};
   /* position: absolute; */
   /* top: 4px; */
@@ -57,7 +57,7 @@ export const ContainerContentAdvanced = styled.div<ContainerContentAdvancedProps
   /* left: ${props => props.$createstory === "true" && "276px"}; */
   /* transition: width 1s ease; */
   /* transition: ${props => props.$decrease === "true" ? "width 0s ease" : "width 1s ease"}; */
-  z-index: 10;
+ 
 `
 
 export const ContainerCreatePost = styled.div<ContainerCreatePostProps>`

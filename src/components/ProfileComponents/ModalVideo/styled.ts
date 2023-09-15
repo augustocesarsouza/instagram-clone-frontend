@@ -30,6 +30,7 @@ interface ContainerTextValueProps {
 interface MainDeTodasTestProps {
   $extende: string;
   $createpost: string;
+  $mouseisinson: string;
 }
 
 interface ContainerSelectedImageOutroProps {
@@ -39,13 +40,15 @@ interface ContainerSelectedImageOutroProps {
 
 export const MainDeTodasTest = styled.div<MainDeTodasTestProps>`
   position: absolute;
-  /* height: 868px; */
   height: 100%;
   width: 100%; 
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  cursor: ${props => props.$mouseisinson === "true" ? "grabbing" : "auto"};
+
+  /* height: 868px; */
   /* left: -221px;  //story; */
   /* left: ${props => props.$createpost === "true" ? "0px" : props.$extende === "true" ? "0px" : "0px"};//-516px */
   /* top: 0px; //-437px */
@@ -58,41 +61,64 @@ export const ContainerSelectImg = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100%;
-  /* height: 100%; */
-  /* position: relative; */
+  width: 656px;
+  height: 656px;
+  flex-direction: column;
+
 `
 
 export const ContainerSelectedImageOutro = styled.div<ContainerSelectedImageOutroProps>`
-  width: 542px;
-  height: 871px;
+  width: 656px;
+  /* height: 871px; */
   user-select: none;
   position: relative;
-  
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow-y: hidden;
+  overflow-x: hidden;
+  background-color: white;
+
 
   @media (max-width: 1029px) {
     height: 656px;
   }
 `
 
-export const ContainerSelectedImage = styled.div`
+interface ContainerSelectedVideoProps {
+  $unlockmove: string;
+  $movevideo: number;
+}
+
+export const ContainerSelectedVideo = styled.div.attrs<ContainerSelectedVideoProps>(props => ({
+ style: {
+  transform: `translate3d(0px, ${props.$movevideo}px, 0px) scale(1)`,  
+ }, 
+}))`
   display: flex;
   justify-content: center;
   align-items: center;
   background: #000000;
-  height: 100%; 
-  width: 100%;
+  height: 1166.22px;  
+  width: 656px;
+  z-index: 10;
+  cursor: ${props => props.$unlockmove === "true" ? "grabbing" : "grab"};
+
+  /* transform: translate3d(0px, 0px, 0px) scale(1);   */
+  
+
+  //255px la em cima -255px la me baixo
 
    /* height: 1267.36px;
   width: 712px; */
 
-  /* transform: scaleY(.5); */
 `
 
 export const Video = styled.video`
   width: 100%;
   height: 100%;
-  
+  object-fit: cover;
 `
 
 export const Source = styled.source``
