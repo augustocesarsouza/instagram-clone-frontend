@@ -25,7 +25,7 @@ const ContainerPublicAnimation = css`
 
 export const ContainerPublic = styled.div<ContainerPublicProps>`
   height: 100%;
-  width: ${props => props.$extende === "true" ? "320px" : "26rem"};
+  width: ${props => props.$extende === "true" ? "209px" : "26rem"}; //209px 26rem
   background-color: white;
   ${props => props.$extende === "true" ? ContainerPublicAnimation : null};
 
@@ -64,7 +64,7 @@ export const WrapperTextarea = styled.div`
 `
 
 export const Textarea = styled.textarea`
-  width: 15rem;
+  /* width: 15rem; */
   height: 10rem;
   resize: none;
   padding: 5px 10px;

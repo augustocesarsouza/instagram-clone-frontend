@@ -1,13 +1,11 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import * as Styled from './styled';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
-import { useState, useEffect, createContext } from 'react';
+import { useState, createContext } from 'react';
 import ModalPhoto from '../ModalPhoto/ModalPhoto';
 import ModalCreatePublic from '../ModalCreatePublic/ModalCreatePublic';
-import ReactModal from 'react-modal';
 import ModalVideo from '../ModalVideo/ModalVideo';
 import { StoryProps, jsonPropertyTextProps } from '../InfoProfile/InfoProfile';
-import { StoryImgProps } from '../../StoryComponent/Story/Story';
 import Url from '../../../Utils/Url';
 import { AllPost } from '../../HomePage/CardPost/CardPost';
 
@@ -18,16 +16,16 @@ export interface ImgProcess {
 }
 
 interface ModalSharePhotoProps {
-  createNewStory: boolean;
   userId: number | null;
   createPost: boolean;
   choiceStory: boolean;
-  setCreateNewStory: React.Dispatch<React.SetStateAction<boolean>>;
+  createNewStory: boolean;
   setStory: React.Dispatch<React.SetStateAction<StoryProps[]>>;
   setNewStory: React.Dispatch<React.SetStateAction<boolean>>;
+  setCreatePost: React.Dispatch<React.SetStateAction<boolean>>;
+  setCreateNewStory: React.Dispatch<React.SetStateAction<boolean>>;
   setShowStoryCircle: React.Dispatch<React.SetStateAction<boolean>>;
   setCreateImgOrVideo: React.Dispatch<React.SetStateAction<AllPost | null>>;
-  setCreatePost: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const ContextModalSharePhoto = createContext<ContextModalSharePhotoProps | null>(null);
@@ -44,10 +42,10 @@ const ModalSharePhoto = ({
   createNewStory,
   setStory,
   setNewStory,
+  setCreatePost,
   setCreateNewStory,
   setShowStoryCircle,
   setCreateImgOrVideo,
-  setCreatePost,
 }: ModalSharePhotoProps) => {
   const [selectedImagem, setSelectedImage] = useState<string | null>(null);
   const [selectedVideo, setSelectedVideo] = useState<string | null>(null);

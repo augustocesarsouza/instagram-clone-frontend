@@ -53,6 +53,7 @@ const ModalVideo = ({
   const [textAreaValue, setTextAreaValue] = useState<string>('');
   const [openTextStory, setOpenTextStory] = useState(false);
   const textRef = useRef<HTMLTextAreaElement | null>(null);
+  const [sendVideoToBack, setSendVideoToBack] = useState(false);
 
   const handleChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     if (event.target.value.length <= 2200) {
@@ -198,7 +199,8 @@ const ModalVideo = ({
 
   useEffect(() => {
     // setWidthTextArea(textRef.current?.clientWidth);
-    setWidthTextArea(widthTextValueRef.current?.clientWidth);
+    if (widthTextValueRef.current === null) return;
+    setWidthTextArea(widthTextValueRef.current.clientWidth);
 
     textRef.current?.setSelectionRange(textArea.length, textArea.length);
   }, [textRef, openTextStory, textAreaValue, widthTextValueRef]);
@@ -256,33 +258,53 @@ const ModalVideo = ({
   const [isImg] = useState(false);
 
   const [lastY, setLestY] = useState(0);
-  const [moveVideo, setMoveVideo] = useState(0);
+  const [lastX, setLestX] = useState(0);
+  const [moveVideoY, setMoveVideoY] = useState(0);
+  const [moveVideoX, setMoveVideoX] = useState(0);
   const [unlockMove, setUnlockMove] = useState(false);
-  const [mouseIsInSon, setMouseIsInSon] = useState(false); // nao apertei
+  const [mouseIsInSon, setMouseIsInSon] = useState(false);
+  const valueToSumAndSubtractXRef = useRef(0.3);
+  const valueToSumAndSubtractYRef = useRef(0.7);
 
   const handleMouseDownClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     setUnlockMove(true);
     setLestY(e.clientY);
+    setLestX(e.clientX);
     setMouseIsInSon(true);
   };
 
   const handleMouseUpClick = () => {
     setUnlockMove(false);
     setMouseIsInSon(false);
-    setMoveVideo((prev) => (prev >= 255 ? 255 : prev <= -255 ? -255 : prev));
+    setMoveVideoY((prev) => (prev >= 255 ? 255 : prev <= -255 ? -255 : prev));
+    setMoveVideoX((prev) => (prev >= 0 ? 0 : 0));
   };
 
   const handleMouseMoveClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     if (!unlockMove) return;
+    if (showShare) return;
+
+    if (e.clientX < lastX) {
+      // left
+      setMoveVideoX((prev) => (prev <= -154 ? prev : prev - valueToSumAndSubtractXRef.current));
+
+      setLestX(e.clientX);
+    } else if (e.clientX > lastX) {
+      // right
+      setMoveVideoX((prev) => (prev <= 154 ? prev + valueToSumAndSubtractXRef.current : prev));
+      setLestX(e.clientX);
+    }
 
     if (e.clientY < lastY) {
       // Up
-      setMoveVideo((prev) => (prev <= -349 ? prev : prev - 1)); //Até 349px
+      setMoveVideoY((prev) => (prev <= -349 ? prev : prev - valueToSumAndSubtractYRef.current)); //Até 349px
+
       setLestY(e.clientY);
     } else if (e.clientY > lastY) {
       // Down
 
-      setMoveVideo((prev) => (prev <= 349 ? prev + 1 : prev));
+      setMoveVideoY((prev) => (prev <= 349 ? prev + valueToSumAndSubtractYRef.current : prev));
+
       setLestY(e.clientY);
     }
   };
@@ -302,21 +324,35 @@ const ModalVideo = ({
     setMouseIsInSon(false);
     setUnlockParentMove(false);
 
-    setMoveVideo((prev) => (prev >= 255 ? 255 : prev <= -255 ? -255 : prev));
+    setMoveVideoY((prev) => (prev >= 255 ? 255 : prev <= -255 ? -255 : prev));
+    setMoveVideoX((prev) => (prev >= 0 ? 0 : 0));
   };
 
   const handleMouseMoveClickParent = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     if (!unlockParentMove) return;
     if (!mouseIsInSon) return;
+    if (showShare) return;
+
+    if (e.clientX < lastX) {
+      // left
+      setMoveVideoX((prev) => (prev <= -154 ? prev : prev - valueToSumAndSubtractXRef.current));
+      setLestX(e.clientX);
+    } else if (e.clientX > lastX) {
+      // right
+      setMoveVideoX((prev) => (prev <= 154 ? prev + valueToSumAndSubtractXRef.current : prev));
+      setLestX(e.clientX);
+    }
 
     if (e.clientY < lastY) {
       // Up
-      setMoveVideo((prev) => (prev <= -349 ? prev : prev - 1)); //Até 349px
+      setMoveVideoY((prev) => (prev <= -349 ? prev : prev - valueToSumAndSubtractYRef.current)); //Até 349px
+
       setLestY(e.clientY);
     } else if (e.clientY > lastY) {
       // Down
 
-      setMoveVideo((prev) => (prev <= 349 ? prev + 1 : prev));
+      setMoveVideoY((prev) => (prev <= 349 ? prev + valueToSumAndSubtractYRef.current : prev));
+
       setLestY(e.clientY);
     }
   };
@@ -332,22 +368,40 @@ const ModalVideo = ({
       <PostModalVideo
         text={text}
         userId={userId}
-        moveVideo={moveVideo}
+        moveVideoY={moveVideoY}
         showShare={showShare}
         decreaseDiv={decreaseDiv}
         selectedVideo={selectedVideo}
+        sendVideoToBack={sendVideoToBack}
         jsonPropertyText={jsonPropertyText}
         setStory={setStory}
         setNewStory={setNewStory}
         setShowShare={setShowShare}
         handlePublish={handlePublish}
         setDecreaseDiv={setDecreaseDiv}
+        setSendVideoToBack={setSendVideoToBack}
         setShowStoryCircle={setShowStoryCircle}
         setCreateImgOrVideo={setCreateImgOrVideo}
         handleModalDiscardPost={handleModalDiscardPost}
       />
-      <Styled.ContainerSelectImg>
+      <Styled.ContainerSelectImg
+        $showshare={String(showShare)}
+        $sendvideotoback={String(sendVideoToBack)}
+      >
         <>
+          {!showShare && (
+            <Styled.ContainerParentsBorder>
+              <Styled.ContainerBorder $position="1"></Styled.ContainerBorder>
+              <Styled.ContainerBorder $position="2"></Styled.ContainerBorder>
+              <Styled.ContainerBorder $position="3"></Styled.ContainerBorder>
+              <Styled.ContainerBorder $position="4"></Styled.ContainerBorder>
+              <Styled.ContainerBorder $position="5"></Styled.ContainerBorder>
+              <Styled.ContainerBorder $position="6"></Styled.ContainerBorder>
+              <Styled.ContainerBorder $position="7"></Styled.ContainerBorder>
+              <Styled.ContainerBorder $position="8"></Styled.ContainerBorder>
+              <Styled.ContainerBorder $position="9"></Styled.ContainerBorder>
+            </Styled.ContainerParentsBorder>
+          )}
           {!decreaseDiv && (
             <>
               <Styled.ContainerSelectedImageOutro
@@ -366,7 +420,9 @@ const ModalVideo = ({
                       <Styled.ContainerSelectedVideo
                         ref={parentsVideo}
                         $unlockmove={String(unlockMove)}
-                        $movevideo={moveVideo}
+                        $movevideoy={moveVideoY}
+                        $movevideox={moveVideoX}
+                        $showshare={String(showShare)}
                         onMouseDown={handleMouseDownClick}
                         onMouseUp={handleMouseUpClick}
                         onMouseMove={handleMouseMoveClick}
@@ -492,6 +548,7 @@ const ModalVideo = ({
         />
       </Styled.ContainerSelectImg>
       <ModalDiscardPost
+        imgData={undefined}
         showModalDiscardPost={showModalDiscardPost}
         setSelectedVideo={setSelectedVideo}
         setSelectedImage={setSelectedImage}

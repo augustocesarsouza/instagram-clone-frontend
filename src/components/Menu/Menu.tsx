@@ -65,7 +65,7 @@ const Menu = ({
     if (location.pathname === '/Message') {
       setActiveButton('message');
     }
-  }, [location]);
+  }, [location, activeButton]);
 
   useEffect(() => {
     if (dataUserOnly) {

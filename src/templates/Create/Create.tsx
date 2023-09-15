@@ -5,8 +5,6 @@ import * as Styled from './styled';
 import { useEffect, useState } from 'react';
 
 interface CreateProps {
-  showModalShare: boolean;
-  setShowModalShare: React.Dispatch<React.SetStateAction<boolean>>;
   userId: number | null;
   createPost: boolean;
   setCreatePost: React.Dispatch<React.SetStateAction<boolean>>;
@@ -20,14 +18,7 @@ export interface DataUserOnlyProps {
   imagePerfil: string;
 }
 
-const Create = ({
-  showModalShare,
-  setShowModalShare,
-  userId,
-  createPost,
-  setCreatePost,
-  setCreateImgOrVideo,
-}: CreateProps) => {
+const Create = ({ userId, createPost, setCreatePost, setCreateImgOrVideo }: CreateProps) => {
   const [createNewStory, setCreateNewStory] = useState(false);
   const [choiceStory] = useState(false);
 
@@ -38,8 +29,6 @@ const Create = ({
         createPost={createPost}
         choiceStory={choiceStory}
         createNewStory={createNewStory}
-        showModalShare={showModalShare}
-        setShowModalShare={setShowModalShare}
         setCreatePost={setCreatePost}
         setCreateImgOrVideo={setCreateImgOrVideo}
         setCreateNewStory={setCreateNewStory}

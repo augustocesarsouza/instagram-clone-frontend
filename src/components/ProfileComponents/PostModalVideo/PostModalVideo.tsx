@@ -13,15 +13,17 @@ import {
 interface PostModalVideoProps {
   text: string;
   userId: number | null;
-  moveVideo: number;
+  moveVideoY: number;
   showShare: boolean;
   decreaseDiv: boolean;
   selectedVideo: string | null;
+  sendVideoToBack: boolean;
   jsonPropertyText: jsonPropertyTextProps | {};
   setStory: React.Dispatch<React.SetStateAction<StoryProps[]>>;
   setNewStory: React.Dispatch<React.SetStateAction<boolean>>;
   setShowShare: React.Dispatch<React.SetStateAction<boolean>>;
   setDecreaseDiv: React.Dispatch<React.SetStateAction<boolean>>;
+  setSendVideoToBack: React.Dispatch<React.SetStateAction<boolean>>;
   handlePublish: (value: boolean) => void;
   setShowStoryCircle: React.Dispatch<React.SetStateAction<boolean>>;
   setCreateImgOrVideo: React.Dispatch<React.SetStateAction<AllPost | null>>;
@@ -31,16 +33,18 @@ interface PostModalVideoProps {
 const PostModalVideo = ({
   text,
   userId,
-  moveVideo,
+  moveVideoY,
   showShare,
   decreaseDiv,
   selectedVideo,
+  sendVideoToBack,
   jsonPropertyText,
   setStory,
   setNewStory,
   setShowShare,
   handlePublish,
   setDecreaseDiv,
+  setSendVideoToBack,
   setShowStoryCircle,
   setCreateImgOrVideo,
   handleModalDiscardPost,
@@ -53,15 +57,17 @@ const PostModalVideo = ({
   const { setCreateNewStory, createPost } = contextModalSharePhoto;
 
   const handleShare = async () => {
+    setShowShare(true);
+    setSendVideoToBack(true);
     const JsonPost = {
       Title: text,
       Url: selectedVideo,
       AuthorId: userId,
     };
     setDecreaseDiv(true);
-    setShowShare(false);
+    // setShowShare(false);
 
-    const res = await fetch(`${Url}/post/create/video/${moveVideo}`, {
+    const res = await fetch(`${Url}/post/create/video/${Math.floor(moveVideoY)}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -138,9 +144,13 @@ const PostModalVideo = ({
     <Styled.ContainerContentAdvanced
       $extende={String(showShare)}
       $decrease={String(decreaseDiv)}
+      $sendvideotoback={String(sendVideoToBack)}
       $createstory={String(!createPost)} // quando falso estou criando um story
     >
-      <Styled.ContainerCreatePost $decrease={String(decreaseDiv)}>
+      <Styled.ContainerCreatePost
+        $decrease={String(decreaseDiv)}
+        $sendvideotoback={String(sendVideoToBack)}
+      >
         {showIconSuccess ? (
           !createPost ? (
             <Styled.P $paragr="p1">Story Publicado</Styled.P>

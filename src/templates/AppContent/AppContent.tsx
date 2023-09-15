@@ -225,8 +225,6 @@ const AppContent = () => {
       </Routes>
       {showModalShare && (
         <Create
-          showModalShare={showModalShare}
-          setShowModalShare={setShowModalShare}
           userId={userId}
           createPost={createPost}
           setCreatePost={setCreatePost}

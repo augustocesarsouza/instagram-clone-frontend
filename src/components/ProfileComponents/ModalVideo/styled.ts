@@ -56,20 +56,25 @@ export const MainDeTodasTest = styled.div<MainDeTodasTestProps>`
   /* transition: left 0.5s ease; */
 `
 
+interface ContainerSelectImgProps {
+  $showshare: string
+  $sendvideotoback: string;
+}
 
-export const ContainerSelectImg = styled.div`
-  display: flex;
+export const ContainerSelectImg = styled.div<ContainerSelectImgProps>`
+  display: ${props => props.$sendvideotoback === "true" ? "none" : "flex"};
   justify-content: center;
   align-items: center;
-  width: 656px;
-  height: 656px;
-  flex-direction: column;
+  width: ${props => props.$showshare === "true" ? "863px" : "656px"};
 
+  height: 656px;
+  flex-direction: ${props => props.$showshare === "true" ? "none" : "column"};
+  
+  position: relative;
 `
 
 export const ContainerSelectedImageOutro = styled.div<ContainerSelectedImageOutroProps>`
   width: 656px;
-  /* height: 871px; */
   user-select: none;
   position: relative;
   display: flex;
@@ -79,40 +84,64 @@ export const ContainerSelectedImageOutro = styled.div<ContainerSelectedImageOutr
   overflow-y: hidden;
   overflow-x: hidden;
   background-color: white;
-
+  
 
   @media (max-width: 1029px) {
     height: 656px;
   }
 `
 
+export const ContainerParentsBorder = styled.div`
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(166px, 2fr));
+  z-index: 10;
+  width: 100%;
+  height: 100%;
+`
+
+interface ContainerBorderProps {
+  $position: string;
+}
+
+export const ContainerBorder = styled.div<ContainerBorderProps>`
+  width: 100%;
+  height: 100%;
+  border-top: 1px solid #ffffff59;
+  border-right: 1px solid #ffffff59;
+  border-left: ${props => props.$position == "1" && "1px solid #ffffff59"};
+  border-left: ${props => props.$position == "4" && "1px solid #ffffff59"};
+  border-left: ${props => props.$position == "7" && "1px solid #ffffff59"};
+  border-bottom: ${props => props.$position >= "7" && "1px solid #ffffff59"};
+  box-shadow: 0px 0px 2px #0000002b;
+
+  /* background-color: black; */
+`
+
 interface ContainerSelectedVideoProps {
   $unlockmove: string;
-  $movevideo: number;
+  $movevideoy: number;
+  $movevideox: number;
+  $showshare: string
 }
 
 export const ContainerSelectedVideo = styled.div.attrs<ContainerSelectedVideoProps>(props => ({
  style: {
-  transform: `translate3d(0px, ${props.$movevideo}px, 0px) scale(1)`,  
+  transform: `translate3d(${props.$movevideox}px, ${props.$movevideoy}px, 0px) scale(1)`,  
  }, 
 }))`
   display: flex;
   justify-content: center;
   align-items: center;
   background: #000000;
-  height: 1166.22px;  
-  width: 656px;
-  z-index: 10;
+  /* height: ${props => props.$showshare === "true" ? "100%" : "1166.22px"}; */
+  height: 1166.22px;
+  width: 656px; //656px
   cursor: ${props => props.$unlockmove === "true" ? "grabbing" : "grab"};
-
-  /* transform: translate3d(0px, 0px, 0px) scale(1);   */
-  
-
-  //255px la em cima -255px la me baixo
-
-   /* height: 1267.36px;
-  width: 712px; */
-
+  cursor: ${props => props.$showshare === "true" && "auto"};
+  z-index: ${props => props.$unlockmove === "true" ? "9" : "11"};
 `
 
 export const Video = styled.video`
