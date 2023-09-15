@@ -321,8 +321,6 @@ const ModalVideo = ({
     }
   };
 
-  console.log(moveVideo);
-
   return (
     <Styled.MainDeTodasTest
       $extende={String(showShare)}

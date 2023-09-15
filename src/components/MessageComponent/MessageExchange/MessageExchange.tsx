@@ -1,19 +1,10 @@
 import Url from '../../../Utils/Url';
 import { DataMessages, Following } from '../../../templates/Message/Message';
-import InfoUserMessage from '../../InfoUserMessage/InfoUserMessage';
+import InfoUserMessage from '../InfoUserMessage/InfoUserMessage';
 import * as Styled from './styled';
 import { useState, useEffect, useRef, useCallback } from 'react';
 import * as signalR from '@microsoft/signalr';
-import moment from 'moment';
 import 'moment-timezone';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faPause,
-  faPlay,
-  faVolumeHigh,
-  faVolumeXmark,
-  faXmark,
-} from '@fortawesome/free-solid-svg-icons';
 import ModalReelVideoInfo from '../ModalReelVideoInfo/ModalReelVideoInfo';
 
 interface MessageExchangeProps {

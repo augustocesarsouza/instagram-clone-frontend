@@ -5,7 +5,7 @@ import Url from '../../Utils/Url';
 import InfoProfile from '../../components/ProfileComponents/InfoProfile/InfoProfile';
 import ModalFollowers from '../../components/ProfileComponents/ModalFollowers/ModalFollowers';
 import ModalFollowing from '../../components/ProfileComponents/ModalFollowing/ModalFollowing';
-import ContainerPublications from '../../components/ContainerPublications/ContainerPublications';
+import ContainerPublications from '../../components/ProfileComponents/ContainerPublications/ContainerPublications';
 import Publications from '../../components/ProfileComponents/Publications/Publications';
 import { AllPost } from '../../components/HomePage/CardPost/CardPost';
 import UserProfileStatsSmallerSize from '../../components/ProfileComponents/UserProfileStatsSmallerSize/UserProfileStatsSmallerSize';

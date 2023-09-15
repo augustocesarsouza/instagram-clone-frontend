@@ -1,5 +1,4 @@
 import { useLocation } from 'react-router-dom';
-import Url from '../../Utils/Url';
 import * as Styled from './styled';
 import { useEffect, useState } from 'react';
 import FollowingMessage from '../../components/MessageComponent/FollowingMessage/FollowingMessage';

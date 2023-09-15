@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import FormLogin from '../../components/FormLogin/FormLogin.tsx';
+import FormLogin from '../../components/LoginComponents/FormLogin/FormLogin.tsx';
 import * as Styled from './styled';
 import Url from '../../Utils/Url.tsx';
 import { useNavigate } from 'react-router-dom';

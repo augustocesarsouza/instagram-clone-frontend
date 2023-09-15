@@ -1,7 +1,7 @@
 import Url from '../../../Utils/Url';
 import { DataUserOnlyProps } from '../../../templates/Profile/Profile';
 import ModalSharePhoto from '../ModalSharePhoto/ModalSharePhoto';
-import PhotoUser from '../../PhotoUser/PhotoUser';
+import PhotoUser from '../PhotoUser/PhotoUser';
 import * as Styled from './styled';
 import { useState, useEffect, useLayoutEffect } from 'react';
 import { AllPost } from '../../HomePage/CardPost/CardPost';
