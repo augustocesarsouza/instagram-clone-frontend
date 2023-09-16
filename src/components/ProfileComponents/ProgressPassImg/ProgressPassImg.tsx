@@ -379,117 +379,115 @@ ProgressPassImgProps) => {
     <>
       {story && (
         <Styled.ContainerSee>
-          <Styled.ContainerImgAndIcon>
-            <Styled.Line>
-              <Styled.ContainerProgressBar>
-                {story.map((sto, index) => (
-                  <Styled.ContainerBackgroundBlack key={sto.id} ref={refDivLength}>
-                    <Styled.LineBlack
-                      $imgorvideo={isImgOrVideo}
-                      $progress={progressBar}
-                      $countpx={countPixelFill}
-                      $idphoto={sto.id}
-                      $currentphotoindex={currentPhotoIndex}
-                      $story={story}
-                      $completedindexes={completedIndexes}
-                      $widthdivprogressbar={widthDivProgressBar}
-                    ></Styled.LineBlack>
-                  </Styled.ContainerBackgroundBlack>
-                ))}
-              </Styled.ContainerProgressBar>
+          <Styled.Line>
+            <Styled.ContainerProgressBar>
+              {story.map((sto, index) => (
+                <Styled.ContainerBackgroundBlack key={sto.id} ref={refDivLength}>
+                  <Styled.LineBlack
+                    $imgorvideo={isImgOrVideo}
+                    $progress={progressBar}
+                    $countpx={countPixelFill}
+                    $idphoto={sto.id}
+                    $currentphotoindex={currentPhotoIndex}
+                    $story={story}
+                    $completedindexes={completedIndexes}
+                    $widthdivprogressbar={widthDivProgressBar}
+                  ></Styled.LineBlack>
+                </Styled.ContainerBackgroundBlack>
+              ))}
+            </Styled.ContainerProgressBar>
 
-              <Styled.WrapperMainStatusInfoUser>
-                {dataUserOnly && (
-                  <Styled.WrapperMainInfoUser>
-                    <Styled.WrapperImagem>
-                      <Styled.WrapperImg src={dataUserOnly.imagePerfil} />
-                    </Styled.WrapperImagem>
-                    <Styled.WrapperInfoUser>
-                      <Styled.P>{dataUserOnly.name}</Styled.P>
-                    </Styled.WrapperInfoUser>
-                  </Styled.WrapperMainInfoUser>
-                )}
-                <Styled.WrapperSvg>
-                  {pause ? (
-                    <FontAwesomeIcon icon={faPlay} onClick={handlePauseOn} />
-                  ) : (
-                    <FontAwesomeIcon icon={faPause} onClick={handlePauseOff} />
-                  )}
-                  {sound ? (
-                    <FontAwesomeIcon icon={faVolumeHigh} onClick={handleSoundOn} />
-                  ) : (
-                    <FontAwesomeIcon icon={faVolumeXmark} onClick={handleSoundFalse} />
-                  )}
-                  <FontAwesomeIcon icon={faEllipsis} />
-                </Styled.WrapperSvg>
-              </Styled.WrapperMainStatusInfoUser>
-            </Styled.Line>
-            <Styled.ContainerTextArea>
-              <Styled.ContainerOnlyTextarea>
-                <Styled.Textarea placeholder="Responder a alanzoka..." />
-              </Styled.ContainerOnlyTextarea>
-            </Styled.ContainerTextArea>
-
-            <Styled.ContainerImg ref={ref}>
-              {story[currentPhotoIndex].isImagem == 1 ? (
-                <>
-                  <>
-                    <Styled.ImgStory
-                      key={story[currentPhotoIndex].id}
-                      draggable="false"
-                      src={story[currentPhotoIndex].url}
-                    />
-                  </>
-                </>
-              ) : (
-                <>
-                  {story[currentPhotoIndex].propertyText === undefined ? (
-                    <>
-                      <Styled.Video
-                        onTimeUpdate={(e) => handleTimeUpdate(e)}
-                        key={story[currentPhotoIndex].id}
-                        autoPlay
-                        muted={isMute}
-                        ref={refVideo}
-                      >
-                        <Styled.Source src={story[currentPhotoIndex].url} />
-                      </Styled.Video>
-                    </>
-                  ) : (
-                    <>
-                      <Styled.Video
-                        onTimeUpdate={(e) => handleTimeUpdate(e)}
-                        key={story[currentPhotoIndex].id}
-                        autoPlay
-                        muted={isMute}
-                        ref={refVideo}
-                      >
-                        <Styled.Source src={story[currentPhotoIndex].url} />
-                      </Styled.Video>
-
-                      <Styled.ContainerTextValue
-                        $colorchosenbackground={story[currentPhotoIndex].propertyText.background}
-                        $fontChosen={story[currentPhotoIndex].propertyText.fontFamily}
-                        $widthtext={story[currentPhotoIndex].propertyText.width}
-                        $eixox={story[currentPhotoIndex].propertyText.left}
-                        $eixoy={story[currentPhotoIndex].propertyText.top}
-                      >
-                        <Styled.Pvalue>{story[currentPhotoIndex].propertyText.text}</Styled.Pvalue>
-                      </Styled.ContainerTextValue>
-                    </>
-                  )}
-                </>
+            <Styled.WrapperMainStatusInfoUser>
+              {dataUserOnly && (
+                <Styled.WrapperMainInfoUser>
+                  <Styled.WrapperImagem>
+                    <Styled.WrapperImg src={dataUserOnly.imagePerfil} />
+                  </Styled.WrapperImagem>
+                  <Styled.WrapperInfoUser>
+                    <Styled.P>{dataUserOnly.name}</Styled.P>
+                  </Styled.WrapperInfoUser>
+                </Styled.WrapperMainInfoUser>
               )}
-            </Styled.ContainerImg>
-            <Styled.WrapperArrow $arrowdirection="right">
-              <FontAwesomeIcon icon={faArrowRight} onClick={handlePassStory} />
-            </Styled.WrapperArrow>
-            {currentPhotoIndex > 0 && (
-              <Styled.WrapperArrow $arrowdirection="left">
-                <FontAwesomeIcon icon={faArrowRight} onClick={handleReturnStory} rotation={180} />
-              </Styled.WrapperArrow>
+              <Styled.WrapperSvg>
+                {pause ? (
+                  <FontAwesomeIcon icon={faPlay} onClick={handlePauseOn} />
+                ) : (
+                  <FontAwesomeIcon icon={faPause} onClick={handlePauseOff} />
+                )}
+                {sound ? (
+                  <FontAwesomeIcon icon={faVolumeHigh} onClick={handleSoundOn} />
+                ) : (
+                  <FontAwesomeIcon icon={faVolumeXmark} onClick={handleSoundFalse} />
+                )}
+                <FontAwesomeIcon icon={faEllipsis} />
+              </Styled.WrapperSvg>
+            </Styled.WrapperMainStatusInfoUser>
+          </Styled.Line>
+          <Styled.ContainerTextArea>
+            <Styled.ContainerOnlyTextarea>
+              <Styled.Textarea placeholder="Responder a alanzoka..." />
+            </Styled.ContainerOnlyTextarea>
+          </Styled.ContainerTextArea>
+
+          <Styled.ContainerImg ref={ref}>
+            {story[currentPhotoIndex].isImagem == 1 ? (
+              <>
+                <>
+                  <Styled.ImgStory
+                    key={story[currentPhotoIndex].id}
+                    draggable="false"
+                    src={story[currentPhotoIndex].url}
+                  />
+                </>
+              </>
+            ) : (
+              <>
+                {story[currentPhotoIndex].propertyText === undefined ? (
+                  <>
+                    <Styled.Video
+                      onTimeUpdate={(e) => handleTimeUpdate(e)}
+                      key={story[currentPhotoIndex].id}
+                      autoPlay
+                      muted={isMute}
+                      ref={refVideo}
+                    >
+                      <Styled.Source src={story[currentPhotoIndex].url} />
+                    </Styled.Video>
+                  </>
+                ) : (
+                  <>
+                    <Styled.Video
+                      onTimeUpdate={(e) => handleTimeUpdate(e)}
+                      key={story[currentPhotoIndex].id}
+                      autoPlay
+                      muted={isMute}
+                      ref={refVideo}
+                    >
+                      <Styled.Source src={story[currentPhotoIndex].url} />
+                    </Styled.Video>
+
+                    <Styled.ContainerTextValue
+                      $colorchosenbackground={story[currentPhotoIndex].propertyText.background}
+                      $fontChosen={story[currentPhotoIndex].propertyText.fontFamily}
+                      $widthtext={story[currentPhotoIndex].propertyText.width}
+                      $eixox={story[currentPhotoIndex].propertyText.left}
+                      $eixoy={story[currentPhotoIndex].propertyText.top}
+                    >
+                      <Styled.Pvalue>{story[currentPhotoIndex].propertyText.text}</Styled.Pvalue>
+                    </Styled.ContainerTextValue>
+                  </>
+                )}
+              </>
             )}
-          </Styled.ContainerImgAndIcon>
+          </Styled.ContainerImg>
+          <Styled.WrapperArrow $arrowdirection="right">
+            <FontAwesomeIcon icon={faArrowRight} onClick={handlePassStory} />
+          </Styled.WrapperArrow>
+          {currentPhotoIndex > 0 && (
+            <Styled.WrapperArrow $arrowdirection="left">
+              <FontAwesomeIcon icon={faArrowRight} onClick={handleReturnStory} rotation={180} />
+            </Styled.WrapperArrow>
+          )}
         </Styled.ContainerSee>
       )}
     </>

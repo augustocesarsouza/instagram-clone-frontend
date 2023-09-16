@@ -5,13 +5,6 @@ interface ButtonNavProps {
   $active: string;
 }
 
-
-const pulseAnimation = keyframes`
-  0% {
-    transform: scale(1.2);
-  }
-`;
-
 export const Container = styled.div`
   display: flex;
   /* position: relative; */
@@ -49,6 +42,8 @@ export const Container = styled.div`
 
   
 `
+
+
 
 export const ContainerMain = styled.div`
   display: flex;
@@ -172,6 +167,18 @@ export const AnimatedSvg = styled(FontAwesomeIcon)`
   height: auto;
 `
 
+const pulseAnimation = keyframes`
+  0% {
+    transform: scale(1.1);
+    opacity: 0.8;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+`;
+
 export const ContainerAwesomeButton = styled.div<ButtonNavProps>`
   display: flex;
   align-items: center;
@@ -184,19 +191,18 @@ export const ContainerAwesomeButton = styled.div<ButtonNavProps>`
   
   &:hover{
     background-color: #efefef;
-
     
-  @media (max-width: 750px) {
-    background-color: #d9d9d9;
+    @media (max-width: 750px) {
+      background-color: #d9d9d9;
+    }
+
+    @media (max-width: 838px) {
+      background-color: ${props => props.theme.activeButton === "profile" && "#d9d9d9"};
+    }
   }
 
-  @media (max-width: 838px) {
-    background-color: ${props => props.theme.activeButton === "profile" && "#d9d9d9"};
-  }
-  }
-
-  &:hover ${AnimatedSvg}{
-    animation: ${pulseAnimation} 3s normal;
+  &:hover > svg {
+    animation: ${pulseAnimation} 3s ease;
   }
 
   width: ${props => props.theme.activeButton === "message" ? "4rem" : "13rem"};

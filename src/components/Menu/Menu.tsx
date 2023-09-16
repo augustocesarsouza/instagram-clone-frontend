@@ -7,6 +7,9 @@ import Url from '../../Utils/Url';
 
 import SvgLogoReels from './InstagramReelsIcon/InstagramReelsIcon';
 import { ThemeProvider } from 'styled-components';
+import InstagramMessageSvg from './InstagramMessageSvg/InstagramMessageSvg';
+import InstagramCreateSvg from './InstagramCreateSvg/InstagramCreateSvg';
+import InstagramHomePageSvg from './InstagramHomePageSvg/InstagramHomePageSvg';
 
 interface MenuProps {
   userId: number | null;
@@ -118,7 +121,7 @@ const Menu = ({
               onClick={() => handleHomePage('home-page')}
               $active={activeButton === 'home-page' ? 'true' : 'false'}
             >
-              <Styled.AnimatedSvg icon={faHouse} />
+              <InstagramHomePageSvg />
               <Styled.ButtonNav>Página inicial</Styled.ButtonNav>
             </Styled.ContainerAwesomeButton>
             <Styled.ContainerAwesomeButton
@@ -132,14 +135,14 @@ const Menu = ({
               onClick={() => handleMessage('message')}
               $active={activeButton === 'message' ? 'true' : 'false'}
             >
-              <Styled.AnimatedSvg icon={faMessage} />
+              <InstagramMessageSvg />
               <Styled.ButtonNav>Mensagens</Styled.ButtonNav>
             </Styled.ContainerAwesomeButton>
             <Styled.ContainerAwesomeButton
               onClick={() => handleCreate('create')}
               $active={activeButton === 'create' ? 'true' : 'false'}
             >
-              <Styled.AnimatedSvg icon={faPlus} />
+              <InstagramCreateSvg />
               <Styled.ButtonNav>Criar</Styled.ButtonNav>
             </Styled.ContainerAwesomeButton>
             <Styled.ContainerAwesomeButton

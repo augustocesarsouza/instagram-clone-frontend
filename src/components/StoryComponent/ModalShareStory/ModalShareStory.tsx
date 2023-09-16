@@ -1,13 +1,11 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import * as Styled from './styled';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
-import { useState, createContext } from 'react';
-import ModalPhoto from '../ModalPhoto/ModalPhoto';
-import ModalCreatePublic from '../ModalCreatePublic/ModalCreatePublic';
-import ModalVideo from '../ModalVideo/ModalVideo';
-import { StoryProps, jsonPropertyTextProps } from '../InfoProfile/InfoProfile';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Url from '../../../Utils/Url';
-import { AllPost } from '../../HomePage/CardPost/CardPost';
+import { createContext, useState } from 'react';
+import ModalCreatePublicStoryStory from '../ModalCreatePublicStory/ModalCreatePublicStory';
+import ModalVideoStory from '../ModalVideoStory/ModalVideoStory';
+import { StoryProps } from '../../ProfileComponents/InfoProfile/InfoProfile';
 
 export interface ImgProcess {
   url: string;
@@ -15,38 +13,30 @@ export interface ImgProcess {
   isImagem: number;
 }
 
-interface ModalSharePhotoProps {
+interface ModalShareStoryProps {
   userId: number | null;
-  createPost: boolean;
   choiceStory: boolean;
   createNewStory: boolean;
   setStory: React.Dispatch<React.SetStateAction<StoryProps[]>>;
   setNewStory: React.Dispatch<React.SetStateAction<boolean>>;
-  setCreatePost: React.Dispatch<React.SetStateAction<boolean>>;
   setCreateNewStory: React.Dispatch<React.SetStateAction<boolean>>;
   setShowStoryCircle: React.Dispatch<React.SetStateAction<boolean>>;
-  setCreateImgOrVideo: React.Dispatch<React.SetStateAction<AllPost | null>>;
 }
 
 export const ContextModalSharePhoto = createContext<ContextModalSharePhotoProps | null>(null);
 
 export interface ContextModalSharePhotoProps {
   setCreateNewStory: React.Dispatch<React.SetStateAction<boolean>>;
-  createPost: boolean;
 }
 
-const ModalSharePhoto = ({
+const ModalShareStory = ({
   userId,
-  createPost,
-  choiceStory,
   createNewStory,
   setStory,
   setNewStory,
-  setCreatePost,
   setCreateNewStory,
   setShowStoryCircle,
-  setCreateImgOrVideo,
-}: ModalSharePhotoProps) => {
+}: ModalShareStoryProps) => {
   const [selectedImagem, setSelectedImage] = useState<string | null>(null);
   const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
   const [imgData, setImgData] = useState<ImgProcess>();
@@ -71,31 +61,17 @@ const ModalSharePhoto = ({
 
         reader.onload = (e) => {
           const imageDataUrl = e.target?.result as string;
-
-          if (createPost && imageDataUrl.startsWith('data:image/')) {
-            setShowLoading(false);
-            setSelectedImage(imageDataUrl);
-          } else if (createPost && imageDataUrl.startsWith('data:video/')) {
-            setSelectedVideo(imageDataUrl);
-            setShowLoading(false);
-          }
-
           setShowLoading(true);
 
-          if (imageDataUrl.startsWith('data:image/') && createNewStory) {
+          if (imageDataUrl.startsWith('data:image/')) {
             const fetchTest = async () => {
               var imgObj;
-              if (createNewStory) {
-                imgObj = {
-                  Url: imageDataUrl,
-                  isStory: true,
-                };
-              } else if (createPost) {
-                imgObj = {
-                  Url: imageDataUrl,
-                  IsStory: false,
-                };
-              }
+
+              imgObj = {
+                Url: imageDataUrl,
+                isStory: true,
+              };
+
               const res = await fetch(`${Url}/process/img/story`, {
                 method: 'POST',
                 headers: {
@@ -147,9 +123,6 @@ const ModalSharePhoto = ({
     setSelectedImage(null);
     setSelectedVideo(null);
     setChooseFile(true);
-    if (createPost) {
-      setCreatePost(false);
-    }
 
     if (createNewStory) {
       setCreateNewStory(false);
@@ -170,54 +143,45 @@ const ModalSharePhoto = ({
 
   return (
     <>
-      <Styled.MainShare $isoffdiv={String(createNewStory || createPost)}>
+      <Styled.MainShare $isoffdiv={String(createNewStory)}>
         <Styled.ContainerClosedModal>
           <FontAwesomeIcon icon={faXmark} onClick={handleCloseModal} />
         </Styled.ContainerClosedModal>
-        <ContextModalSharePhoto.Provider value={{ setCreateNewStory, createPost }}>
+        <ContextModalSharePhoto.Provider value={{ setCreateNewStory }}>
           <>
             {selectedImagem ? (
-              <ModalPhoto
+              // <ModalPhoto
+              //   userId={userId}
+              //   imgData={imgData}
+              //   createPost={createPost}
+              //   selectedImagem={selectedImagem}
+              //   setSelectedImage={setSelectedImage}
+              //   setSelectedVideo={setSelectedVideo}
+              //   setStory={setStory}
+              //   setNewStory={setNewStory}
+              //   setShowStoryCircle={setShowStoryCircle}
+              //   setCreateImgOrVideo={setCreateImgOrVideo}
+              //   setShowShare={setShowShare}
+              //   showShare={showShare}
+              // />
+              <></>
+            ) : selectedVideo ? (
+              <ModalVideoStory
                 userId={userId}
-                imgData={imgData}
-                createPost={createPost}
-                selectedImagem={selectedImagem}
-                setSelectedImage={setSelectedImage}
-                setSelectedVideo={setSelectedVideo}
+                selectedVideo={selectedVideo}
                 setStory={setStory}
                 setNewStory={setNewStory}
-                setShowStoryCircle={setShowStoryCircle}
-                setCreateImgOrVideo={setCreateImgOrVideo}
-                setShowShare={setShowShare}
-                showShare={showShare}
-              />
-            ) : selectedVideo ? (
-              <ModalVideo
-                userId={userId}
-                createPost={createPost}
-                selectedVideo={selectedVideo}
                 setSelectedVideo={setSelectedVideo}
                 setSelectedImage={setSelectedImage}
-                setCreateImgOrVideo={setCreateImgOrVideo}
+                setCreateNewStory={setCreateNewStory}
+                setShowStoryCircle={setShowStoryCircle}
               />
             ) : (
               <>
                 {createNewStory && (
-                  <ModalCreatePublic
+                  <ModalCreatePublicStoryStory
                     handleShowSelectImg={handleShowSelectImg}
                     setSelectedImage={setSelectedImage}
-                    createPost={createPost}
-                    showLoading={showLoading}
-                    chooseFile={chooseFile}
-                    showIconSuccess={showIconSuccess}
-                  />
-                )}
-
-                {createPost && (
-                  <ModalCreatePublic
-                    handleShowSelectImg={handleShowSelectImg}
-                    setSelectedImage={setSelectedImage}
-                    createPost={createPost}
                     showLoading={showLoading}
                     chooseFile={chooseFile}
                     showIconSuccess={showIconSuccess}
@@ -232,4 +196,4 @@ const ModalSharePhoto = ({
   );
 };
 
-export default ModalSharePhoto;
+export default ModalShareStory;

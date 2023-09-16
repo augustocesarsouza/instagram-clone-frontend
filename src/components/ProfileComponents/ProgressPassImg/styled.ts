@@ -41,13 +41,16 @@ export const Pvalue = styled.p``
 
 export const ContainerSee = styled.div`
   width: 542px;
-  /* height: 53rem; */
   height: 871px;  //835px
   background-color: white;
   display: flex;
   flex-direction: column;
   justify-content: center;
   position: relative;
+
+  @media (max-width: 1029px) {
+    height: 814px; // 854px
+  }
 `
 
 export const Line = styled.div`
@@ -183,13 +186,7 @@ export const Textarea = styled.textarea`
   &:focus{
     outline: none;
   }
-`
-
-export const ContainerImgAndIcon = styled.div`
-  position: relative;
-  width: 543px;
-  height: 871px;
-`
+`;
 
 export const ContainerImg = styled.div`
   height: 100%;

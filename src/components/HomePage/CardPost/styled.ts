@@ -11,12 +11,15 @@ export const ContainerMain = styled.div<ContainerMain>`
 
 export const ContainerInteraction = styled.div`
   display: flex;
+  align-items: center;
   gap: 15px;
 `
 
 export const ContainerMessage = styled.div`
-svg {
-    cursor: pointer;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  svg {
     font-size: 24px;
   }
 `

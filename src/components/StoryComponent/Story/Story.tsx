@@ -4,6 +4,7 @@ import { useState } from 'react';
 
 import { StoryProps } from '../../ProfileComponents/InfoProfile/InfoProfile';
 import { AllPost } from '../../HomePage/CardPost/CardPost';
+import ModalShareStory from '../ModalShareStory/ModalShareStory';
 
 interface StoryPropss {
   userId: number | null;
@@ -37,21 +38,16 @@ const Story = ({
   setCreateNewStory,
   setShowStoryCircle,
 }: StoryPropss) => {
-  const [createPost, setCreatePost] = useState(false); //Criei por obrigação
-  const [createImgOrVideo, setCreateImgOrVideo] = useState<AllPost | null>(null);
   return (
     <Styled.ContainerMain>
-      <ModalSharePhoto
+      <ModalShareStory
         userId={userId}
-        createPost={createPost}
         choiceStory={choiceStory}
         createNewStory={createNewStory}
         setStory={setStory}
         setNewStory={setNewStory}
         setCreateNewStory={setCreateNewStory}
         setShowStoryCircle={setShowStoryCircle}
-        setCreateImgOrVideo={setCreateImgOrVideo}
-        setCreatePost={setCreatePost}
       />
     </Styled.ContainerMain>
   );

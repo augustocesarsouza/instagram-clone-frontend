@@ -1,46 +1,43 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import * as Styled from './styled';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import { useState, useEffect, useContext } from 'react';
 import Url from '../../../Utils/Url';
-import { StoryProps, jsonPropertyTextProps } from '../InfoProfile/InfoProfile';
-import { AllPost } from '../../HomePage/CardPost/CardPost';
 import {
   ContextModalSharePhoto,
   ContextModalSharePhotoProps,
-} from '../ModalSharePhoto/ModalSharePhoto';
+} from '../ModalShareStory/ModalShareStory';
+import { StoryProps, jsonPropertyTextProps } from '../../ProfileComponents/InfoProfile/InfoProfile';
 
-interface PostModalVideoProps {
-  text: string;
+interface PostModalVideoStoryProps {
   userId: number | null;
-  moveVideoY: number;
   showShare: boolean;
   decreaseDiv: boolean;
   selectedVideo: string | null;
-  sendVideoToBack: boolean;
+  jsonPropertyText: jsonPropertyTextProps | {};
+  setStory: React.Dispatch<React.SetStateAction<StoryProps[]>>;
+  setNewStory: React.Dispatch<React.SetStateAction<boolean>>;
   setShowShare: React.Dispatch<React.SetStateAction<boolean>>;
   setDecreaseDiv: React.Dispatch<React.SetStateAction<boolean>>;
-  setSendVideoToBack: React.Dispatch<React.SetStateAction<boolean>>;
   handlePublish: (value: boolean) => void;
-  setCreateImgOrVideo: React.Dispatch<React.SetStateAction<AllPost | null>>;
+  setShowStoryCircle: React.Dispatch<React.SetStateAction<boolean>>;
   handleModalDiscardPost: () => void;
 }
 
-const PostModalVideo = ({
-  text,
+const PostModalVideoStory = ({
   userId,
-  moveVideoY,
   showShare,
   decreaseDiv,
   selectedVideo,
-  sendVideoToBack,
+  jsonPropertyText,
+  setStory,
+  setNewStory,
   setShowShare,
   handlePublish,
   setDecreaseDiv,
-  setSendVideoToBack,
-  setCreateImgOrVideo,
+  setShowStoryCircle,
   handleModalDiscardPost,
-}: PostModalVideoProps) => {
+}: PostModalVideoStoryProps) => {
   const [showIconSuccess, setShowIconSuccess] = useState(false);
 
   const contextModalSharePhoto = useContext<ContextModalSharePhotoProps | null>(
@@ -48,48 +45,66 @@ const PostModalVideo = ({
   );
   const { setCreateNewStory, createPost } = contextModalSharePhoto;
 
-  const handleShare = async () => {
-    setShowShare(true);
-    setSendVideoToBack(true);
-    const JsonPost = {
-      Title: text,
+  const handleShareStory = async () => {
+    const createStory = {
       Url: selectedVideo,
       AuthorId: userId,
     };
-    setDecreaseDiv(true);
-    // setShowShare(false);
 
-    const res = await fetch(`${Url}/post/create/video/${Math.floor(moveVideoY)}`, {
+    setDecreaseDiv(true);
+    setShowShare(false);
+
+    const res = await fetch(`${Url}/story`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(JsonPost),
+      body: JSON.stringify(createStory),
     });
 
     if (res.status === 200) {
       const json = await res.json();
+      const storyIdRet: number = json.data.id;
 
-      setCreateImgOrVideo(json.data);
+      setStory((prev) => [...prev, { ...json.data, propertyText: jsonPropertyText }]);
       setShowIconSuccess(true);
       // setShowModalShare(false);
-      document.body.style.overflow = '';
+      setShowStoryCircle(true);
+      setNewStory(true);
+      fetchCreatePropertyText(storyIdRet);
+      setCreateNewStory(false);
+    }
+  };
+
+  const fetchCreatePropertyText = async (storyId: number) => {
+    if (storyId > 0) {
+      const res = await fetch(`${Url}/createpropstory/${storyId}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(jsonPropertyText),
+      });
+
+      if (res.status === 200) {
+        const json = await res.json();
+
+        setStory((prev) =>
+          prev !== null
+            ? prev.map((sto) =>
+                sto.id == storyId ? { ...sto, propertyText: { ...json.data } } : sto
+              )
+            : prev
+        );
+      }
     }
   };
 
   return (
-    <Styled.ContainerContentAdvanced
-      $extende={String(showShare)}
-      $decrease={String(decreaseDiv)}
-      $sendvideotoback={String(sendVideoToBack)}
-      $createstory={String(!createPost)} // quando falso estou criando um story
-    >
-      <Styled.ContainerCreatePost
-        $decrease={String(decreaseDiv)}
-        $sendvideotoback={String(sendVideoToBack)}
-      >
+    <Styled.ContainerContentAdvanced>
+      <Styled.ContainerCreatePost>
         {showIconSuccess ? (
-          <Styled.P $paragr="p1">Publicação compartilhada</Styled.P>
+          <Styled.P $paragr="p1">Story Publicado</Styled.P>
         ) : decreaseDiv ? (
           <Styled.P $paragr="p1">Compartilhando</Styled.P>
         ) : (
@@ -119,7 +134,7 @@ const PostModalVideo = ({
         ) : (
           <>
             {showShare ? (
-              <Styled.buttonGo onClick={handleShare}>Compartilhar</Styled.buttonGo>
+              <Styled.buttonGo onClick={handleShareStory}>Compartilhar Story</Styled.buttonGo>
             ) : (
               <Styled.buttonGo onClick={() => handlePublish(!createPost)}>Avançar</Styled.buttonGo>
             )}
@@ -134,12 +149,8 @@ const PostModalVideo = ({
             {showIconSuccess && <FontAwesomeIcon icon={faCheck} style={{ color: '#E91E63' }} />}
           </Styled.BallCenter>
           {showIconSuccess && (
-            <Styled.ContainerSharedPost $createstory={String(!createPost)}>
-              {!createPost ? (
-                <Styled.PShared>Seu Story foi Criado.</Styled.PShared>
-              ) : (
-                <Styled.PShared>Sua publicação foi compartilhada.</Styled.PShared>
-              )}
+            <Styled.ContainerSharedPost>
+              <Styled.PShared>Seu Story foi Criado.</Styled.PShared>
             </Styled.ContainerSharedPost>
           )}
         </Styled.BallWrapper>
@@ -148,4 +159,4 @@ const PostModalVideo = ({
   );
 };
 
-export default PostModalVideo;
+export default PostModalVideoStory;

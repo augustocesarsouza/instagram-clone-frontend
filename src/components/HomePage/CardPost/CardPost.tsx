@@ -1,12 +1,11 @@
 import * as Styled from './styled.ts';
-import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import Url from '../../../Utils/Url';
 import PostCard from '../PostCard/PostCard';
 import Like from '../Like/Like';
 import Comment from '../Comment/Comment';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faComment } from '@fortawesome/free-solid-svg-icons';
+import IconeCommentSvg from './IconeCommentSvg/IconeCommentSvg.tsx';
 
 interface AllPostsProps {
   createImgOrVideo: AllPost | null;
@@ -103,6 +102,7 @@ const CardPost = ({ createImgOrVideo, connection }: AllPostsProps) => {
 
   const handleResizeWindow = () => {
     const scroll = document.getElementById('container-scroll');
+    if (scroll === null) return;
     if (window.innerWidth > 750) {
       scroll.style.overflow = 'auto';
     }
@@ -119,8 +119,8 @@ const CardPost = ({ createImgOrVideo, connection }: AllPostsProps) => {
             <PostCard post={post} userId={userId} seeComments={seeComments} />
             <Styled.ContainerInteraction>
               <Like post={post} userId={userId} setAllPost={setAllPost} />
-              <Styled.ContainerMessage>
-                <FontAwesomeIcon icon={faComment} onClick={() => handleSeeComments(post)} />
+              <Styled.ContainerMessage onClick={() => handleSeeComments(post)}>
+                <IconeCommentSvg />
               </Styled.ContainerMessage>
               {postComments && postComments.id == post.id && (
                 <Comment

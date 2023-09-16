@@ -115,6 +115,7 @@ export const ContainerBorder = styled.div<ContainerBorderProps>`
   border-left: ${props => props.$position == "4" && "1px solid #ffffff59"};
   border-left: ${props => props.$position == "7" && "1px solid #ffffff59"};
   border-bottom: ${props => props.$position >= "7" && "1px solid #ffffff59"};
+  border-bottom: ${props => props.$position >= "7" && "1px solid #ffffff59"};
   box-shadow: 0px 0px 2px #0000002b;
 
   /* background-color: black; */

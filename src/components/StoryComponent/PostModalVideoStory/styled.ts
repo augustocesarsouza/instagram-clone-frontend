@@ -8,22 +8,6 @@ interface BouncingBorderProps {
   $stopspin: string;
 }
 
-interface ContainerContentAdvancedProps {
-  $extende: string;
-  $decrease: string;
-  $sendvideotoback: string;
-  $createstory: string;
-}
-
-interface ContainerCreatePostProps {
-  $decrease: string;
-  $sendvideotoback: string;
-
-}
-
-interface ContainerSharedPostProps {
-  $createstory: string;
-}
 
 const ContainerPublicAnima = keyframes`
   0% {
@@ -41,25 +25,25 @@ const ContainerPublicAnimation = css`
   animation: ${ContainerPublicAnima} 0.2s ease forwards;
 `
 
-export const ContainerContentAdvanced = styled.div<ContainerContentAdvancedProps>`
+export const ContainerContentAdvanced = styled.div`
   background-color: white;
   border-radius: 12px 9px 0px 0px;
   z-index: 10;
-  width: ${props => props.$extende === "true" ? "863px": "656px"};
-  width: ${props => props.$sendvideotoback === "true" && "500px"};
-  height: ${props => props.$sendvideotoback === "true" && "670px"};
-  ${props => props.$extende === "true" ? ContainerPublicAnimation : null};
-
+  width: 543px;
+  height: 45rem;
+  display: flex;
+  flex-direction: column;
+  
 `
 
-export const ContainerCreatePost = styled.div<ContainerCreatePostProps>`
+export const ContainerCreatePost = styled.div`
   display: flex;
   align-items: center;
-  justify-content: ${props => props.$decrease === "true" ? "center" : "space-between"};
-  padding: ${props => props.$decrease === "true" ? "14px" : "12px"};
   border-bottom: 1px solid #cfcfcf;
-  height: ${props => props.$sendvideotoback === "true" && "7%"};
-
+  padding: 10px;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
 
   svg {
     cursor: pointer;
@@ -110,9 +94,8 @@ const BouncingBorderAnimationTrue = css`
 
 export const BallWrapper = styled.div`
   display: flex;
-  position: relative;
   width: 100%;
-  height: 93%;
+  height: 100%;
   background-color: white;
   align-items: center;
   justify-content: center;
@@ -145,9 +128,9 @@ export const BallCenter = styled.div`
   }
 `;
 
-export const ContainerSharedPost = styled.div<ContainerSharedPostProps>`
+export const ContainerSharedPost = styled.div`
   position: absolute;
-  left: ${props => props.$createstory === "true" ? "33%" : "24%"};
+  left: 33%;
   top: 61%;
 `
 

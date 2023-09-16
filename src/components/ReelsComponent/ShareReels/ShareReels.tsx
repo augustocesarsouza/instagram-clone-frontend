@@ -54,7 +54,9 @@ const ShareReels = ({
       const res = await fetch(`${Url}/user/following-followers/suggestion/story/${userId}`);
       if (res.status === 200) {
         const json = await res.json();
-        setUsersSuggestion(json.data);
+        // setUsersSuggestion(json.data);
+        const data: UsersSuggestion = json.data;
+        setUsersSuggestion((prev) => (prev !== null ? { ...prev, data } : prev));
       }
     };
     fetchSuggestionUsers();
