@@ -19,15 +19,13 @@ export interface DataUserOnlyProps {
 }
 
 const Create = ({ userId, createPost, setCreatePost, setCreateImgOrVideo }: CreateProps) => {
-  const [createNewStory, setCreateNewStory] = useState(false);
-  const [choiceStory] = useState(false);
+  const [createNewStory, setCreateNewStory] = useState(true);
 
   return (
     <>
       <ModalSharePhoto
         userId={userId}
         createPost={createPost}
-        choiceStory={choiceStory}
         createNewStory={createNewStory}
         setCreatePost={setCreatePost}
         setCreateImgOrVideo={setCreateImgOrVideo}

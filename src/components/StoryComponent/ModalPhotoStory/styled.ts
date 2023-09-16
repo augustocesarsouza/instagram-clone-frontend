@@ -18,12 +18,10 @@ interface ContainerSvgProps {
 
 interface MainDeTodasTestProps {
   $extende: string;
-  $createpost: string;
 }
 
 interface ContainerSelectedImageProps {
   $extende: string;
-  $createstory: string;
 }
 
 export const MainDeTodasTest = styled.div<MainDeTodasTestProps>`
@@ -31,22 +29,7 @@ export const MainDeTodasTest = styled.div<MainDeTodasTestProps>`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 80%;
-    height: calc(.5356 * 95vw);
-  
   /* height: 100vh; */
-  /* width: ${props => props.$extende === "true" && props.$createpost === "true" && "750px"}; */
-  /* width: 300px; */
-
-  /* @media (max-width: 900px) {
-    width: ${props => props.$extende === "true" && props.$createpost === "true" && "469px"};
-  }
-
-  @media (max-width: 700px) {
-    width: ${props => props.$extende === "true" && props.$createpost === "true" && "409px" };
-  } */
-
-    
 `
 
 export const MainImgAndText = styled.div`
@@ -59,8 +42,6 @@ export const MainImgAndText = styled.div`
 
 export const ContainerImgAndLegendShare = styled.div`
   display: flex;
-  width: 100%;
-  height: 100%;
 `
 
 export const ContainerMainAll = styled.div`
@@ -71,26 +52,11 @@ export const ContainerMainAll = styled.div`
 `
 
 export const ContainerSelectedImage = styled.div<ContainerSelectedImageProps>`
-  /* width: 542px;
-  height: 811px; */
-  width: 100%;
-  height: 100%;
+  width: 542px;
+  height: 805px;
   
   user-select: none;
   position: relative;
-
-  /* position: absolute;
-  left: ${props => props.$createstory === "true" ? "239px" : props.$extende === "true" ? "192px" : "275px"}; */
-
-  /* @media (max-width: 900px) {
-    width: 260px;
-    height: 470px;
-  }
-
-  @media (max-width: 700px) {
-    width: 200px;
-    height: 360px;
-  } */
 `
 
 export const ImgSelected = styled.img`

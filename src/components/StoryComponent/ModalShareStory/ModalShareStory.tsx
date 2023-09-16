@@ -6,6 +6,7 @@ import { createContext, useState } from 'react';
 import ModalCreatePublicStoryStory from '../ModalCreatePublicStory/ModalCreatePublicStory';
 import ModalVideoStory from '../ModalVideoStory/ModalVideoStory';
 import { StoryProps } from '../../ProfileComponents/InfoProfile/InfoProfile';
+import ModalPhotoStory from '../ModalPhotoStory/ModalPhotoStory';
 
 export interface ImgProcess {
   url: string;
@@ -150,21 +151,19 @@ const ModalShareStory = ({
         <ContextModalSharePhoto.Provider value={{ setCreateNewStory }}>
           <>
             {selectedImagem ? (
-              // <ModalPhoto
-              //   userId={userId}
-              //   imgData={imgData}
-              //   createPost={createPost}
-              //   selectedImagem={selectedImagem}
-              //   setSelectedImage={setSelectedImage}
-              //   setSelectedVideo={setSelectedVideo}
-              //   setStory={setStory}
-              //   setNewStory={setNewStory}
-              //   setShowStoryCircle={setShowStoryCircle}
-              //   setCreateImgOrVideo={setCreateImgOrVideo}
-              //   setShowShare={setShowShare}
-              //   showShare={showShare}
-              // />
-              <></>
+              <ModalPhotoStory
+                userId={userId}
+                imgData={imgData}
+                selectedImagem={selectedImagem}
+                setSelectedImage={setSelectedImage}
+                setSelectedVideo={setSelectedVideo}
+                setStory={setStory}
+                setNewStory={setNewStory}
+                setShowStoryCircle={setShowStoryCircle}
+                setShowShare={setShowShare}
+                setCreateNewStory={setCreateNewStory}
+                showShare={showShare}
+              />
             ) : selectedVideo ? (
               <ModalVideoStory
                 userId={userId}

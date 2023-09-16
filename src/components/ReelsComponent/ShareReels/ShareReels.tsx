@@ -221,8 +221,6 @@ const ShareReels = ({
     canvas.height = 1080;
     const context = canvas.getContext('2d');
 
-    if (context === null || videoRef === null) return;
-
     if (showShareReels) {
       setTimeout(() => {
         if (context === null || videoRef === null) return;

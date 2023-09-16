@@ -4,7 +4,6 @@ import { ContextModalSharePhoto, ImgProcess } from '../ModalSharePhoto/ModalShar
 import * as Styled from './styled';
 
 interface ModalDiscardPostProps {
-  imgData: ImgProcess | undefined;
   showModalDiscardPost: boolean;
   setSelectedVideo: React.Dispatch<React.SetStateAction<string | null>>;
   setSelectedImage: React.Dispatch<React.SetStateAction<string | null>>;
@@ -12,7 +11,6 @@ interface ModalDiscardPostProps {
 }
 
 const ModalDiscardPost = ({
-  imgData,
   showModalDiscardPost,
   setSelectedVideo,
   setSelectedImage,
@@ -30,16 +28,16 @@ const ModalDiscardPost = ({
     setSelectedImage(null);
     setCreateNewStory(false);
 
-    if (imgData === undefined) return;
+    // if (imgData === undefined) return;
 
-    const res = await fetch(`${Url}/deleteimg`, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(imgData),
-    });
-    const json = await res.json();
+    // const res = await fetch(`${Url}/deleteimg`, {
+    //   method: 'DELETE',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //   },
+    //   body: JSON.stringify(imgData),
+    // });
+    // const json = await res.json();
   };
 
   return (

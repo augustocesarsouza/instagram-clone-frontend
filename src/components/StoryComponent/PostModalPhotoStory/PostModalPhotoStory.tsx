@@ -1,32 +1,45 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import * as Styled from './styled';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
-import { useState, useEffect, useContext } from 'react';
+import { useState, useContext } from 'react';
 import Url from '../../../Utils/Url';
-import { StoryProps, jsonPropertyTextProps } from '../InfoProfile/InfoProfile';
 import { AllPost } from '../../HomePage/CardPost/CardPost';
 import {
   ContextModalSharePhoto,
   ContextModalSharePhotoProps,
-} from '../ModalSharePhoto/ModalSharePhoto';
+  ImgProcess,
+} from '../ModalShareStory/ModalShareStory';
+import { StoryProps } from '../../ProfileComponents/InfoProfile/InfoProfile';
 
-interface PostModalVideoProps {
+interface PostModalPhotoStoryProps {
+  imgData: ImgProcess | undefined;
+  userId: number | null;
+  imgGeneratedByCanvas: string;
   showShare: boolean;
   decreaseDiv: boolean;
-  sendVideoToBack: boolean;
-  handlePublish: (value: boolean) => void;
+  setShowShare: React.Dispatch<React.SetStateAction<boolean>>;
+  setDecreaseDiv: React.Dispatch<React.SetStateAction<boolean>>;
+  handlePublish: () => void;
   handleModalDiscardPost: () => void;
-  handleGenerateImgVideoFrame: () => Promise<void>;
+  setStory: React.Dispatch<React.SetStateAction<StoryProps[]>>;
+  setNewStory: React.Dispatch<React.SetStateAction<boolean>>;
+  setShowStoryCircle: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const PostModalVideo = ({
+const PostModalPhotoStory = ({
+  imgData,
+  userId,
+  imgGeneratedByCanvas,
   showShare,
   decreaseDiv,
-  sendVideoToBack,
+  setShowShare,
+  setDecreaseDiv,
   handlePublish,
   handleModalDiscardPost,
-  handleGenerateImgVideoFrame,
-}: PostModalVideoProps) => {
+  setStory,
+  setNewStory,
+  setShowStoryCircle,
+}: PostModalPhotoStoryProps) => {
   const [showIconSuccess, setShowIconSuccess] = useState(false);
 
   const contextModalSharePhoto = useContext<ContextModalSharePhotoProps | null>(
@@ -34,49 +47,45 @@ const PostModalVideo = ({
   );
   const { setCreateNewStory, createPost } = contextModalSharePhoto;
 
-  const handleShare = async () => {
-    handleGenerateImgVideoFrame();
-    // setShowShare(true);
-    // setSendVideoToBack(true);
-    // const JsonPost = {
-    //   Title: text,
-    //   Url: selectedVideo,
-    //   AuthorId: userId,
-    // };
-    // setDecreaseDiv(true);
-    // // setShowShare(false);
+  const handleShareStory = async () => {
+    if (imgData === undefined) return;
+    const createStory = {
+      Url: imgGeneratedByCanvas,
+      AuthorId: userId,
+      publicId: imgData.publicId,
+      isImagem: imgData.isImagem,
+    };
 
-    // const res = await fetch(`${Url}/post/create/video/${Math.floor(moveVideoY)}`, {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify(JsonPost),
-    // });
+    setDecreaseDiv(true);
+    setShowShare(false);
 
-    // if (res.status === 200) {
-    //   const json = await res.json();
+    const res = await fetch(`${Url}/story`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(createStory),
+    });
 
-    //   setCreateImgOrVideo(json.data);
-    //   setShowIconSuccess(true);
-    //   // setShowModalShare(false);
-    //   document.body.style.overflow = '';
-    // }
+    if (res.status === 200) {
+      const json = await res.json();
+      setShowStoryCircle(true);
+      setShowIconSuccess(true);
+      setNewStory(true);
+      setStory((prev) => [...prev, json.data]);
+      setCreateNewStory(false);
+    }
   };
 
   return (
     <Styled.ContainerContentAdvanced
       $extende={String(showShare)}
       $decrease={String(decreaseDiv)}
-      $sendvideotoback={String(sendVideoToBack)}
-      $createstory={String(!createPost)} // quando falso estou criando um story
+      $createstory={String(!createPost)}
     >
-      <Styled.ContainerCreatePost
-        $decrease={String(decreaseDiv)}
-        $sendvideotoback={String(sendVideoToBack)}
-      >
+      <Styled.ContainerCreatePost $decrease={String(decreaseDiv)}>
         {showIconSuccess ? (
-          <Styled.P $paragr="p1">Publicação compartilhada</Styled.P>
+          <Styled.P $paragr="p1">Story Publicado</Styled.P>
         ) : decreaseDiv ? (
           <Styled.P $paragr="p1">Compartilhando</Styled.P>
         ) : (
@@ -106,9 +115,9 @@ const PostModalVideo = ({
         ) : (
           <>
             {showShare ? (
-              <Styled.buttonGo onClick={handleShare}>Compartilhar</Styled.buttonGo>
+              <Styled.buttonGo onClick={handleShareStory}>Compartilhar Story</Styled.buttonGo>
             ) : (
-              <Styled.buttonGo onClick={() => handlePublish(!createPost)}>Avançar</Styled.buttonGo>
+              <Styled.buttonGo onClick={handlePublish}>Avançar</Styled.buttonGo>
             )}
           </>
         )}
@@ -122,11 +131,7 @@ const PostModalVideo = ({
           </Styled.BallCenter>
           {showIconSuccess && (
             <Styled.ContainerSharedPost $createstory={String(!createPost)}>
-              {!createPost ? (
-                <Styled.PShared>Seu Story foi Criado.</Styled.PShared>
-              ) : (
-                <Styled.PShared>Sua publicação foi compartilhada.</Styled.PShared>
-              )}
+              <Styled.PShared>Seu Story foi Criado.</Styled.PShared>
             </Styled.ContainerSharedPost>
           )}
         </Styled.BallWrapper>
@@ -135,4 +140,4 @@ const PostModalVideo = ({
   );
 };
 
-export default PostModalVideo;
+export default PostModalPhotoStory;

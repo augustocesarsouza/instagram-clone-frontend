@@ -49,7 +49,6 @@ export const ContainerContentAdvanced = styled.div<ContainerContentAdvancedProps
 
   background-color: white;
   border-radius: 12px 9px 0px 0px;
-  ${props => props => props.$extende === "true" ? Animation : null};
   /* height: 3rem; */
   /* z-index: 10; */
   /* position: absolute;
@@ -59,6 +58,7 @@ export const ContainerContentAdvanced = styled.div<ContainerContentAdvancedProps
 
   /* transition: width 1s ease; */
   /* transition: ${props => props.$decrease === "true" ? "width 1s ease" : "width 1s ease"}; */
+  ${props => props => props.$extende === "true" ? Animation : null};
 `
 
 export const ContainerCreatePost = styled.div<ContainerCreatePostProps>`
