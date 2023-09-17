@@ -6,6 +6,7 @@ import ModalPhoto from '../ModalPhoto/ModalPhoto';
 import ModalCreatePublic from '../ModalCreatePublic/ModalCreatePublic';
 import ModalVideo from '../ModalVideo/ModalVideo';
 import { AllPost } from '../../HomePage/CardPost/CardPost';
+import { DataPost } from '../Publications/Publications';
 
 interface ModalSharePhotoProps {
   userId: number | null;
@@ -13,13 +14,16 @@ interface ModalSharePhotoProps {
   createNewStory: boolean;
   setCreatePost: React.Dispatch<React.SetStateAction<boolean>>;
   setCreateNewStory: React.Dispatch<React.SetStateAction<boolean>>;
-  setCreateImgOrVideo: React.Dispatch<React.SetStateAction<AllPost | null>>;
+  setCreateImgOrVideoForAllPost: React.Dispatch<React.SetStateAction<AllPost | null>>;
+  setCreateImgOrVideoForProfile: React.Dispatch<React.SetStateAction<DataPost | null>>;
 }
 
 export const ContextModalSharePhoto = createContext<ContextModalSharePhotoProps | null>(null);
 
 export interface ContextModalSharePhotoProps {
   setCreateNewStory: React.Dispatch<React.SetStateAction<boolean>>;
+  setCreateImgOrVideoForAllPost: React.Dispatch<React.SetStateAction<AllPost | null>>;
+  setCreateImgOrVideoForProfile: React.Dispatch<React.SetStateAction<DataPost | null>>;
   createPost: boolean;
 }
 
@@ -29,7 +33,8 @@ const ModalSharePhoto = ({
   createNewStory,
   setCreatePost,
   setCreateNewStory,
-  setCreateImgOrVideo,
+  setCreateImgOrVideoForAllPost,
+  setCreateImgOrVideoForProfile,
 }: ModalSharePhotoProps) => {
   const [selectedImagem, setSelectedImage] = useState<string | null>(null);
   const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
@@ -92,7 +97,14 @@ const ModalSharePhoto = ({
           <Styled.ContainerClosedModal>
             <FontAwesomeIcon icon={faXmark} onClick={handleCloseModal} />
           </Styled.ContainerClosedModal>
-          <ContextModalSharePhoto.Provider value={{ setCreateNewStory, createPost }}>
+          <ContextModalSharePhoto.Provider
+            value={{
+              setCreateNewStory,
+              setCreateImgOrVideoForAllPost,
+              setCreateImgOrVideoForProfile,
+              createPost,
+            }}
+          >
             <>
               {selectedImagem ? (
                 <ModalPhoto
@@ -101,7 +113,6 @@ const ModalSharePhoto = ({
                   selectedImagem={selectedImagem}
                   setSelectedImage={setSelectedImage}
                   setSelectedVideo={setSelectedVideo}
-                  setCreateImgOrVideo={setCreateImgOrVideo}
                   setShowShare={setShowShare}
                   showShare={showShare}
                 />
@@ -112,7 +123,6 @@ const ModalSharePhoto = ({
                   selectedVideo={selectedVideo}
                   setSelectedVideo={setSelectedVideo}
                   setSelectedImage={setSelectedImage}
-                  setCreateImgOrVideo={setCreateImgOrVideo}
                 />
               ) : (
                 <>

@@ -98,12 +98,10 @@ const InfoProfile = ({
     const fetchAllStoryUser = async () => {
       if (dataUserOnly) {
         const userCreatePostId = dataUserOnly.id;
-        console.log(userCreatePostId);
 
         const res = await fetch(`${Url}/story/user/all/${userCreatePostId}`);
         if (res.status === 200) {
           const json = await res.json();
-          console.log(json.data);
 
           setStory(json.data);
         }

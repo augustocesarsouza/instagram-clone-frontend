@@ -1,9 +1,7 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import CommentPhotoUser from '../CommentPhotoUser/CommentPhotoUser';
 import { DataPost } from '../Publications/Publications';
 import * as Styled from './styled';
 import { useState } from 'react';
-import { faPlay } from '@fortawesome/free-solid-svg-icons';
 
 interface PhotoUserProps {
   userId: number | null;
@@ -30,15 +28,18 @@ const PhotoUser = ({ userId, dataPostUser, ContainerMainRefWidth }: PhotoUserPro
                     <Styled.Img src={post.url} />
                   </Styled.ContainerImg>
                 )}
-                {post.isImagem == 0 && (
-                  <Styled.WrapperVideo onClick={() => handleShowComments(post)}>
-                    <Styled.Video autoPlay={false}>
-                      <Styled.Source src={post.url} type="video/mp4" />
-                    </Styled.Video>
-                    <Styled.WrapperVideoIcon>
-                      <FontAwesomeIcon icon={faPlay} />
-                    </Styled.WrapperVideoIcon>
-                  </Styled.WrapperVideo>
+                {post.isImagem == 0 && post.imgFrameVideoUrl !== null && (
+                  // <Styled.WrapperVideo onClick={() => handleShowComments(post)}>
+                  //   <Styled.Video autoPlay={false}>
+                  //     <Styled.Source src={post.url} type="video/mp4" />
+                  //   </Styled.Video>
+                  //   <Styled.WrapperVideoIcon>
+                  //     <FontAwesomeIcon icon={faPlay} />
+                  //   </Styled.WrapperVideoIcon>
+                  // </Styled.WrapperVideo>
+                  <Styled.ContainerImg onClick={() => handleShowComments(post)}>
+                    <Styled.Img src={post.imgFrameVideoUrl} />
+                  </Styled.ContainerImg>
                 )}
               </Styled.ContainerImgAndVideo>
             ))}

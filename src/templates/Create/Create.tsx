@@ -1,6 +1,7 @@
 import Url from '../../Utils/Url';
 import { AllPost } from '../../components/HomePage/CardPost/CardPost';
 import ModalSharePhoto from '../../components/ProfileComponents/ModalSharePhoto/ModalSharePhoto';
+import { DataPost } from '../../components/ProfileComponents/Publications/Publications';
 import * as Styled from './styled';
 import { useEffect, useState } from 'react';
 
@@ -8,7 +9,8 @@ interface CreateProps {
   userId: number | null;
   createPost: boolean;
   setCreatePost: React.Dispatch<React.SetStateAction<boolean>>;
-  setCreateImgOrVideo: React.Dispatch<React.SetStateAction<AllPost | null>>;
+  setCreateImgOrVideoForAllPost: React.Dispatch<React.SetStateAction<AllPost | null>>;
+  setCreateImgOrVideoForProfile: React.Dispatch<React.SetStateAction<DataPost | null>>;
 }
 
 export interface DataUserOnlyProps {
@@ -18,7 +20,13 @@ export interface DataUserOnlyProps {
   imagePerfil: string;
 }
 
-const Create = ({ userId, createPost, setCreatePost, setCreateImgOrVideo }: CreateProps) => {
+const Create = ({
+  userId,
+  createPost,
+  setCreatePost,
+  setCreateImgOrVideoForAllPost,
+  setCreateImgOrVideoForProfile,
+}: CreateProps) => {
   const [createNewStory, setCreateNewStory] = useState(true);
 
   return (
@@ -28,8 +36,9 @@ const Create = ({ userId, createPost, setCreatePost, setCreateImgOrVideo }: Crea
         createPost={createPost}
         createNewStory={createNewStory}
         setCreatePost={setCreatePost}
-        setCreateImgOrVideo={setCreateImgOrVideo}
         setCreateNewStory={setCreateNewStory}
+        setCreateImgOrVideoForAllPost={setCreateImgOrVideoForAllPost}
+        setCreateImgOrVideoForProfile={setCreateImgOrVideoForProfile}
       />
     </>
   );

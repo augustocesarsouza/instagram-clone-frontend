@@ -11,13 +11,14 @@ interface PublicationsProps {
   postCreatorId: number | undefined;
   dataUserOnly: DataUserOnlyProps | null;
   setCountPublic: React.Dispatch<React.SetStateAction<number | null>>;
-  createImgOrVideo: AllPost | null;
+  createImgOrVideoForProfile: DataPost | null;
   ContainerMainRefWidth: React.MutableRefObject<HTMLDivElement | null>;
 }
 
 export interface DataPost {
   id: number;
   url: string;
+  imgFrameVideoUrl: string | null;
   isImagem: number;
 }
 
@@ -26,7 +27,7 @@ const Publications = ({
   postCreatorId,
   dataUserOnly,
   setCountPublic,
-  createImgOrVideo,
+  createImgOrVideoForProfile,
   ContainerMainRefWidth,
 }: PublicationsProps) => {
   const [showModalShare, setShowModalShare] = useState(false);
@@ -59,10 +60,10 @@ const Publications = ({
   }, [callFetchPost, userId, postCreatorId]);
 
   useEffect(() => {
-    if (createImgOrVideo !== null) {
-      setDataPostUser((prev) => (prev !== null ? [createImgOrVideo, ...prev] : prev));
+    if (createImgOrVideoForProfile !== null) {
+      setDataPostUser((prev) => (prev !== null ? [createImgOrVideoForProfile, ...prev] : prev));
     }
-  }, [createImgOrVideo]);
+  }, [createImgOrVideoForProfile]);
 
   useLayoutEffect(() => {
     if (dataPostUser) {

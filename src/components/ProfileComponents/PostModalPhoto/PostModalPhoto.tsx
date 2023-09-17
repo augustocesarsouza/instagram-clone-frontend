@@ -7,7 +7,6 @@ import { StoryProps } from '../InfoProfile/InfoProfile';
 import {
   ContextModalSharePhoto,
   ContextModalSharePhotoProps,
-  ImgProcess,
 } from '../ModalSharePhoto/ModalSharePhoto';
 import { AllPost } from '../../HomePage/CardPost/CardPost';
 
@@ -21,7 +20,6 @@ interface PostModalPhotoProps {
   setDecreaseDiv: React.Dispatch<React.SetStateAction<boolean>>;
   handlePublish: () => void;
   handleModalDiscardPost: () => void;
-  setCreateImgOrVideo: React.Dispatch<React.SetStateAction<AllPost | null>>;
 }
 
 const PostModalPhoto = ({
@@ -34,16 +32,21 @@ const PostModalPhoto = ({
   setDecreaseDiv,
   handlePublish,
   handleModalDiscardPost,
-  setCreateImgOrVideo,
 }: PostModalPhotoProps) => {
   const [showIconSuccess, setShowIconSuccess] = useState(false);
 
   const contextModalSharePhoto = useContext<ContextModalSharePhotoProps | null>(
     ContextModalSharePhoto
   );
-  const { setCreateNewStory, createPost } = contextModalSharePhoto;
+
+  const { createPost } = contextModalSharePhoto;
+  const [clickedShare, setClickedShare] = useState(false);
 
   const handleShare = async () => {
+    setClickedShare(true);
+    if (contextModalSharePhoto === null) return;
+    const { setCreateNewStory, setCreateImgOrVideoForAllPost, setCreateImgOrVideoForProfile } =
+      contextModalSharePhoto;
     const JsonPost = {
       Title: text,
       Url: selectedImagem,
@@ -63,7 +66,8 @@ const PostModalPhoto = ({
 
     if (res.status === 200) {
       const json = await res.json();
-      setCreateImgOrVideo(json.data);
+      setCreateImgOrVideoForAllPost(json.data);
+      setCreateImgOrVideoForProfile(json.data);
       setShowIconSuccess(true);
       setCreateNewStory(false);
     }
@@ -73,15 +77,11 @@ const PostModalPhoto = ({
     <Styled.ContainerContentAdvanced
       $extende={String(showShare)}
       $decrease={String(decreaseDiv)}
-      $createstory={String(!createPost)}
+      $clickedshare={String(clickedShare)}
     >
       <Styled.ContainerCreatePost $decrease={String(decreaseDiv)}>
         {showIconSuccess ? (
-          !createPost ? (
-            <Styled.P $paragr="p1">Story Publicado</Styled.P>
-          ) : (
-            <Styled.P $paragr="p1">Publicação compartilhada</Styled.P>
-          )
+          <Styled.P $paragr="p1">Publicação compartilhada</Styled.P>
         ) : decreaseDiv ? (
           <Styled.P $paragr="p1">Compartilhando</Styled.P>
         ) : (
@@ -126,7 +126,7 @@ const PostModalPhoto = ({
             {showIconSuccess && <FontAwesomeIcon icon={faCheck} style={{ color: '#E91E63' }} />}
           </Styled.BallCenter>
           {showIconSuccess && (
-            <Styled.ContainerSharedPost $createstory={String(!createPost)}>
+            <Styled.ContainerSharedPost>
               <Styled.PShared>Sua publicação foi compartilhada.</Styled.PShared>
             </Styled.ContainerSharedPost>
           )}

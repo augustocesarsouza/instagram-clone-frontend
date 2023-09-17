@@ -16,6 +16,7 @@ import { AllPost } from '../../components/HomePage/CardPost/CardPost';
 import Reels from '../Reels/Reels';
 import { initializeSignalRConnection } from './InitializeSignalRConnection';
 import { TimeUserDisconnected } from './TimeUserDisconnected';
+import { DataPost } from '../../components/ProfileComponents/Publications/Publications';
 
 export interface DataUser {
   id: number;
@@ -143,7 +144,10 @@ const AppContent = () => {
     setShowModalShare(value);
   };
 
-  const [createImgOrVideo, setCreateImgOrVideo] = useState<AllPost | null>(null);
+  const [createImgOrVideo, setCreateImgOrVideoForAllPost] = useState<AllPost | null>(null);
+  const [createImgOrVideoForProfile, setCreateImgOrVideoForProfile] = useState<DataPost | null>(
+    null
+  );
   const [imgUserLogged, setImgUserLogged] = useState<string>('');
   const [createPost, setCreatePost] = useState(true);
 
@@ -188,9 +192,8 @@ const AppContent = () => {
           element={
             <Profile
               userId={userId}
-              setUserId={setUserId}
               connection={connection}
-              createImgOrVideo={createImgOrVideo}
+              createImgOrVideoForProfile={createImgOrVideoForProfile}
               setCreatePost={setCreatePost}
               setBase64ImgChange={setBase64ImgChange}
               setSeeFollowersOrFollowing={setSeeFollowersOrFollowing}
@@ -228,7 +231,8 @@ const AppContent = () => {
           userId={userId}
           createPost={createPost}
           setCreatePost={setCreatePost}
-          setCreateImgOrVideo={setCreateImgOrVideo}
+          setCreateImgOrVideoForAllPost={setCreateImgOrVideoForAllPost}
+          setCreateImgOrVideoForProfile={setCreateImgOrVideoForProfile}
         />
       )}
     </Styled.ContainerMain>

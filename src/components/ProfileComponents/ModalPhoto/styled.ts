@@ -18,35 +18,35 @@ interface ContainerSvgProps {
 
 interface MainDeTodasTestProps {
   $extende: string;
-  $createpost: string;
 }
 
 interface ContainerSelectedImageProps {
   $extende: string;
-  $createstory: string;
 }
 
 export const MainDeTodasTest = styled.div<MainDeTodasTestProps>`
   display: flex;
-  flex-direction: column;
+  /* flex-direction: column; */
   justify-content: center;
   align-items: center;
-  width: 80%;
-    height: calc(.5356 * 95vw);
-  
-  /* height: 100vh; */
-  /* width: ${props => props.$extende === "true" && props.$createpost === "true" && "750px"}; */
-  /* width: 300px; */
+  width: 90%;
+  height: calc(0.4999 * 100vw); 
+`
 
-  /* @media (max-width: 900px) {
-    width: ${props => props.$extende === "true" && props.$createpost === "true" && "469px"};
+interface ContainerMainOfShareAndImgProps{
+  $extende: string;
+}
+
+export const ContainerMainOfShareAndImg = styled.div<ContainerMainOfShareAndImgProps>`
+ 
+  width: ${props => props.$extende === "true" ? "990px":  "712px"};
+  height: 755px;
+
+  @media (max-width: 911px) {
+    width: ${props => props.$extende === "true" ? "618px":  "442px"};
+    height: 555px;
   }
 
-  @media (max-width: 700px) {
-    width: ${props => props.$extende === "true" && props.$createpost === "true" && "409px" };
-  } */
-
-    
 `
 
 export const MainImgAndText = styled.div`
@@ -79,8 +79,6 @@ export const ContainerSelectedImage = styled.div<ContainerSelectedImageProps>`
   user-select: none;
   position: relative;
 
-  /* position: absolute;
-  left: ${props => props.$createstory === "true" ? "239px" : props.$extende === "true" ? "192px" : "275px"}; */
 
   /* @media (max-width: 900px) {
     width: 260px;

@@ -55,8 +55,8 @@ const ShareReels = ({
       if (res.status === 200) {
         const json = await res.json();
         // setUsersSuggestion(json.data);
-        const data: UsersSuggestion = json.data;
-        setUsersSuggestion((prev) => (prev !== null ? { ...prev, data } : prev));
+        const data: UsersSuggestion[] = json.data;
+        setUsersSuggestion(data);
       }
     };
     fetchSuggestionUsers();

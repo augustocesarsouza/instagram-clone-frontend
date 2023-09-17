@@ -6,15 +6,16 @@ import InfoProfile from '../../components/ProfileComponents/InfoProfile/InfoProf
 import ModalFollowers from '../../components/ProfileComponents/ModalFollowers/ModalFollowers';
 import ModalFollowing from '../../components/ProfileComponents/ModalFollowing/ModalFollowing';
 import ContainerPublications from '../../components/ProfileComponents/ContainerPublications/ContainerPublications';
-import Publications from '../../components/ProfileComponents/Publications/Publications';
+import Publications, {
+  DataPost,
+} from '../../components/ProfileComponents/Publications/Publications';
 import { AllPost } from '../../components/HomePage/CardPost/CardPost';
 import UserProfileStatsSmallerSize from '../../components/ProfileComponents/UserProfileStatsSmallerSize/UserProfileStatsSmallerSize';
 
 interface ProfileProps {
   userId: number | null;
-  setUserId: React.Dispatch<React.SetStateAction<number | null>>;
   connection: signalR.HubConnection | null;
-  createImgOrVideo: AllPost | null;
+  createImgOrVideoForProfile: DataPost | null;
   setCreatePost: React.Dispatch<React.SetStateAction<boolean>>;
   setBase64ImgChange: React.Dispatch<React.SetStateAction<string>>;
   setSeeFollowersOrFollowing: React.Dispatch<React.SetStateAction<boolean>>;
@@ -97,9 +98,8 @@ export const ContextProfile = createContext<ContextProfileProps | null>(null);
 
 const Profile = ({
   userId,
-  setUserId,
   connection,
-  createImgOrVideo,
+  createImgOrVideoForProfile,
   setCreatePost,
   setBase64ImgChange,
   setSeeFollowersOrFollowing,
@@ -294,7 +294,7 @@ const Profile = ({
               postCreatorId={postCreatorId}
               dataUserOnly={dataUserOnly}
               setCountPublic={setCountPublic}
-              createImgOrVideo={createImgOrVideo}
+              createImgOrVideoForProfile={createImgOrVideoForProfile}
               ContainerMainRefWidth={ContainerMainRefWidth}
             />
           </Styled.ContainerMain>

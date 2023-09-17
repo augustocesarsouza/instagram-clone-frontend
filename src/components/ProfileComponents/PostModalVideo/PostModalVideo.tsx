@@ -1,29 +1,71 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import * as Styled from './styled';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
-import { useState, useEffect, useContext } from 'react';
+import { useState, useContext } from 'react';
 import Url from '../../../Utils/Url';
-import { StoryProps, jsonPropertyTextProps } from '../InfoProfile/InfoProfile';
-import { AllPost } from '../../HomePage/CardPost/CardPost';
 import {
   ContextModalSharePhoto,
   ContextModalSharePhotoProps,
 } from '../ModalSharePhoto/ModalSharePhoto';
+import { useLocation } from 'react-router-dom';
 
 interface PostModalVideoProps {
+  text: string;
+  userId: number | null;
   showShare: boolean;
+  moveVideoY: number;
   decreaseDiv: boolean;
+  selectedVideo: string | null;
   sendVideoToBack: boolean;
+  setShowShare: React.Dispatch<React.SetStateAction<boolean>>;
   handlePublish: (value: boolean) => void;
+  setDecreaseDiv: React.Dispatch<React.SetStateAction<boolean>>;
+  setSendVideoToBack: React.Dispatch<React.SetStateAction<boolean>>;
   handleModalDiscardPost: () => void;
-  handleGenerateImgVideoFrame: () => Promise<void>;
+  handleGenerateImgVideoFrame: () => string | undefined;
+}
+interface ReturnPostCreateVideo {
+  id: number;
+  url: string;
+  imgFrameVideoUrl: string | null;
+  isImagem: number;
+}
+
+interface ReturnPostCreateVideoToHomePage {
+  id: number;
+  title: string;
+  url: string;
+  isImagem: number;
+  user: User;
+  postLikesCounts: number;
+  commentsLikes: number;
+  postLikes: PostLikes[];
+}
+
+interface PostLikes {
+  id: number;
+  postId: number;
+  authorId: number;
+}
+
+export interface User {
+  id: number;
+  name: string;
+  imagePerfil: string;
 }
 
 const PostModalVideo = ({
+  text,
+  userId,
   showShare,
+  moveVideoY,
   decreaseDiv,
+  selectedVideo,
   sendVideoToBack,
+  setShowShare,
   handlePublish,
+  setDecreaseDiv,
+  setSendVideoToBack,
   handleModalDiscardPost,
   handleGenerateImgVideoFrame,
 }: PostModalVideoProps) => {
@@ -32,36 +74,54 @@ const PostModalVideo = ({
   const contextModalSharePhoto = useContext<ContextModalSharePhotoProps | null>(
     ContextModalSharePhoto
   );
-  const { setCreateNewStory, createPost } = contextModalSharePhoto;
+  const { createPost } = contextModalSharePhoto;
+  const location = useLocation();
 
   const handleShare = async () => {
-    handleGenerateImgVideoFrame();
-    // setShowShare(true);
-    // setSendVideoToBack(true);
-    // const JsonPost = {
-    //   Title: text,
-    //   Url: selectedVideo,
-    //   AuthorId: userId,
-    // };
-    // setDecreaseDiv(true);
-    // // setShowShare(false);
+    const imageGeneratedByCanvasBase64 = handleGenerateImgVideoFrame();
+    if (imageGeneratedByCanvasBase64 === undefined || contextModalSharePhoto === null) return;
 
-    // const res = await fetch(`${Url}/post/create/video/${Math.floor(moveVideoY)}`, {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify(JsonPost),
-    // });
+    const { setCreateImgOrVideoForAllPost, setCreateImgOrVideoForProfile } = contextModalSharePhoto;
+    var isProfile = false;
+    if (location.pathname === '/profile') {
+      isProfile = true;
+    }
 
-    // if (res.status === 200) {
-    //   const json = await res.json();
+    setShowShare(true);
+    setSendVideoToBack(true);
+    const JsonPost = {
+      Title: text,
+      Url: selectedVideo,
+      AuthorId: userId,
+      ImgFrameVideoUrl: imageGeneratedByCanvasBase64,
+    };
+    setDecreaseDiv(true);
+    // setShowShare(false);
 
-    //   setCreateImgOrVideo(json.data);
-    //   setShowIconSuccess(true);
-    //   // setShowModalShare(false);
-    //   document.body.style.overflow = '';
-    // }
+    const res = await fetch(`${Url}/post/create/video/${Math.floor(moveVideoY)}/${isProfile}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(JsonPost),
+    });
+
+    if (res.status === 200) {
+      const json = await res.json();
+
+      if (isProfile) {
+        const data: ReturnPostCreateVideo = json.data;
+        setCreateImgOrVideoForProfile(data);
+      } else {
+        const data: ReturnPostCreateVideoToHomePage = json.data;
+
+        setCreateImgOrVideoForAllPost(data);
+      }
+
+      setShowIconSuccess(true);
+      // setShowModalShare(false);
+      document.body.style.overflow = '';
+    }
   };
 
   return (
