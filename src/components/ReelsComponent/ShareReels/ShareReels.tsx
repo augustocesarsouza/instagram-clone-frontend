@@ -3,11 +3,17 @@ import { useEffect, useLayoutEffect, useState, useContext, useRef } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import Url from '../../../Utils/Url';
-import { ListReels, ReelsContext, ReelsContextProps } from '../../../templates/Reels/Reels';
+import {
+  ListReels,
+  ReelsContext,
+  ReelsContextProps,
+  VideoObjReelProps,
+} from '../../../templates/Reels/Reels';
 
 interface ShareReelsProps {
   userId: number | null;
   reels: ListReels;
+  videoReels: VideoObjReelProps | null;
   setShowShareReels: React.Dispatch<React.SetStateAction<boolean>>;
   showShareReels: boolean;
   videoRef: HTMLVideoElement | null;
@@ -40,6 +46,7 @@ interface Message {
 const ShareReels = ({
   userId,
   reels,
+  videoReels,
   setShowShareReels,
   showShareReels,
   videoRef,
@@ -62,7 +69,7 @@ const ShareReels = ({
     fetchSuggestionUsers();
   }, []);
 
-  const [videoReels, setVideoReels] = useState<ListReels | null>(null);
+  // const [videoReels, setVideoReels] = useState<ListReels | null>(null);
 
   // const handleOpenShare = () => {
   //   setVideoReels(reels);
@@ -137,100 +144,63 @@ const ShareReels = ({
     setListNameUserChecked((prev) => prev.filter((nameuser) => nameuser.name !== name));
   };
 
-  const imgBase64VideoFrameRef = useRef<string | null>(null);
-
   const handleSendReelsForFriends = async () => {
-    const imgBase64 = imgBase64VideoFrameRef.current;
-    if (imgBase64 === null) return;
+    if (
+      userContextReels === null ||
+      userContextReels.connection === null ||
+      userContextReels.myEmail === null ||
+      inputWriteMessageRef.current === null ||
+      userId === null ||
+      videoReels === null
+    )
+      return;
 
-    const objImg = {
-      Url: imgBase64,
+    const reelsId = reels.id;
+    const senderEmail = userContextReels.myEmail;
+    const valueContext = inputWriteMessageRef.current.value;
+    const nameUserRecipient = listNameUserChecked[0];
+
+    const objShareReels = {
+      senderId: userId,
+      recipientId: nameUserRecipient.id,
+      senderEmail: senderEmail,
+      recipientEmail: nameUserRecipient.email,
+      reelId: reelsId,
+      content: valueContext,
+      UrlFrameReel: videoReels.imgFrameVideoUrl,
+      NameUserCreateReel: videoReels.user.name,
+      ImagePerfilUserCreateReel: videoReels.user.imagePerfil,
     };
 
-    const res = await fetch(`${Url}/process/img/framevideo`, {
+    const createMessageRef = await fetch(`${Url}/message`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(objImg),
+      body: JSON.stringify(objShareReels),
     });
 
-    if (res.status === 200) {
-      const json = await res.json();
-      const objImg: ObjImg = json.data;
+    if (createMessageRef.status === 200) {
+      const json = await createMessageRef.json();
+      const message: Message = json.data;
 
-      const imgBase64 = imgBase64VideoFrameRef.current;
-      if (
-        userContextReels === null ||
-        userContextReels.connection === null ||
-        userContextReels.myEmail === null ||
-        inputWriteMessageRef.current === null ||
-        userId === null ||
-        imgBase64 === null
-      )
-        return;
-
-      const reelsId = reels.id;
-      const senderEmail = userContextReels.myEmail;
-      const valueContext = inputWriteMessageRef.current.value;
-      const nameUserRecipient = listNameUserChecked[0];
-
-      const objShareReels = {
-        senderId: userId,
-        recipientId: nameUserRecipient.id,
-        senderEmail: senderEmail,
-        recipientEmail: nameUserRecipient.email,
-        reelId: reelsId,
-        content: valueContext,
-        UrlFrameReel: objImg.url,
-        PublicIdFrameReel: objImg.publicId,
+      const senObj = {
+        SenderId: userId,
+        RecipientId: nameUserRecipient.id,
+        SenderEmail: senderEmail,
+        RecipientEmail: nameUserRecipient.email,
+        ReelId: reelsId,
+        Content: valueContext,
+        Timestamp: message.timestamp,
+        urlFrameReel: videoReels.imgFrameVideoUrl,
+        nameUserCreateReel: videoReels.user.name,
+        imagePerfilUserCreateReel: videoReels.user.imagePerfil,
+        alreadySeeThisMessage: 0,
       };
 
-      const createMessageRef = await fetch(`${Url}/message`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(objShareReels),
-      });
-
-      if (createMessageRef.status === 200) {
-        const json = await createMessageRef.json();
-        const message: Message = json.data;
-
-        const senObj = {
-          SenderId: userId,
-          RecipientId: nameUserRecipient.id,
-          SenderEmail: senderEmail,
-          RecipientEmail: nameUserRecipient.email,
-          ReelId: reelsId,
-          UrlFrameReel: objImg.url,
-          PublicIdFrameReel: objImg.publicId,
-          Content: valueContext,
-          Timestamp: message.timestamp,
-        };
-
-        userContextReels.connection.invoke('SendMessageReels', senObj);
-      }
+      userContextReels.connection.invoke('SendMessageReels', senObj);
     }
   };
-
-  useEffect(() => {
-    const canvas = document.createElement('canvas');
-    canvas.width = 1080;
-    canvas.height = 1080;
-    const context = canvas.getContext('2d');
-
-    if (showShareReels) {
-      setTimeout(() => {
-        if (context === null || videoRef === null) return;
-        context.drawImage(videoRef, 0, 0, 1080, 1080);
-
-        const data = canvas.toDataURL('image/jpeg', 1);
-        imgBase64VideoFrameRef.current = data;
-      }, 100);
-    }
-  }, [showShareReels, videoRef]);
 
   return (
     <>

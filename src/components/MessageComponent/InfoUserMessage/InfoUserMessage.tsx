@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { DataMessages, Following } from '../../../templates/Message/Message';
 import * as Styled from './styled';
 import { useCallback } from 'react';
+import { VideoObjReelProps } from '../MessageExchange/MessageExchange';
 
 interface InfoUserMessageProps {
   userMessage: Following | null;
@@ -10,10 +11,16 @@ interface InfoUserMessageProps {
 }
 
 interface MessageSendProps {
+  id: number;
   senderId: number;
+  reelId: number;
   recipientId: number;
   timestamp: string;
   content: string | undefined;
+  alreadySeeThisMessage: number;
+  nameUserCreateReel: string | null;
+  imagePerfilUserCreateReel: string | null;
+  urlFrameReel: string | null;
 }
 
 const InfoUserMessage = ({ userMessage, connection, setDataMessages }: InfoUserMessageProps) => {
@@ -54,9 +61,11 @@ const InfoUserMessage = ({ userMessage, connection, setDataMessages }: InfoUserM
     const initializeSignalRConnection = async () => {
       if (connection) {
         connection.on('ReceiveMessage', (messageSend: MessageSendProps, recipientEmail: string) => {
-          const { senderId, recipientId, content, timestamp } = messageSend;
+          const { id, senderId, recipientId, content, timestamp, alreadySeeThisMessage } =
+            messageSend;
 
           const newMessage = {
+            id: id,
             senderId,
             recipientId,
             content,
@@ -64,14 +73,23 @@ const InfoUserMessage = ({ userMessage, connection, setDataMessages }: InfoUserM
             recipientEmail,
             reelId: null,
             urlFrameReel: null,
-            publicIdFrameReel: null,
+            nameUserCreateReel: null,
+            imagePerfilUserCreateReel: null,
+            alreadySeeThisMessage,
+            urlAudio: null,
+            publicIdAudio: null,
+            audioTimeCount: null,
           };
 
           setDataMessages((prevDataMessages) => [newMessage, ...prevDataMessages]);
         });
 
-        connection.on('ReceiveReels', (messageReceiveReels, recipientEmail) => {
+        connection.on('ReceiveReels', (messageReceiveReels) => {
           setDataMessages((prev) => [messageReceiveReels, ...prev]);
+        });
+
+        connection.on('ReceiveAudio', (messageAudio) => {
+          setDataMessages((prev) => [messageAudio, ...prev]);
         });
 
         connection.on('TypeOrnNot', (isTyping: boolean) => {
@@ -84,6 +102,7 @@ const InfoUserMessage = ({ userMessage, connection, setDataMessages }: InfoUserM
     return () => {
       if (connection === null) return;
       connection.off('ReceiveMessage');
+      connection.off('ReceiveAudio');
     };
   }, [connection]);
 

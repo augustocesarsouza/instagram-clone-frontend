@@ -16,6 +16,7 @@ interface ModalReelVideoInfoProps {
   userId: number;
   connection: signalR.HubConnection | null;
   dataReelClicked: DataMessages | null;
+  setDataReelClicked: React.Dispatch<React.SetStateAction<DataMessages | null>>;
 }
 
 export interface DataReelVideoProps {
@@ -39,7 +40,12 @@ interface PostLikes {
   AuthorId: number;
 }
 
-const ModalReelVideoInfo = ({ userId, connection, dataReelClicked }: ModalReelVideoInfoProps) => {
+const ModalReelVideoInfo = ({
+  userId,
+  connection,
+  dataReelClicked,
+  setDataReelClicked,
+}: ModalReelVideoInfoProps) => {
   const [isMuted, setIsMuted] = useState(true);
   const [pause, setPause] = useState(false);
   const [sound, setSound] = useState(false);
@@ -68,6 +74,7 @@ const ModalReelVideoInfo = ({ userId, connection, dataReelClicked }: ModalReelVi
 
   const closeModal = () => {
     setShowModalVideo(false);
+    setDataReelClicked(null);
     const scroll = document.getElementById('container-scroll');
 
     if (window.innerWidth <= 750) {

@@ -1,6 +1,5 @@
 import * as Styled from './styled';
-import { useEffect, useState, useLayoutEffect } from 'react';
-import { faHouse, faMessage, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { useEffect, useState } from 'react';
 
 import { useLocation, useNavigate } from 'react-router-dom';
 import Url from '../../Utils/Url';
@@ -13,11 +12,18 @@ import InstagramHomePageSvg from './InstagramHomePageSvg/InstagramHomePageSvg';
 
 interface MenuProps {
   userId: number | null;
+  connection: signalR.HubConnection | null;
   base64ImgChange: string;
   emailConnection: string | null;
   setImgUserLogged: React.Dispatch<React.SetStateAction<string>>;
   callOpenModalCreatePublication: (value: boolean) => void;
   setCreatePost: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+interface UsersNewMessageProps {
+  alreadySeeThisMessage: number;
+  senderId: number;
+  recipientId: number;
 }
 
 export interface DataUserOnlyProps {
@@ -29,6 +35,7 @@ export interface DataUserOnlyProps {
 
 const Menu = ({
   userId,
+  connection,
   base64ImgChange,
   emailConnection,
   setImgUserLogged,
@@ -106,6 +113,76 @@ const Menu = ({
     nav('/reels', { state: { userId } });
   };
 
+  const [usersNewMessage, setUsersNewMessage] = useState<UsersNewMessageProps[]>([]);
+
+  useEffect(() => {
+    if (connection === null) return;
+
+    connection.on('ReceiveMessage', (message) => {
+      if (message.alreadySeeThisMessage == 0) {
+        setUsersNewMessage((prev) => [
+          ...prev.map((cmt) =>
+            cmt.senderId === message.senderId
+              ? { ...cmt, alreadySeeThisMessage: (cmt.alreadySeeThisMessage = 0) }
+              : cmt
+          ),
+        ]);
+      }
+    });
+
+    connection.on('AlreadySawMessage', (usuarioQuejavi) => {
+      setUsersNewMessage((prev) => [
+        ...prev.map((cmt) =>
+          cmt.senderId == usuarioQuejavi.senderId
+            ? { ...cmt, alreadySeeThisMessage: (cmt.alreadySeeThisMessage = 1) }
+            : cmt
+        ),
+      ]);
+    });
+
+    connection.on('ReceiveReels', (messageReceiveReels) => {
+      setUsersNewMessage((prev) => [
+        ...prev.map((cmt) =>
+          cmt.senderId === messageReceiveReels.senderId
+            ? { ...cmt, alreadySeeThisMessage: (cmt.alreadySeeThisMessage = 0) }
+            : cmt
+        ),
+      ]);
+    });
+
+    connection.on('ReceiveAudio', (messageReceiveReels) => {
+      setUsersNewMessage((prev) => [
+        ...prev.map((cmt) =>
+          cmt.senderId === messageReceiveReels.senderId
+            ? { ...cmt, alreadySeeThisMessage: (cmt.alreadySeeThisMessage = 0) }
+            : cmt
+        ),
+      ]);
+    });
+
+    // return () => {
+    //   if (connection === null) return;
+
+    //   connection.off('ReceiveMessage');
+    //   connection.off('AlreadySawMessage');
+    // };
+  }, [connection, activeButton]);
+
+  const fetchCheckLastMessage = async (userId: number) => {
+    const res = await fetch(`${Url}/message/followers/last-message-each/${userId}`);
+    if (res.status === 200) {
+      const json = await res.json();
+      const data = json.data;
+
+      setUsersNewMessage(data);
+    }
+  };
+
+  useEffect(() => {
+    if (userId === null) return;
+    fetchCheckLastMessage(userId);
+  }, [userId]);
+
   return (
     <ThemeProvider theme={theme}>
       <Styled.Container>
@@ -135,6 +212,16 @@ const Menu = ({
               onClick={() => handleMessage('message')}
               $active={activeButton === 'message' ? 'true' : 'false'}
             >
+              {usersNewMessage &&
+                usersNewMessage.map((userCmt) => (
+                  <div key={userCmt.senderId}>
+                    {userCmt.alreadySeeThisMessage === 0 && (
+                      <Styled.ContainerNewMessage>
+                        <Styled.PNewMessage>1</Styled.PNewMessage>
+                      </Styled.ContainerNewMessage>
+                    )}
+                  </div>
+                ))}
               <InstagramMessageSvg />
               <Styled.ButtonNav>Mensagens</Styled.ButtonNav>
             </Styled.ContainerAwesomeButton>

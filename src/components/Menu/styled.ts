@@ -185,6 +185,7 @@ export const ContainerAwesomeButton = styled.div<ButtonNavProps>`
   padding: 6px;
   /* width: 13rem; */
   border-radius: 7px;
+  position: relative;
   cursor: pointer;
   font-size: ${props => props.$active === 'true' ? '17px' : '16px'};
   font-weight: ${props => props.$active === 'true' ? 'bold': 'normal'};
@@ -286,4 +287,25 @@ export const ImgProfile = styled.img`
 export const ImgIcon = styled.img`
   width: 100%;
   height: 100%;
+`
+
+export const ContainerNewMessage = styled.div`
+  position: absolute;
+  left: 25px;
+  top: 9px;
+  width: 19px;
+  height: 19px;
+  background-color: red;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+`
+
+export const PNewMessage = styled.p`
+  color: white;
+  font-family: "Poppins";
+  font-weight: 500;
+  font-size: 13px;
 `

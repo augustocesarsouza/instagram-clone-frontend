@@ -6,18 +6,15 @@ export const ContainerInfoComment = styled.div`
   flex-direction: column;
   justify-content: space-between;
   width: 40%;
-  height: 100%; //880px
+
+  height: 90%;
 
   @media (max-width: 1448px) {
     height: 100%;
   }
 
-  @media (max-width: 1100px) {
-    height: 100%;
-  }
-
-  @media (min-width: 1400px) {
-    height: 100%;
+  @media (max-width: 840px) {
+    height: 96%;
   }
 `
 

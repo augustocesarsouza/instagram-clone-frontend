@@ -47,8 +47,10 @@ export const P = styled.p<P>`
   color: ${props => props.$paragraph === "3" && "#919191"};
 
   font-size: ${props => props.$paragraph === "4" && "15px" };
-  font-weight: ${props => props.$paragraph === "4" && "600"};
+  font-weight: ${props => props.$paragraph === "4" && "400"};
 
+  font-size: ${props => props.$paragraph === "6" && "13px"};
+  font-weight: ${props => props.$paragraph === "6" && "600"};
 
   font-size: ${props => props.$paragraph === "5" && "11px" };
   font-weight: ${props => props.$paragraph === "5" && "100"};

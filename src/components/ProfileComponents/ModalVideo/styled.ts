@@ -75,6 +75,7 @@ export const ContainerSelectImg = styled.div<ContainerSelectImgProps>`
 
 export const ContainerSelectedImageOutro = styled.div<ContainerSelectedImageOutroProps>`
   width: 656px;
+  height: 100%;
   user-select: none;
   position: relative;
   display: flex;

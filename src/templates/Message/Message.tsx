@@ -3,6 +3,7 @@ import * as Styled from './styled';
 import { useEffect, useState } from 'react';
 import FollowingMessage from '../../components/MessageComponent/FollowingMessage/FollowingMessage';
 import MessageExchange from '../../components/MessageComponent/MessageExchange/MessageExchange';
+import Url from '../../Utils/Url';
 
 interface MessageProps {
   myEmail: string | null;
@@ -43,20 +44,29 @@ export interface Following {
 }
 
 export interface DataMessages {
+  id: number | null;
   senderId: number;
   recipientId: number;
   recipientEmail: string;
-  timestamp: string;
   content: string | undefined;
+  timestamp: string;
+  alreadySeeThisMessage: number;
+
   reelId: number | null;
   urlFrameReel: string | null;
-  publicIdFrameReel: string | null;
+  nameUserCreateReel: string | null;
+  imagePerfilUserCreateReel: string | null;
+
+  urlAudio: string | null;
+  publicIdAudio: string | null;
+  audioTimeCount: number | null;
 }
 
 const Message = ({ myEmail, dataUser, connection, myFollowing }: MessageProps) => {
   const [userMessage, setUserMessage] = useState<Following | null>(null);
   const [pagina, setPagina] = useState(1);
   const [dataMessages, setDataMessages] = useState<DataMessages[]>([]);
+  const [openMessageOfFriend, setOpenMessageOffFriend] = useState(false);
 
   const location = useLocation();
   const { userId, emailUser, emailConnection } = location.state ? location.state : '';
@@ -66,6 +76,7 @@ const Message = ({ myEmail, dataUser, connection, myFollowing }: MessageProps) =
   }, []);
 
   const fetchDataMessages = async (userMessage: Following) => {
+    fetchDataMessagesPaginado(userMessage);
     setUserMessage(userMessage);
     setUserMessage((prevUser) => {
       myFollowing.forEach((f) => {
@@ -78,25 +89,43 @@ const Message = ({ myEmail, dataUser, connection, myFollowing }: MessageProps) =
     });
   };
 
+  const fetchDataMessagesPaginado = async (userMessage: Following) => {
+    if (userMessage) {
+      let registroPorPagina = 20;
+      const res = await fetch(
+        `${Url}/message/pagination/${userId}/${userMessage.id}/${pagina}/${registroPorPagina}`
+      );
+      if (res.status === 200) {
+        const json = await res.json();
+
+        setDataMessages((prevData) => [...prevData, ...json.data]);
+      }
+    }
+  };
+
   return (
     <Styled.ContainerMain>
       <FollowingMessage
+        userId={userId}
         dataUser={dataUser}
+        connection={connection}
         fetchDataMessages={fetchDataMessages}
         myFollowing={myFollowing}
         setPagina={setPagina}
         setDataMessages={setDataMessages}
+        setOpenMessageOffFriend={setOpenMessageOffFriend}
       />
-      <MessageExchange
-        userMessage={userMessage}
-        userId={userId}
-        myEmail={myEmail}
-        connection={connection}
-        setPagina={setPagina}
-        pagina={pagina}
-        setDataMessages={setDataMessages}
-        dataMessages={dataMessages}
-      />
+      {openMessageOfFriend && (
+        <MessageExchange
+          userMessage={userMessage}
+          userId={userId}
+          myEmail={myEmail}
+          connection={connection}
+          setPagina={setPagina}
+          setDataMessages={setDataMessages}
+          dataMessages={dataMessages}
+        />
+      )}
     </Styled.ContainerMain>
   );
 };

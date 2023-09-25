@@ -19,6 +19,7 @@ export interface ListReels {
   id: number;
   title: string;
   url: string;
+  imgFrameVideoUrl: string;
   user: User;
   isImagem: number; //Só coloquei para passar no Like porque no CardPost esse aqui tem mais no meu aqui dos reels nao preciso
   postLikesCounts: number;
@@ -36,6 +37,12 @@ interface User {
   id: number;
   imagePerfil: string;
   name: string;
+}
+
+export interface VideoObjReelProps {
+  id: number;
+  imgFrameVideoUrl: string;
+  user: User;
 }
 
 export interface ReelsContextProps {
@@ -80,9 +87,19 @@ const Reels = ({ userId, myEmail, imgUserLogged, connection }: ReelsProps) => {
   }, []);
 
   const [showShareReels, setShowShareReels] = useState(false);
+  const [videoReels, setVideoReels] = useState<VideoObjReelProps | null>(null);
 
-  const handleOpenShare = () => {
-    // setVideoReels(reels);
+  const handleOpenShare = (reel: ListReels) => {
+    const VideoObjReel: VideoObjReelProps = {
+      id: reel.id,
+      imgFrameVideoUrl: reel.imgFrameVideoUrl,
+      user: {
+        id: reel.user.id,
+        imagePerfil: reel.user.imagePerfil,
+        name: reel.user.name,
+      },
+    };
+    setVideoReels(VideoObjReel);
     setShowShareReels((prev) => !prev);
   };
 
@@ -105,6 +122,7 @@ const Reels = ({ userId, myEmail, imgUserLogged, connection }: ReelsProps) => {
                     userId={userId}
                     setShowShareReels={setShowShareReels}
                     showShareReels={showShareReels}
+                    videoReels={videoReels}
                   />
                   <Styled.ContainerForSvg>
                     <Styled.WrapperSvg $svg="sound">
@@ -125,7 +143,7 @@ const Reels = ({ userId, myEmail, imgUserLogged, connection }: ReelsProps) => {
                     mouseOn={mouseOn}
                   />
                   <Styled.ContainerShare>
-                    <Styled.WrapperImg onClick={handleOpenShare} $wrapper="icon-share">
+                    <Styled.WrapperImg onClick={() => handleOpenShare(ree)} $wrapper="icon-share">
                       <svg
                         aria-label="Direto"
                         color="rgb(38, 38, 38)"

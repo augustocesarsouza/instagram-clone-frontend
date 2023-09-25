@@ -10,16 +10,7 @@ export const ContainerMain = styled.div<ContainerMainProps>`
   position: relative;
   width: 100%;
 
-
-  @media (max-width: 750px) {
-    align-items: center;
-    justify-content: center;
-    /* overflow: auto; */
-  }
-
-  @media (max-width: 838px) {
-    justify-content: center;
-  }
+  justify-content: ${props => props.$pathnamecurrent === "message" ? "none" : "center"};
 
   height: ${props => props.$pathnamecurrent === "profile" && "100vh"};
     overflow-y: ${props => props.$seefollowersorfollowing === "true" ? "hidden" : "hidden"};

@@ -1,4 +1,4 @@
-import { Route, Routes, useLocation } from 'react-router-dom';
+import { unstable_usePrompt, Route, Routes, useLocation } from 'react-router-dom';
 import Login from '../Login/Login';
 import AllPosts from '../AllPosts/AllPosts';
 import NotFound from '../NotFound/NotFound';
@@ -160,6 +160,10 @@ const AppContent = () => {
     if (location.pathname === '/profile') {
       setPathnameCurrent('profile');
     }
+
+    if (location.pathname === '/Message') {
+      setPathnameCurrent('message');
+    }
   }, [location]);
 
   const [base64ImgChange, setBase64ImgChange] = useState('');
@@ -172,6 +176,7 @@ const AppContent = () => {
       {shouldRenderMenu && (
         <Menu
           userId={userId}
+          connection={connection}
           base64ImgChange={base64ImgChange}
           emailConnection={emailConnection}
           setCreatePost={setCreatePost}

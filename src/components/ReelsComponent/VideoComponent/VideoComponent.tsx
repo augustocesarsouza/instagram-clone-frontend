@@ -1,9 +1,8 @@
 import * as Styled from './styled';
-import { faPlay, faVolumeHigh, faVolumeXmark } from '@fortawesome/free-solid-svg-icons';
+import { faPlay } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useEffect, useRef, useState, memo, useLayoutEffect } from 'react';
-import { ListReels } from '../../../templates/Reels/Reels';
-import Like from '../../HomePage/Like/Like';
+import { useEffect, useRef, useState, useLayoutEffect } from 'react';
+import { ListReels, VideoObjReelProps } from '../../../templates/Reels/Reels';
 import ShareReels from '../ShareReels/ShareReels';
 
 interface VideoComponentProps {
@@ -17,6 +16,7 @@ interface VideoComponentProps {
   userId: number | null;
   setShowShareReels: React.Dispatch<React.SetStateAction<boolean>>;
   showShareReels: boolean;
+  videoReels: VideoObjReelProps | null;
 }
 
 const VideoComponent = ({
@@ -30,6 +30,7 @@ const VideoComponent = ({
   userId,
   setShowShareReels,
   showShareReels,
+  videoReels,
 }: VideoComponentProps) => {
   const [pause, setPause] = useState(false);
   const [indexVideo, setIndexVideo] = useState(0);
@@ -247,6 +248,7 @@ const VideoComponent = ({
       <ShareReels
         userId={userId}
         reels={ree}
+        videoReels={videoReels}
         setShowShareReels={setShowShareReels}
         showShareReels={showShareReels}
         videoRef={videoRef.current}
