@@ -120,6 +120,7 @@ const Message = ({ myEmail, dataUser, connection, myFollowing }: MessageProps) =
           userMessage={userMessage}
           userId={userId}
           myEmail={myEmail}
+          myFollowing={myFollowing}
           connection={connection}
           setPagina={setPagina}
           setDataMessages={setDataMessages}

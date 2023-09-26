@@ -6,8 +6,6 @@ import { useState, useEffect, useRef } from 'react';
 import * as signalR from '@microsoft/signalr';
 import 'moment-timezone';
 import ModalReelVideoInfo from '../ModalReelVideoInfo/ModalReelVideoInfo';
-import SvgPlayIcon from '../SvgPlayIcon/SvgPlayIcon';
-import SvgPauseIcon from '../SvgPauseIcon/SvgPauseIcon';
 import SendMessageAndAudio from '../SendMessageAndAudio/SendMessageAndAudio';
 import AudioController from '../AudioController/AudioController';
 
@@ -15,6 +13,7 @@ interface MessageExchangeProps {
   userMessage: Following | null;
   userId: number;
   myEmail: string | null;
+  myFollowing: Following[];
   connection: signalR.HubConnection | null;
   setPagina: React.Dispatch<React.SetStateAction<number>>;
   setDataMessages: React.Dispatch<React.SetStateAction<DataMessages[]>>;
@@ -44,6 +43,7 @@ const MessageExchange = ({
   userMessage,
   userId,
   myEmail,
+  myFollowing,
   connection,
   setPagina,
   setDataMessages,
@@ -307,6 +307,7 @@ const MessageExchange = ({
       <InfoUserMessage
         userMessage={userMessage}
         connection={connection}
+        myFollowing={myFollowing}
         setDataMessages={setDataMessages}
         setListAudioInfo={setListAudioInfo}
       />
