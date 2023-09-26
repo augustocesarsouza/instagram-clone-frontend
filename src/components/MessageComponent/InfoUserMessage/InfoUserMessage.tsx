@@ -2,12 +2,13 @@ import { useEffect, useState } from 'react';
 import { DataMessages, Following } from '../../../templates/Message/Message';
 import * as Styled from './styled';
 import { useCallback } from 'react';
-import { VideoObjReelProps } from '../MessageExchange/MessageExchange';
+import { VideoObjReelProps, listAudioInfoProps } from '../MessageExchange/MessageExchange';
 
 interface InfoUserMessageProps {
   userMessage: Following | null;
   connection: signalR.HubConnection | null;
   setDataMessages: React.Dispatch<React.SetStateAction<DataMessages[]>>;
+  setListAudioInfo: React.Dispatch<React.SetStateAction<listAudioInfoProps[]>>;
 }
 
 interface MessageSendProps {
@@ -23,7 +24,12 @@ interface MessageSendProps {
   urlFrameReel: string | null;
 }
 
-const InfoUserMessage = ({ userMessage, connection, setDataMessages }: InfoUserMessageProps) => {
+const InfoUserMessage = ({
+  userMessage,
+  connection,
+  setDataMessages,
+  setListAudioInfo,
+}: InfoUserMessageProps) => {
   const [isTyping, setIsTyping] = useState(false);
 
   useEffect(() => {
@@ -56,6 +62,7 @@ const InfoUserMessage = ({ userMessage, connection, setDataMessages }: InfoUserM
   }, []);
 
   const [friendTyping, setFriendTyping] = useState(Boolean);
+  const [friendIsRecordingAudio, setFriendIsRecordingAudio] = useState(Boolean);
 
   useEffect(() => {
     const initializeSignalRConnection = async () => {
@@ -89,11 +96,22 @@ const InfoUserMessage = ({ userMessage, connection, setDataMessages }: InfoUserM
         });
 
         connection.on('ReceiveAudio', (messageAudio) => {
+          const obj = {
+            id: messageAudio.id,
+            timeTotalAudio: messageAudio.audioTimeCount,
+            lastTimeAudio: null,
+            percentageAudio: -100,
+          };
+          setListAudioInfo((prev) => [obj, ...prev]);
           setDataMessages((prev) => [messageAudio, ...prev]);
         });
 
         connection.on('TypeOrnNot', (isTyping: boolean) => {
           setFriendTyping(isTyping);
+        });
+
+        connection.on('isRecordingAudio', (isRecordingAudio: boolean) => {
+          setFriendIsRecordingAudio(isRecordingAudio);
         });
       }
     };
@@ -103,6 +121,7 @@ const InfoUserMessage = ({ userMessage, connection, setDataMessages }: InfoUserM
       if (connection === null) return;
       connection.off('ReceiveMessage');
       connection.off('ReceiveAudio');
+      connection.off('isRecordingAudio');
     };
   }, [connection]);
 
@@ -122,6 +141,9 @@ const InfoUserMessage = ({ userMessage, connection, setDataMessages }: InfoUserM
             <Styled.WrapperNameUser>
               <Styled.PUser $paragraph="p1">{userMessage?.name}</Styled.PUser>
               {friendTyping && <Styled.PUser $paragraph="typing">Digitando...</Styled.PUser>}
+              {friendIsRecordingAudio && (
+                <Styled.PUser $paragraph="typing">Gravando audio...</Styled.PUser>
+              )}
 
               {userMessage.isOnline ? (
                 <Styled.PUser $paragraph="p2"></Styled.PUser>

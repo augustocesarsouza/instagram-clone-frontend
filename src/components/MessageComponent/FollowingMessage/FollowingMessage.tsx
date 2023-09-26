@@ -107,7 +107,6 @@ const FollowingMessage = ({
     });
 
     connection.on('ReceiveAudio', (messageReceiveReels) => {
-      console.log('count');
       setUsersNewMessage((prev) => [
         ...prev.map((cmt) =>
           cmt.senderId === messageReceiveReels.senderId

@@ -235,7 +235,6 @@ interface AdjustPositionAudioProps {
 export const AdjustPositionAudio = styled.div<AdjustPositionAudioProps>`
   display: flex;
   justify-content: ${props => props.$mymessage === "true" ? 'flex-end' : 'flex-start'};
-
 `
 
 interface WrapperAudioProps {
