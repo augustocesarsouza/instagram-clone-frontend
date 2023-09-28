@@ -137,7 +137,7 @@ const AppContent = () => {
 
     showModalTimeoutRef.current = setTimeout(() => {
       TimeUserDisconnected(setMyFollowing);
-    }, 1000);
+    }, 60000);
   }, [showModalTimeoutRef.current]);
 
   const callOpenModalCreatePublication = (value: boolean) => {

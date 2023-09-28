@@ -96,7 +96,7 @@ const VideoComponent = ({
           }
 
           if (indexVideo < listReels.length - 1) {
-            y.current = y.current + 810;
+            y.current = y.current + 810; //810
 
             setIndexVideo((prev) => prev + 1);
 
@@ -134,6 +134,8 @@ const VideoComponent = ({
     pause,
   ]);
 
+  const [mouseEnterDivShareReels, setMouseEnterDivShareReels] = useState(false);
+
   useEffect(() => {
     if (sound && videoRef.current && !videoRef.current.paused) {
       videoRef.current.volume = 1;
@@ -149,7 +151,7 @@ const VideoComponent = ({
   }, [pause, sound]);
 
   const handlePauseVideo = () => {
-    if (listReels === null) return;
+    if (mouseEnterDivShareReels) return;
 
     if (pause) {
       setPause(false);
@@ -194,43 +196,26 @@ const VideoComponent = ({
     }
   }, [videoRef, indexVideo, pause, sound]);
 
-  const [urlBase64Video, setUrlBase64Video] = useState<string | null>(null);
-
-  useLayoutEffect(() => {
-    const fetchVideo = async () => {
-      const resFet = await fetch(ree.url);
-      const blob = await resFet.blob();
-
-      const readerImg = new FileReader();
-      readerImg.onload = async (e) => {
-        const imageDataUrlNew = e.target?.result as string;
-
-        setUrlBase64Video(imageDataUrlNew);
-      };
-      readerImg.readAsDataURL(blob);
-    };
-    fetchVideo();
-  }, [ree]);
-
   return (
-    <Styled.WrapperMainSvgVideo onClick={handlePauseVideo}>
+    <Styled.WrapperMainSvgVideo
+      onClick={handlePauseVideo}
+      $entereddivshare={String(mouseEnterDivShareReels)}
+    >
       <Styled.WrapperVideo>
-        {urlBase64Video && (
+        {ree && (
           <Styled.Video id="video-get" ref={index === indexVideo ? videoRef : null} muted={isMuted}>
-            <Styled.Source src={urlBase64Video} type="video/mp4" />
+            <Styled.Source src={ree.url} type="video/mp4" />
           </Styled.Video>
         )}
 
         {indexVideo === index && (
-          <>
-            <Styled.ContainerClickButton>
-              {pause && (
-                <Styled.WrapperSvg $svg="pause" $pause={String(pause)}>
-                  <FontAwesomeIcon icon={faPlay} />
-                </Styled.WrapperSvg>
-              )}
-            </Styled.ContainerClickButton>
-          </>
+          <Styled.ContainerClickButton>
+            {pause && (
+              <Styled.WrapperSvg $svg="pause" $pause={String(pause)}>
+                <FontAwesomeIcon icon={faPlay} />
+              </Styled.WrapperSvg>
+            )}
+          </Styled.ContainerClickButton>
         )}
 
         <Styled.ContainerMainInfoUser>
@@ -249,9 +234,10 @@ const VideoComponent = ({
         userId={userId}
         reels={ree}
         videoReels={videoReels}
-        setShowShareReels={setShowShareReels}
         showShareReels={showShareReels}
         videoRef={videoRef.current}
+        setShowShareReels={setShowShareReels}
+        setMouseEnterDivShareReels={setMouseEnterDivShareReels}
       />
     </Styled.WrapperMainSvgVideo>
   );

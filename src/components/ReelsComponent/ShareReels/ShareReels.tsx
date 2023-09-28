@@ -9,14 +9,16 @@ import {
   ReelsContextProps,
   VideoObjReelProps,
 } from '../../../templates/Reels/Reels';
+import { CreateMessageReels } from './CreateMessageReels';
 
 interface ShareReelsProps {
   userId: number | null;
   reels: ListReels;
   videoReels: VideoObjReelProps | null;
-  setShowShareReels: React.Dispatch<React.SetStateAction<boolean>>;
   showShareReels: boolean;
   videoRef: HTMLVideoElement | null;
+  setShowShareReels: React.Dispatch<React.SetStateAction<boolean>>;
+  setMouseEnterDivShareReels: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 interface UsersSuggestion {
@@ -26,10 +28,16 @@ interface UsersSuggestion {
   imagePerfil: string;
 }
 
-interface ObjImg {
-  url: string;
-  publicId: string;
-  isStory: boolean;
+export interface ObjCreateMessageReels {
+  senderId: number;
+  recipientId: number;
+  senderEmail: string;
+  recipientEmail: string;
+  reelId: number;
+  content: string;
+  UrlFrameReel: string;
+  NameUserCreateReel: string;
+  ImagePerfilUserCreateReel: string;
 }
 
 interface Message {
@@ -47,9 +55,10 @@ const ShareReels = ({
   userId,
   reels,
   videoReels,
-  setShowShareReels,
   showShareReels,
   videoRef,
+  setShowShareReels,
+  setMouseEnterDivShareReels,
 }: ShareReelsProps) => {
   // const [showShareReels, setShowShareReels] = useState(false);
   const [usersSuggestion, setUsersSuggestion] = useState<UsersSuggestion[] | null>(null);
@@ -78,6 +87,7 @@ const ShareReels = ({
 
   const closeModal = () => {
     setShowShareReels(false);
+    setMouseEnterDivShareReels(false);
   };
 
   const [amountOfchecked, setAmountOfchecked] = useState(0);
@@ -110,9 +120,11 @@ const ShareReels = ({
 
   useLayoutEffect(() => {
     if (usersSuggestion === null) return;
+
     setAmountOfchecked(0);
     setListNameUserChecked([]);
     setUserMarkedDelete('');
+
     usersSuggestion.forEach((user) => {
       setListOfUserMarked((prev) => ({
         ...prev,
@@ -160,7 +172,7 @@ const ShareReels = ({
     const valueContext = inputWriteMessageRef.current.value;
     const nameUserRecipient = listNameUserChecked[0];
 
-    const objShareReels = {
+    const objShareReels: ObjCreateMessageReels = {
       senderId: userId,
       recipientId: nameUserRecipient.id,
       senderEmail: senderEmail,
@@ -172,19 +184,14 @@ const ShareReels = ({
       ImagePerfilUserCreateReel: videoReels.user.imagePerfil,
     };
 
-    const createMessageRef = await fetch(`${Url}/message`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(objShareReels),
-    });
+    const responseCreate = await CreateMessageReels(objShareReels);
 
-    if (createMessageRef.status === 200) {
-      const json = await createMessageRef.json();
+    if (responseCreate.status === 200) {
+      const json = await responseCreate.json();
       const message: Message = json.data;
 
       const senObj = {
+        id: message.id,
         SenderId: userId,
         RecipientId: nameUserRecipient.id,
         SenderEmail: senderEmail,
@@ -202,10 +209,70 @@ const ShareReels = ({
     }
   };
 
+  const handleSendReelsSeparately = () => {
+    if (
+      userContextReels === null ||
+      userContextReels.myEmail === null ||
+      inputWriteMessageRef.current === null ||
+      userId === null ||
+      videoReels === null
+    )
+      return;
+
+    const reelsId = reels.id;
+    const senderEmail = userContextReels.myEmail;
+    const valueContext = inputWriteMessageRef.current.value;
+
+    listNameUserChecked.forEach(async (el) => {
+      const objShareReels: ObjCreateMessageReels = {
+        senderId: userId,
+        recipientId: el.id,
+        senderEmail: senderEmail,
+        recipientEmail: el.email,
+        reelId: reelsId,
+        content: valueContext,
+        UrlFrameReel: videoReels.imgFrameVideoUrl,
+        NameUserCreateReel: videoReels.user.name,
+        ImagePerfilUserCreateReel: videoReels.user.imagePerfil,
+      };
+
+      const responseCreate = await CreateMessageReels(objShareReels);
+      if (responseCreate.status === 200) {
+        const json = await responseCreate.json();
+        const message: Message = json.data;
+
+        const senObj = {
+          id: message.id,
+          SenderId: userId,
+          RecipientId: el.id,
+          SenderEmail: senderEmail,
+          RecipientEmail: el.email,
+          ReelId: reelsId,
+          Content: valueContext,
+          Timestamp: message.timestamp,
+          urlFrameReel: videoReels.imgFrameVideoUrl,
+          nameUserCreateReel: videoReels.user.name,
+          imagePerfilUserCreateReel: videoReels.user.imagePerfil,
+          alreadySeeThisMessage: 0,
+        };
+        if (userContextReels === null || userContextReels.connection === null) return;
+        userContextReels.connection.invoke('SendMessageReels', senObj);
+      }
+    });
+  };
+
+  const handleMouseEnter = () => {
+    setMouseEnterDivShareReels(true);
+  };
+
+  const handleMouseLeave = () => {
+    setMouseEnterDivShareReels(false);
+  };
+
   return (
     <>
       {showShareReels && (
-        <Styled.ContainerShareReels>
+        <Styled.ContainerShareReels onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
           <Styled.ContainerMainShareAndSearch>
             <Styled.ContainerTop>
               <Styled.ContainerX>
@@ -308,7 +375,7 @@ const ShareReels = ({
             )}
 
             {amountOfchecked > 1 && (
-              <Styled.WrapperButton>
+              <Styled.WrapperButton onClick={handleSendReelsSeparately}>
                 <Styled.Button
                   $amountofchecked={amountOfchecked >= 1 ? String(true) : String(false)}
                 >

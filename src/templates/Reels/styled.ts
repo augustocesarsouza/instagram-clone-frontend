@@ -5,7 +5,7 @@ interface WrapperSvgProps {
 }
 
 export const ContainerMain = styled.div`
-  height: 890px;
+  height: 100vh;
   width: 79rem;
   display: flex;
   flex-direction: column;
@@ -13,9 +13,7 @@ export const ContainerMain = styled.div`
   overflow-x: hidden;
   align-items: center;
 
-  @media (min-width: 1000px) {
-    
-  }
+  
 `
 
 export const ContainerSecond = styled.div`
@@ -55,8 +53,8 @@ export const ContainerMainReelsAndStatusVideo = styled.div`
 `
 
 export const ContainerReelsMain= styled.div`
-  position: relative;
-  cursor: pointer;
+  /* position: relative; */
+  /* cursor: pointer; */
 `
 
  export const ContainerClickButton = styled.div`
@@ -65,7 +63,7 @@ export const ContainerReelsMain= styled.div`
    top: 0;
    width: 446px;
    height: 794px;
-   cursor: pointer;
+   /* cursor: pointer; */
  `;
 
  export const WrapperSvg = styled.div<WrapperSvgProps>`

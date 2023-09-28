@@ -1,11 +1,8 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import * as Styled from './styled';
-import { useState, useEffect } from 'react';
 import Url from '../../../Utils/Url';
-import { AllPost, LikesPostProps } from '../CardPost/CardPost';
-import IconeHeartBlackSvg from './IconeHeartBlackSvg/IconeHeartSvg';
-import IconeHeartRedSvg from './IconeHeartRedSvg/IconeHeartRedSvg';
+import { AllPost } from '../CardPost/CardPost';
+import IconeHeartBlackSvg from '../../../Svg/IconeHeartBlackSvg/IconeHeartSvg';
+import IconeHeartRedSvg from '../../../Svg/IconeHeartRedSvg/IconeHeartRedSvg';
 
 interface LikeProps {
   post: AllPost;
@@ -14,18 +11,6 @@ interface LikeProps {
 }
 
 const Like = ({ post, userId, setAllPost }: LikeProps) => {
-  // const fetchLikePostById = async (id: number) => {
-  //   const res = await fetch(`${Url}/postLikes/${id}`);
-  //   if (res.status === 200) {
-  //     const json = await res.json();
-  //     setAllLikesAllPost(json.data);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   fetchLikePostById(post.id);
-  // }, [post]);
-
   const handleLike = async () => {
     const likePost = {
       PostId: post.id,

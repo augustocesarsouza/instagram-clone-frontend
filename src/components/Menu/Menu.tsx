@@ -160,12 +160,12 @@ const Menu = ({
       ]);
     });
 
-    // return () => {
-    //   if (connection === null) return;
+    return () => {
+      if (connection === null) return;
 
-    //   connection.off('ReceiveMessage');
-    //   connection.off('AlreadySawMessage');
-    // };
+      connection.off('ReceiveReels');
+      // connection.off('AlreadySawMessage');
+    };
   }, [connection, activeButton]);
 
   const fetchCheckLastMessage = async (userId: number) => {

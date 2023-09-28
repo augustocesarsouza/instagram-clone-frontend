@@ -9,11 +9,15 @@ interface ParagraphProps{
   $para: string;
 }
 
-export const WrapperMainSvgVideo = styled.div`
-  /* position: relative; */
+interface WrapperMainSvgVideoProps {
+  $entereddivshare: string;
+}
+
+export const WrapperMainSvgVideo = styled.div<WrapperMainSvgVideoProps>`
   width: 100%;
   height: 100%;
-  
+  cursor: ${props => props.$entereddivshare === "true" ? "none" : "pointer"};
+  position: relative;
 `
 
 export const WrapperVideo = styled.div`
@@ -72,7 +76,7 @@ export const ContainerClickButton = styled.div`
   top: 0;
   width: 446px;
   height: 794px;
-  cursor: pointer;
+  /* cursor: pointer; */
 `
 
 export const WrapperSvg = styled.div<WrapperSvgProps>`
@@ -92,15 +96,6 @@ export const WrapperSvg = styled.div<WrapperSvgProps>`
     color: white;
     font-size: ${props => props.$svg === "pause" && "40px"};
   }
-`
-
-export const ContainerForPause = styled.div`
-  position: absolute;
-  width: 100%;
-  height: 95%;
-  top: 40px;
-  cursor: pointer;
-  z-index: 10;
 ` 
 
 export const ContainerMainInfoUser = styled.div`
@@ -139,5 +134,3 @@ export const Paragraph = styled.p<ParagraphProps>`
 `
 
 export const ContainerTitle = styled.div``
-
-export const ContainerStatusVideo = styled.div``

@@ -37,12 +37,17 @@ const SendMessageAndAudio = ({
   const [timeCount, setTimeCount] = useState(0);
   const ref = useRef<HTMLButtonElement>(null);
   const [isRecording, setIsRecording] = useState(false);
+  const [hasValueTextarea, setHasValueTextarea] = useState<boolean>(false);
 
   const handleSendMessage = () => {
-    if (TextareaRef.current === null) return;
+    if (TextareaRef.current === null || TextareaRef.current.value.length <= 0) return;
     const text = TextareaRef.current.value;
 
     const currentTime = new Date();
+
+    const id = dataMessages[0].id;
+
+    if (id === null) return;
 
     if (userMessage !== null && myEmail !== null) {
       const jsonMessageSendHubConnection = {
@@ -58,7 +63,7 @@ const SendMessageAndAudio = ({
       };
 
       const jsonMessageToReact = {
-        id: null,
+        id: id,
         senderId: userId,
         recipientId: userMessage?.id,
         SenderEmail: myEmail,
@@ -77,6 +82,8 @@ const SendMessageAndAudio = ({
 
       if (connection) {
         connection.invoke('SendMessage', jsonMessageSendHubConnection);
+        TextareaRef.current.value = '';
+        setHasValueTextarea(false);
 
         setDataMessages((prevDataMessages) => [jsonMessageToReact, ...prevDataMessages]);
 
@@ -97,6 +104,7 @@ const SendMessageAndAudio = ({
     const currentTime = new Date();
 
     const id = dataMessages[0].id;
+
     if (id === null) return;
 
     const jsonMessageAudio = {
@@ -129,6 +137,10 @@ const SendMessageAndAudio = ({
     stUrlAudio(null);
     setIsRecording(false);
     setTimeCount(0);
+    if (TextareaRef.current) {
+      TextareaRef.current.value = '';
+      setHasValueTextarea(false);
+    }
 
     const objCreate = {
       SenderId: userId,
@@ -167,7 +179,6 @@ const SendMessageAndAudio = ({
     }
   };
 
-  const [hasValueTextarea, setHasValueTextarea] = useState<boolean>(false);
   const handleText = () => {
     if (TextareaRef.current === null) return;
 
@@ -323,8 +334,10 @@ const SendMessageAndAudio = ({
   }, []);
 
   const handleKeyDown = (e: KeyboardEvent) => {
-    if (e.code == 'Enter' && ref.current !== null) {
+    if (e.code == 'Enter' && ref.current !== null && TextareaRef.current) {
       ref.current.click();
+      TextareaRef.current.value = '';
+      setHasValueTextarea(false);
     }
   };
 
@@ -367,6 +380,11 @@ const SendMessageAndAudio = ({
             ) : (
               <Styled.Textarea
                 ref={TextareaRef}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    e.preventDefault();
+                  }
+                }}
                 placeholder="Mensagem..."
                 onChange={handleText}
               ></Styled.Textarea>

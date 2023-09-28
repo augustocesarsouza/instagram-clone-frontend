@@ -122,8 +122,10 @@ const InfoUserMessage = ({
     return () => {
       if (connection === null) return;
       connection.off('ReceiveMessage');
+      connection.off('ReceiveReels');
       connection.off('ReceiveAudio');
       connection.off('isRecordingAudio');
+      connection.off('TypeOrnNot');
     };
   }, [connection]);
 

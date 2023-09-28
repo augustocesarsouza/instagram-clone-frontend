@@ -5,7 +5,7 @@ import Url from '../../../Utils/Url';
 import PostCard from '../PostCard/PostCard';
 import Like from '../Like/Like';
 import Comment from '../Comment/Comment';
-import IconeCommentSvg from './IconeCommentSvg/IconeCommentSvg.tsx';
+import IconeCommentSvg from '../../../Svg/IconeCommentSvg/IconeCommentSvg.tsx';
 
 interface AllPostsProps {
   createImgOrVideo: AllPost | null;

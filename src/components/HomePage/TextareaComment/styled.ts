@@ -1,10 +1,18 @@
 import styled from 'styled-components';
 
+export const ContainerMain = styled.div`
+  background: white;
+  display: flex;
+  flex-direction: column;
+`
+
 export const WrapperMain = styled.div`
   display: flex;
   justify-content: space-around;
   align-items: center;
-  height: 13%;
+  height: auto;
+  min-height: 40px;
+  max-height: 80px;
   border-top: 1px solid #e9e9e9;
   padding: 9px;
   background: white;
@@ -15,35 +23,40 @@ export const WrapperMain = styled.div`
     height: 58px;
   } */
 
-  @media (min-width: 1400px) {
+  /* @media (min-width: 1400px) {
     height: auto;
     max-height: 120px;
-  }
+  } */
 `
 
 export const Form = styled.div`
-  width: 19rem;
+  width: 75%;
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow-y: scroll;
+  overflow-y: auto;
   overflow-x: hidden;
-  max-height: 100px;
-  height: auto;
-`
-
-
-export const Form__Textarea = styled.textarea`
-  width: 100%;
   height: auto;
   max-height: 70px;
-  padding: 7px 5px;
+  min-height: 19px;
+`
+
+interface Form__TextareaProps {
+  $heightText: number;
+  $erasingtextarea: string;
+}
+
+export const Form__Textarea = styled.textarea<Form__TextareaProps>`
+  width: 100%;
+  /* height: ${props => props.$heightText}px !important; */
+  height: ${props => props.$erasingtextarea === "true" ? "auto" : `${props.$heightText}px !important`};
   font-size: 16px;
+  overflow-y: hidden;
+  overflow-x: hidden;
   border: none;
   outline: none;
   resize: none;
   font-family: Arial, Helvetica, sans-serif;
-  /* overflow-y: scroll; */
 
   &::-webkit-scrollbar{
     width: 0px;
@@ -77,4 +90,31 @@ export const Wrapper__Button = styled.button`
     color: #2196f3;
   }
 
+`
+
+export const ContainerInfoPost = styled.div`
+  /* width: 6.5rem; */
+  display: flex;
+  flex-direction: column;
+  background: white;
+`
+
+export const ContainerSvg = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 15px;
+  margin-bottom: 10px;
+  margin-left: 10px;
+`
+
+export const ContainerCountLikes = styled.div`
+  display: flex;
+`
+
+export const PLikes = styled.p`
+  display: block;
+  word-wrap: break-word;
+  margin-left: 11px;
 `

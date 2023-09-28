@@ -47,9 +47,8 @@ export const ContainerShareReels = styled.div`
   background: #ffffff;
   display: flex;
   flex-direction: column;
-  z-index: 10;
-  /* justify-content: space-between; */
   font-family: "Poppins";
+  cursor: auto;
 `
 
 export const ContainerMainShareAndSearch = styled.div`
@@ -92,7 +91,7 @@ export const P = styled.p<ParagraphProps>`
 
 export const ContainerX = styled.div`
   display: flex;
-
+  cursor: pointer;
   font-size: 23px;
 `
 
@@ -185,7 +184,7 @@ export const ContainerSuggestion = styled.div`
 export const ContainerMainAllUsersSuggestion = styled.div`
   display: flex;
   flex-direction: column;
-  
+  cursor: pointer;
 `
 
 export const ContainerUserSuggestion = styled.div`

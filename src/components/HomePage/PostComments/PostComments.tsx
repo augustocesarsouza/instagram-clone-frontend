@@ -1,4 +1,4 @@
-import React, { ChangeEventHandler, useEffect, useRef, useState } from 'react';
+import React, { useLayoutEffect, useEffect, useRef, useState } from 'react';
 import UserComment from '../UserComment/UserComment';
 import * as Styled from './styled';
 import Url from '../../../Utils/Url';
@@ -6,6 +6,9 @@ import CardPublicationOwner from '../CardPublicationOwner/CardPublicationOwner';
 import { AllPost } from '../CardPost/CardPost';
 import { Comments } from '../Comment/Comment';
 import TextareaComment from '../TextareaComment/TextareaComment';
+import IconeCommentSvg from '../../../Svg/IconeCommentSvg/IconeCommentSvg';
+import IconeSharePostSvg from '../../../Svg/IconeSharePostSvg/IconeSharePostSvg';
+import LikeOnePost from '../LikeOnePost/LikeOnePost';
 
 interface PostCommentsProps {
   dataPost: DataPost | null;
@@ -35,6 +38,11 @@ interface User {
   name: string;
   imagePerfil: string;
 }
+
+// export interface listLikePostProps {
+//   postId: number;
+//   authorId: number;
+// }
 
 const PostComments = ({
   dataPost,
@@ -146,6 +154,23 @@ const PostComments = ({
   }, [connection]);
 
   const ContainerCommentPostRef = useRef(null);
+  // const [listLikePost, setListLikePost] = useState<listLikePostProps[] | null>(null);
+  // const [numberOfLikes, setNumberOfLikes] = useState(0);
+
+  // const fetchLikesPost = async () => {
+  //   if (dataPost === null) return;
+  //   const { id } = dataPost;
+  //   const res = await fetch(`${Url}/postLikes/${id}`);
+  //   if (res.status === 200) {
+  //     const json = await res.json();
+  //     setListLikePost(json.data);
+  //     setNumberOfLikes(json.data.length);
+  //   }
+  // };
+
+  // useLayoutEffect(() => {
+  //   fetchLikesPost();
+  // }, []);
 
   return (
     <Styled.ContainerInfoComment>
@@ -167,6 +192,22 @@ const PostComments = ({
           setDataComments={setDataComments}
         />
       </Styled.ContainerGeneral>
+      {/* <Styled.ContainerInfoPost>
+        <Styled.ContainerSvg>
+          <LikeOnePost
+            userId={userId}
+            dataPost={dataPost}
+            listLikePost={listLikePost}
+            setListLikePost={setListLikePost}
+            setNumberOfLikes={setNumberOfLikes}
+          />
+          <IconeCommentSvg />
+          <IconeSharePostSvg />
+        </Styled.ContainerSvg>
+        <Styled.ContainerCountLikes>
+          <Styled.PLikes>{numberOfLikes} curtidas</Styled.PLikes>
+        </Styled.ContainerCountLikes>
+      </Styled.ContainerInfoPost> */}
       <TextareaComment
         userId={userId}
         dataPost={dataPost}
